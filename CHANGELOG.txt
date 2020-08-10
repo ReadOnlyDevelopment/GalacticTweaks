@@ -1,0 +1,7 @@
+[Added]
+
+ - Asteroids to Extra Galaxy System
+
+ [Fixed]
+
+ - Serverside crash when Spawning with Oxygen Equipment

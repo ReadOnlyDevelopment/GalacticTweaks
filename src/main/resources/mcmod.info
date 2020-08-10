@@ -1,0 +1,18 @@
+[
+{
+  "modid": "gtweaks",
+  "name": "GalacticTweaks",
+  "description": "Tweaking Mod to Galacticraft",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "https://www.curseforge.com/minecraft/mc-mods/galactictweaks",
+  "updateUrl": "https://github.com/ROMVoid95/GalacticTweaks/blob/dev/update.json",
+  "authorList": ["ROMVoid95"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+   "useDependencyInformation": true,
+   "requiredMods": ["galacticraftcore@[4.0.2.261,]"],
+   "dependencies": ["mod_MinecraftForge","galacticraftcore", "galacticraftplanets"]
+}
+]

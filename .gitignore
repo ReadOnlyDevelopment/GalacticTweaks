@@ -1,14 +1,35 @@
-.gradle
+@ -1,14 +1,22 @@
 /build/
 
 # Ignore Gradle GUI config
 gradle-app.setting
+# eclipse
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
 
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar
+# idea
+out
+*.ipr
+*.iws
+*.iml
+.idea
 
 # Cache of project
 .gradletasknamecache
+# gradle
+build
 
 # # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
 # gradle/wrapper/gradle-wrapper.properties
+# other
+eclipse
+run
+secrets.json
+.gradle
+/secret.json

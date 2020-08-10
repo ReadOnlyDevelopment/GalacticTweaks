@@ -1,0 +1,19 @@
+daysUntilStale: 14
+daysUntilClose: 21
+onlyLabels: [Need More Info]
+exemptLabels:
+  - Feature / Addition
+  - Issue Report
+  - Crash Report
+  - wontfix
+exemptProjects: false
+exemptMilestones: false
+exemptAssignees: false
+staleLabel: "Needs Response From Issue Reporter"
+markComment: This issue has been marked as stale as the reporter has not responded within
+  a two week period. If your issue is still present, please update if needed.
+unmarkComment: false
+closeComment: >
+  This issue has been marked Closed as the reporter has not responded within
+  a three week period. Please submit another issue is further help is needed.
+limitPerRun: 30
