@@ -16,7 +16,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.registries.IForgeRegistryEntry;
-import net.rom.gctweaks.GalacticTweaks;
 
 @ParametersAreNonnullByDefault
 public class I18nHelper {

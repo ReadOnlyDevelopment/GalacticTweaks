@@ -1,89 +1,77 @@
 package net.rom.gctweaks.modpacks;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
-import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.ICrashCallable;
 import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.ModMetadata;
-import net.rom.gctweaks.core.Feature;
+import net.minecraftforge.fml.common.ModContainer;
+import net.minecraftforge.fml.common.versioning.ArtifactVersion;
+import net.rom.gctweaks.core.NoConfigFeature;
+import net.rom.gctweaks.galacticraftchanges.SeperateAddonPlanets;
 
-public class CustomCrashLogData extends Feature {
+public class CustomCrashLogData extends NoConfigFeature {
 
-	@Override
-	public String[] category() {
-		return new String[] {"crash-log-info"};
-	}
-
-	@Override
-	public String comment() {
-		return "Adds some shit";
-	}
+	String                 split            = "\n#########################################\n  ";
 
 
-	private boolean useCustomCrashData;
-	private String modpackName;
-	private String modpackVersion;
-	private static String[] addons = {"galaxyspace", "extraplanets", "moreplanets", "zollerngalaxy", "exoplanets"};
+	private static List<ModContainer>  loaded = Loader.instance().getActiveModList();
+	private static Map<String, String> sets   = new HashMap<String, String>();
 
-	@Override
-	public void syncConfig(Configuration config, String[] category) {
-		useCustomCrashData = config.get(category[0], "useCustomCrashData", false,
-				"Should crash-logs contain custom data for modpack devs?").getBoolean();
-		modpackName = config.get(category[0], "modpackName", "Modpack Name", "Put the name of the modpack here").getString();
-		modpackVersion = config.get(category[0], "modpackVersion", "Pack Version", "Put the version of the modpack here").getString();
-	}
-	
-	public void preInit() {
-		if(useCustomCrashData) {
-	        FMLCommonHandler.instance().registerCrashCallable(new PackCrashEnhancement());
-		}
-	}
-	
-	private static List<String> getAddonData() {
-		List<String> data = new ArrayList<>();
-		for (String addon : addons) {
-			if (Loader.isModLoaded(addon)) {
-				data.add(String.format("Addon Loaded: %s", addon));
+	private static void getDeps () {
+		for (ModContainer mod : loaded) {
+			for (ArtifactVersion a : mod.getDependencies()) {
+				if (a.getLabel().contains("galacticraft")) {
+					sets.putIfAbsent(mod.getName(), mod.getVersion());
+				}
 			}
 		}
-		return data;
+		sets.remove("GalacticTweaks");
 	}
-	
-	
+
+	public static void onCrash (StringBuilder builder) {
+		if (SeperateAddonPlanets.seperatePlanets == true) {
+			builder.append("\n~~~~~~~~~~ NOTICE ~~~~~~~~~~\n");
+			builder.append("GalacticTweaks Seperate Planets feature is enabled, If this crash is caused\n");
+			builder.append("by any planet that is under the new Galaxy, DO NOT create a new issue to the addons dev\n");
+			builder.append("for that planet, Please report the issue to GalacticTweaks issue tracker.\n");
+			builder.append("\n### ADDON DEVS ###\n");
+			builder.append("This notice is for you to be aware that any crash-report sent may not be as a result of your addon, please disregard\n\n");
+		}
+	}
+
+	@Override
+	public void postInit () {
+		getDeps();
+		FMLCommonHandler.instance().registerCrashCallable(new PackCrashEnhancement());
+
+	}
+
 	public class PackCrashEnhancement implements ICrashCallable {
-	    @Override
-	    public String getLabel() {
-	    	String split = "##################################################\n\t";
-	        String label = split + modpackName;
+		@Override
+		public String getLabel () {
 
-	        if (label == null || label.length() == 0) {
-	            return "Modpack Data";
-	        }
-	        return label;
-	    }
+			String label = split + "GALACTICTWEAKS DATA\n";
 
-	    @Override
-	    public String call() {
-	        StringBuilder builder = new StringBuilder();
-	        for (String data : getData()) {
-	            builder.append(String.format("\n\t\t%s", data));
-	        }
+			return label;
+		}
 
-	        return builder.toString();
-	    }
+		@Override
+		public String call () {
 
-	    /**
-	     * Build a list of the data to return and then list on the Crash Report.
-	     */
-	    private List<String> getData() {
-	        List<String> data = new ArrayList<>();
-	        data.add(String.format("Version: %s", modpackVersion)); // Version of the modpack.
-	        data.addAll(getAddonData());
-	        return data;
-	    }
+			StringBuilder builder = new StringBuilder();
+			onCrash(builder);
+			builder.append("---------------------------------------------\n");
+			for (Entry<String, String> set : sets.entrySet()) {
+				builder.append(String.format("| %-20s %20s %n", set.getKey(), set.getValue()));
+			}
+			builder.append("---------------------------------------------\n");
+			builder.append(split);
+			return builder.toString();
+		}
 	}
 
 }

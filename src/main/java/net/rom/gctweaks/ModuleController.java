@@ -13,7 +13,7 @@ public class ModuleController {
     
     public static void registerModules() {
         modules.add(new GalacticraftModule("Galacticraft Module"));
-        modules.add(new ModpackModule("Modpack Module"));
+        modules.add(new ModpackModule());
     }
 
 

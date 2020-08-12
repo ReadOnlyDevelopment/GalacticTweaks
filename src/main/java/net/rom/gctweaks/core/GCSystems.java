@@ -27,12 +27,6 @@ public class GCSystems {
 		starSol4.setBodyIcon(new ResourceLocation(micdoodle8.mods.galacticraft.core.Constants.ASSET_PREFIX, "textures/gui/celestialbodies/sun.png"));
 		EP_SYSTEM.setMainStar(starSol4);
 		GalaxyRegistry.registerSolarSystem(EP_SYSTEM);
-		
-//		OTHER = new SolarSystem("otherSystem", EXTRAPLANETS.getName()).setMapPosition(new Vector3(1.0F, -1.0F, 0.0F));
-//		Star starOther = (Star) new Star("othersys").setParentSolarSystem(OTHER).setTierRequired(-1);
-//		starOther.setBodyIcon(new ResourceLocation(micdoodle8.mods.galacticraft.core.Constants.ASSET_PREFIX, "textures/gui/celestialbodies/sun.png"));
-//		OTHER.setMainStar(starOther);
-//		GalaxyRegistry.registerSolarSystem(OTHER);
 
 	}
 }

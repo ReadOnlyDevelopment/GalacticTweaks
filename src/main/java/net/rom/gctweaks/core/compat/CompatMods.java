@@ -9,10 +9,12 @@ import net.minecraftforge.fml.common.Loader;
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public enum CompatMods implements IStringSerializable {
+	
 	SPONGE("sponge"),
 	EXTRAPLANETS("extraplanets"),
 	GALAXYSPACE("galaxyspace"),
 	PLANETPROGRESSION("planetprogression"),
+	ASMODEUSCORE("asmodeuscore"),
 	MOREPLANETS("moreplanets");
 
 	private final String modid;
@@ -26,7 +28,7 @@ public enum CompatMods implements IStringSerializable {
 	}
 
 	@Override
-	public String getName() {
+	public final String getName() {
 		return this.modid;
 	}
 

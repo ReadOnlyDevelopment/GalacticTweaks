@@ -4,8 +4,8 @@ import net.rom.gctweaks.core.Module;
 
 public class ModpackModule extends Module {
 	
-	public ModpackModule(String name) {
-		super(name);
+	public ModpackModule() {
+		super();
 	}
 
 

@@ -15,9 +15,13 @@ public class Ref {
 	public static final String MOD_FORGE             = "forge";
 	public static final String MOD_FORGE_VERSION     = "@FORGE_VERSION@";
 	public static final String MOD_FORGE_VERSION_MIN = "14.23.5.2847";
-	public static final String MOD_GC                = "required-after:galacticraftcore@[4.0.2.261,];required-after:galacticraftplanets;after:extraplanets";
+	public static final String A                     = "after:asmodeuscore@[0.0.17,];";
+	public static final String B                     = "after:extraplanets;";
+	public static final String C                     = "after:galaxyspace;";
+
+	public static final String MOD_GC = "required-after:galacticraftcore@[4.0.2.261,];required-after:galacticraftplanets;";
 
 	// Dependencies
-	public static final String MOD_DEPENDENCIES = "required:forge@[" + MOD_FORGE_VERSION_MIN + ",);" + MOD_GC + ";";
+	public static final String DEPS = "required:forge@[" + MOD_FORGE_VERSION_MIN + ",);" + MOD_GC + ";" + A + B + C;
 
 }
