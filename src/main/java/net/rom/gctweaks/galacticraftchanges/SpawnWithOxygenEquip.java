@@ -17,7 +17,7 @@ public class SpawnWithOxygenEquip extends Feature {
 
 	@Override
 	public String[] category() {
-		return new String[] {"spawn-with-oxygen-equipment", "oxygen-equipment-optionals"};
+		return new String[] {"spawn-with-oxygen-equipment"};
 	}
 
 	@Override
@@ -41,11 +41,11 @@ public class SpawnWithOxygenEquip extends Feature {
 		tanksValue = config.get(category[0], "01-Spawn With Oxygen Tank Tier", "light", "[valid: light | medium | heavy, default: light]", validValues).getString();
 		thermalArmor = config.get(category[0], "01-Spawn With Thermal Armor", "thermal", "[valid: thermal | isothermal, default: thermal]", validThermals).getString();
 		includeParachute = config.get(category[0], "02-Spawn With Parachute", false,
-				"[default: false] **False IF \"00-Spawn With Oxygen-Gear\" Is Disabled**").getBoolean();
+				"**False IF \"00-Spawn With Oxygen-Gear\" Is Disabled**\n[default: false] ").getBoolean();
 		includeFreqModule = config.get(category[0], "02-Spawn With Frequency Module", false,
-				"[default: false] **False IF \\\"00-Spawn With Oxygen-Gear\\\" Is Disabled**").getBoolean();
+				"**False IF \"00-Spawn With Oxygen-Gear\" Is Disabled**\n[default: false] ").getBoolean();
 		includeShieldController = config.get(category[0], "02-Spawn With Shield Controller", false,
-				"[default: false] **False IF \\\"00-Spawn With Oxygen-Gear\\\" Is Disabled**").getBoolean();
+				"**False IF \"00-Spawn With Oxygen-Gear\" Is Disabled**\n[default: false]").getBoolean();
 		
 		if(spawnWithOxygenEquip == false) {
 			includeParachute = false;

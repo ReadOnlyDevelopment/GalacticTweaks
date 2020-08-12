@@ -1,6 +1,5 @@
 buildscript {
     repositories {
-      	mavenLocal()
         jcenter()
         mavenCentral()
         maven {
@@ -11,10 +10,6 @@ buildscript {
             name = 'gradle'
             url 'https://plugins.gradle.org/m2/'
         }
-        maven {
-            name = 'sonatype'
-            url = 'https://oss.sonatype.org/content/groups/public'
-        }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
@@ -23,7 +18,6 @@ buildscript {
 }
 
 plugins {
-  	id "com.wynprice.cursemaven" version "2.1.1"
     id 'com.matthewprenger.cursegradle' version '1.4.0'
 	id "io.freefair.lombok" version "2.9.5"
     id 'maven-publish'
@@ -78,6 +72,11 @@ compileJava {
     sourceCompatibility = targetCompatibility = '1.8'
 }
 
+configurations {
+	embed
+	implementation.extendsFrom(embed)
+}
+
 String GCBuild = "261"
 String GCVersion = "1.12.2-4.0.2.${GCBuild}"
 
@@ -107,23 +106,26 @@ repositories {
 		name 'IC2'
 		url = "http://maven.ic2.player.to"
 	}
-    jcenter()
-    mavenCentral()
+	maven {
+		name 'ReadOnlyMaven'
+		url = "https://maven.romvoid.dev"
+	}
+	maven {
+		url = "https://www.cursemaven.com"
+	}
 }
 
 dependencies {
-	
-    compile "mezz.jei:jei_${mc_version}:4.8.5.144:api"
-    	runtime "mezz.jei:jei_${mc_version}:4.8.5.144"
-    	
+
 	compile "GC-1.12-dev:GalacticraftCore-Dev:${GCVersion}"
 	compile "GC-1.12-dev:Galacticraft-API:${GCVersion}"
 	compile "GC-1.12-dev:Galacticraft-Planets-Dev:${GCVersion}"
 	compile "GC-1.12-dev:MicdoodleCore-Dev:${GCVersion}"
-	compile "com.mjr.planetprogression:PlanetProgression:1.12.2-0.4.4:api"
-	compile "curse.maven:AsmodeusCore-Dev-0.0.17:3010573"
+	compile "com.mjr.planetprogression:PlanetProgression:1.12.2-0.4.5:api"
+	compile "asmodeuscore:AsmodeusCore-Dev:0.0.18"
+	compile "curse.maven:GSMod-0.0.14:3015062"
 	compile "industrial-craft:industrialcraft-2-2.8.99:ex112:api"
-	compile "com.mjr.extraplanets:ExtraPlanets:1.12.2-0.6.5:dev"
+	compile "com.mjr.extraplanets:ExtraPlanets:1.12.2-0.6.6:dev"
 	compile "com.mjr.mjrlegendslib:MJRLegendsLib:1.12.2-1.1.9:dev"
 }
 
@@ -132,14 +134,13 @@ minecraft {
     runDir = "run"
     replace '${version}', project.version
     mappings = "${mcp}"
-    
+	makeObfSourceJar false
+	
     if (project.hasProperty('signSHA1') && getBooleanProperty('do_sign_jar')) {
         replace '@FINGERPRINT@', secret.signSHA1
     } else {
         replace '@FINGERPRINT@', ''
     }
-    
-    makeObfSourceJar = getBooleanProperty('create_source_jar')
 }
 
 allprojects {
@@ -179,13 +180,6 @@ jar {
                 'Built-On-Java': "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
                 'Built-On': "${project.mc_version}-${project.forge_version}"
         )
-        if (project.hasProperty('core_plugin')) {
-            attributes 'FMLCorePluginContainsFMLMod': 'true'
-            attributes 'FMLCorePlugin': project.core_plugin
-        }
-        if (project.hasProperty('at_file')) {
-            attributes 'FMLAT': project.at_file
-        }
     }
 }
 

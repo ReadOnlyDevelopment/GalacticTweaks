@@ -1,22 +1,11 @@
 package net.rom.gctweaks.core;
 
-import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 
 /**
  * The Abstract Class Feature.
  */
-public abstract class Feature {
-	
-	/**
-	 * @return the category
-	 */
-	public abstract String[] category();
-
-	/**
-	 * @return the comment
-	 */
-	public abstract String comment();
+public abstract class NoConfigFeature {
 
 	/**
 	 * Pre init.
@@ -59,15 +48,7 @@ public abstract class Feature {
 	public void proxyInit() {
 
 	}
-
-	/**
-	 * Sync config.
-	 *
-	 * @param config   the config
-	 * @param strings the category
-	 */
-	public abstract void syncConfig(Configuration config, String[] strings);
-
+	
 	/**
 	 * Feature uses events.
 	 *
