@@ -1,5 +1,6 @@
 package net.rom.gctweaks;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import net.minecraftforge.common.MinecraftForge;
@@ -10,14 +11,19 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkCheckHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
+import net.rom.gctweaks.core.CommandOxygenReset;
 import net.rom.gctweaks.core.Module;
+import net.rom.gctweaks.core.compat.CompatMods;
 import net.rom.gctweaks.core.proxy.CommonProxy;
+import net.rom.gctweaks.core.utils.FileUtil;
 import net.rom.gctweaks.core.utils.I18nHelper;
 import net.rom.gctweaks.core.utils.LogHelper;
+import net.rom.gctweaks.galacticraftchanges.SeperateAddonPlanets;
 
 @Mod(modid = Ref.MOD_ID, name = Ref.MOD_NAME, version = Ref.MOD_VERSION, dependencies = Ref.DEPS, certificateFingerprint = Ref.MOD_FINGERPRINT, useMetadata = true)
 public class GalacticTweaks {
@@ -51,6 +57,7 @@ public class GalacticTweaks {
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		ModuleController.modules.forEach(Module::init);
+
 		proxy.init(event);
 	}
 
@@ -62,6 +69,10 @@ public class GalacticTweaks {
 
 	private void syncConfig() {
 		ModuleController.modules.forEach(Module::syncConfig);
-
 	}
+	
+    @EventHandler
+    public void onServerStarting(FMLServerStartingEvent event) {
+        event.registerServerCommand(new CommandOxygenReset());
+    }
 }
