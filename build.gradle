@@ -125,8 +125,8 @@ dependencies {
 	compile "asmodeuscore:AsmodeusCore-Dev:0.0.18"
 	compile "curse.maven:GSMod-0.0.14:3015062"
 	compile "industrial-craft:industrialcraft-2-2.8.99:ex112:api"
-	compile "com.mjr.extraplanets:ExtraPlanets:1.12.2-0.6.9:dev"
-	compile "com.mjr.mjrlegendslib:MJRLegendsLib:1.12.2-1.2.0:dev"
+	compile "com.mjr.extraplanets:ExtraPlanets:1.12.2-0.6.6:dev"
+	compile "com.mjr.mjrlegendslib:MJRLegendsLib:1.12.2-1.1.9:dev"
 }
 
 minecraft {
@@ -141,9 +141,6 @@ minecraft {
     } else {
         replace '@FINGERPRINT@', ''
     }
-	
-	clientRunArgs += ['--username', "seemee68@yahoo.com"]
-	clientRunArgs += ['--password', "Jackal88"]
 }
 
 allprojects {
