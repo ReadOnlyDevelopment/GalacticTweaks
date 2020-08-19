@@ -10,12 +10,10 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkCheckHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
-import net.rom.gctweaks.core.CommandOxygenReset;
 import net.rom.gctweaks.core.Module;
 import net.rom.gctweaks.core.proxy.CommonProxy;
 import net.rom.gctweaks.core.utils.I18nHelper;
@@ -53,7 +51,6 @@ public class GalacticTweaks {
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		ModuleController.modules.forEach(Module::init);
-
 		proxy.init(event);
 	}
 
@@ -65,10 +62,6 @@ public class GalacticTweaks {
 
 	private void syncConfig() {
 		ModuleController.modules.forEach(Module::syncConfig);
+
 	}
-	
-    @EventHandler
-    public void onServerStarting(FMLServerStartingEvent event) {
-        event.registerServerCommand(new CommandOxygenReset());
-    }
 }
