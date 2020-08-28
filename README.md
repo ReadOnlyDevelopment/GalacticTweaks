@@ -78,7 +78,7 @@ Here are a few things to keep in mind that will help get your PR approved.
   - Make sure your feature isn't already in the works, or hasn't been rejected previously.
   - If your feature can be done by any popular mod, discuss with us first.
 
-**Getting Started**
+### Getting Started
 
 1. Fork this repository
 2. Clone the fork via
