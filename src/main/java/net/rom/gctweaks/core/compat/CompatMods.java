@@ -15,6 +15,7 @@ public enum CompatMods implements IStringSerializable {
 	GALAXYSPACE("galaxyspace"),
 	PLANETPROGRESSION("planetprogression"),
 	ASMODEUSCORE("asmodeuscore"),
+	ZOLLERN("zollerngalaxy"),
 	MOREPLANETS("moreplanets");
 
 	private final String modid;

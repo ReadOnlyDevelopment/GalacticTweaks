@@ -121,12 +121,21 @@ dependencies {
 	compile "GC-1.12-dev:Galacticraft-API:${GCVersion}"
 	compile "GC-1.12-dev:Galacticraft-Planets-Dev:${GCVersion}"
 	compile "GC-1.12-dev:MicdoodleCore-Dev:${GCVersion}"
-	compile "com.mjr.planetprogression:PlanetProgression:1.12.2-0.4.5:api"
-	compile "asmodeuscore:AsmodeusCore-Dev:0.0.18"
-	compile "curse.maven:GSMod-0.0.14:3015062"
 	compile "industrial-craft:industrialcraft-2-2.8.99:ex112:api"
-	compile "com.mjr.extraplanets:ExtraPlanets:1.12.2-0.6.6:dev"
-	compile "com.mjr.mjrlegendslib:MJRLegendsLib:1.12.2-1.1.9:dev"
+	
+	
+	// LOAD GC ADDONS
+	compile "com.mjr.planetprogression:PlanetProgression:1.12.2-0.4.5:api"
+	compile "curse.maven:AsmodeusCore-Dev:3039768"
+	compile "curse.maven:GSMod-0.0.14:3015062"
+	compile "curse.maven:ExtraPlanets-1.7.0:3031689"
+	runtime "curse.maven:MJRLib-1.2.0:3029769"
+	compile "curse.maven:ZollernGalaxy-2.0.17:3044657"
+	compile "curse.maven:MorePlanets-2.1.13-GC261:3043460"
+	runtime "curse.maven:SteveKinGLib-1.1.7:3043444"
+	compile "industrial-craft:industrialcraft-2-2.8.99:ex112:api"
+	runtime "mezz.jei:jei_1.12.2:4.15.0.297"
+	
 }
 
 minecraft {

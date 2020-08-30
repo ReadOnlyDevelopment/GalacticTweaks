@@ -18,10 +18,13 @@ public class Ref {
 	public static final String A                     = "after:asmodeuscore@[0.0.17,];";
 	public static final String B                     = "after:extraplanets;";
 	public static final String C                     = "after:galaxyspace;";
+	public static final String D					 = "after:zollerngalaxy;";
+	public static final String E					 = "after:moreplanets;";
+	public static final String OPTS				     = A + B + C + D + E;
 
 	public static final String MOD_GC = "required-after:galacticraftcore@[4.0.2.261,];required-after:galacticraftplanets;";
 
 	// Dependencies
-	public static final String DEPS = "required:forge@[" + MOD_FORGE_VERSION_MIN + ",);" + MOD_GC + ";" + A + B + C;
+	public static final String DEPS = "required:forge@[" + MOD_FORGE_VERSION_MIN + ",);" + MOD_GC + ";" + OPTS;
 
 }
