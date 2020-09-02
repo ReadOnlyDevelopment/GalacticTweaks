@@ -1,9 +1,8 @@
-package net.rom.gctweaks.galacticraftchanges;
+package net.rom.gctweaks.galacticraftchanges.seperategalaxy;
 
 import net.minecraftforge.common.config.Configuration;
+import net.rom.gctweaks.GalacticTweaks;
 import net.rom.gctweaks.core.Feature;
-import net.rom.gctweaks.core.GCPlanets;
-import net.rom.gctweaks.core.GCSystems;
 import net.rom.gctweaks.core.compat.CompatMods;
 
 public class SeperateAddonPlanets extends Feature {
@@ -38,7 +37,8 @@ public class SeperateAddonPlanets extends Feature {
 	@Override
 	public void preInit () {
 		if (seperatePlanets && CompatMods.EXTRAPLANETS.isLoaded() && CompatMods.GALAXYSPACE.isLoaded()) {
-
+			GalacticTweaks.logger.info("Moving Planets to new Galaxy!");
+			
 			switch (modid) {
 			case "extraplanets":
 				GCSystems.init();

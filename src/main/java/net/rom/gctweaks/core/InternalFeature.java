@@ -5,7 +5,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 /**
  * The Abstract Class Feature.
  */
-public abstract class NoConfigFeature {
+public abstract class InternalFeature {
 
 	/**
 	 * Pre init.

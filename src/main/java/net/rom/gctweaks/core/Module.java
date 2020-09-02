@@ -11,7 +11,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 
 public abstract class Module {
 	private List<Feature>         features  = new ArrayList<>();
-	private List<NoConfigFeature> features2 = new ArrayList<>();
 	private String                name;
 	private Configuration         config;
 	private boolean               setConfig;
@@ -32,15 +31,11 @@ public abstract class Module {
 	public void preInit () {
 		features.stream().filter(Feature::usesEvents).forEach(MinecraftForge.EVENT_BUS::register);
 		features.forEach(Feature::preInit);
-		features2.stream().filter(NoConfigFeature::usesEvents).forEach(MinecraftForge.EVENT_BUS::register);
-		features2.forEach(NoConfigFeature::preInit);
 	}
 
 	public void proxyPreInit () {
 		features.stream().filter(Feature::sidedProxy).forEach(MinecraftForge.EVENT_BUS::register);
 		features.forEach(Feature::proxyPreInit);
-		features2.stream().filter(NoConfigFeature::sidedProxy).forEach(MinecraftForge.EVENT_BUS::register);
-		features2.forEach(NoConfigFeature::proxyPreInit);
 	}
 
 	public void setupConfig (FMLPreInitializationEvent event) {
@@ -53,22 +48,22 @@ public abstract class Module {
 
 	public void init () {
 		features.forEach(Feature::init);
-		features2.forEach(NoConfigFeature::init);
 	}
 
 	public void postInit () {
 		features.forEach(Feature::postInit);
-		features2.forEach(NoConfigFeature::postInit);
 	}
 
 	public void proxyInit () {
 		features.forEach(Feature::proxyInit);
-		features2.forEach(NoConfigFeature::proxyInit);
 	}
 
 	public void proxyPostInit () {
 		features.forEach(Feature::proxyPostInit);
-		features2.forEach(NoConfigFeature::proxyPostInit);
+	}
+	
+	public void serverStartingEvent() {
+		features.forEach(Feature::ServerStartingEvent);
 	}
 
 	public Configuration getConfig () {
@@ -88,12 +83,7 @@ public abstract class Module {
 		features.add(feature);
 	}
 
-	protected void registerFeature (NoConfigFeature feature) {
-		features2.add(feature);
-	}
-
 	public void registerPacket (SimpleNetworkWrapper network) {
 		features.forEach(feature -> feature.registerPacket(network));
-		features2.forEach(feature -> feature.registerPacket(network));
 	}
 }

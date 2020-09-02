@@ -1,4 +1,4 @@
-package net.rom.gctweaks.core;
+package net.rom.gctweaks.galacticraftchanges.seperategalaxy;
 
 
 import asmodeuscore.core.astronomy.BodiesRegistry;

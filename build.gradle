@@ -1,67 +1,37 @@
 buildscript {
     repositories {
-        jcenter()
-        mavenCentral()
         maven {
             name = "forge"
             url = "https://files.minecraftforge.net/maven"
         }        
-        maven {
-            name = 'gradle'
-            url 'https://plugins.gradle.org/m2/'
-        }
+//		maven {
+//            name = 'sponge'
+//            url = 'https://repo.spongepowered.org/maven'
+//        }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-        classpath "se.bjurr.gitchangelog:git-changelog-gradle-plugin:+"
+		//classpath 'org.spongepowered:mixingradle:0.6-SNAPSHOT'
     }
 }
 
 plugins {
     id 'com.matthewprenger.cursegradle' version '1.4.0'
-	id "io.freefair.lombok" version "2.9.5"
-    id 'maven-publish'
+	id 'net.ltgt.apt' version '0.10' // for lombok
+	id 'maven-publish'
+	id 'eclipse'
     id 'maven'
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
-apply plugin: 'se.bjurr.gitchangelog.git-changelog-gradle-plugin'
+//apply plugin: 'org.spongepowered.mixin'
 
-import groovy.json.JsonSlurper
+apply from: "https://raw.githubusercontent.com/ReadOnly-Mods/Misc/master/Gradle/secretfile.gradle"
 
-eclipse.project {
-    buildCommand 'org.eclipse.buildship.core.gradleprojectbuilder'
-    natures 'org.eclipse.buildship.core.gradleprojectnature'
+if (project.hasProperty('secretFile')) {
+	
+	loadSecrets(new File((String) findProperty('secretFile')))
 }
-
-class Secrets {
-    Map m_data = null
-
-    final String getProperty(final String key) {
-        return (m_data && (m_data[key] != null)) ? m_data[key] : ''
-    }
-}
-
-final def secretFile
-if (System.getenv('SECRET_FILE')) {
-    secretFile = file System.getenv().SECRET_FILE
-} else {
-    secretFile = file 'secret.json'
-}
-
-import se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask
-import java.util.regex.Matcher
-
-project.ext.secret = new Secrets()
-if (secretFile.exists()) {
-    secretFile.withReader {
-        project.secret.m_data = new JsonSlurper().parse it
-    }
-}
-
-def versionBuild = 0
-if (System.getenv("BUILD_NUMBER") != null)
-    versionBuild = System.getenv("BUILD_NUMBER")
 
 version = "${versionMajor}.${versionMinor}.${versionRev}"
 group = "${group}"
@@ -72,24 +42,14 @@ compileJava {
     sourceCompatibility = targetCompatibility = '1.8'
 }
 
-configurations {
-	embed
-	implementation.extendsFrom(embed)
+project.ext {
+    GCBuild = "261"
+    GCVersion = "1.12.2-4.0.2.${GCBuild}"
 }
-
-String GCBuild = "261"
-String GCVersion = "1.12.2-4.0.2.${GCBuild}"
+apply from: "https://raw.githubusercontent.com/ReadOnly-Mods/Misc/master/Gradle/gcdevfiles.gradle"
 
 repositories {
-	ivy {
-		url "https://micdoodle8.com/new-builds/"
-		layout 'pattern', {
-			artifact "[organization]/${GCBuild}/[module]-[revision].jar"
-		}
-		metadataSources {
-			artifact()
-		}
-	}
+	jcenter()
 	maven {
 		name 'MJRLegends'
 		url = "https://maven.mjrlegends.com/"
@@ -107,22 +67,19 @@ repositories {
 		url = "http://maven.ic2.player.to"
 	}
 	maven {
-		name 'ReadOnlyMaven'
-		url = "https://maven.romvoid.dev"
-	}
-	maven {
 		url = "https://www.cursemaven.com"
 	}
+//	maven {
+//		url "http://repo.spongepowered.org/maven/"
+//	}
 }
 
 dependencies {
-
-	compile "GC-1.12-dev:GalacticraftCore-Dev:${GCVersion}"
-	compile "GC-1.12-dev:Galacticraft-API:${GCVersion}"
-	compile "GC-1.12-dev:Galacticraft-Planets-Dev:${GCVersion}"
-	compile "GC-1.12-dev:MicdoodleCore-Dev:${GCVersion}"
-	compile "industrial-craft:industrialcraft-2-2.8.99:ex112:api"
 	
+	compile "org.projectlombok:lombok:1.18.12"
+	apt "org.projectlombok:lombok:1.18.12"
+
+	compile "industrial-craft:industrialcraft-2-2.8.99:ex112:api"
 	
 	// LOAD GC ADDONS
 	compile "com.mjr.planetprogression:PlanetProgression:1.12.2-0.4.5:api"
@@ -130,11 +87,10 @@ dependencies {
 	compile "curse.maven:GSMod-0.0.14:3015062"
 	compile "curse.maven:ExtraPlanets-1.7.0:3031689"
 	runtime "curse.maven:MJRLib-1.2.0:3029769"
-	compile "curse.maven:ZollernGalaxy-2.0.17:3044657"
-	compile "curse.maven:MorePlanets-2.1.13-GC261:3043460"
-	runtime "curse.maven:SteveKinGLib-1.1.7:3043444"
 	compile "industrial-craft:industrialcraft-2-2.8.99:ex112:api"
 	runtime "mezz.jei:jei_1.12.2:4.15.0.297"
+	
+	//provided("org.spongepowered:mixin:0.7.11-SNAPSHOT") { transitive = false }
 	
 }
 
@@ -150,33 +106,29 @@ minecraft {
     } else {
         replace '@FINGERPRINT@', ''
     }
+	
+//	clientRunArgs += "--mixin mixins.galactictweaks.json"
+//	serverRunArgs += "--mixin mixins.galactictweaks.json"
 }
-
-allprojects {
-    tasks.withType(Javadoc) {
-        options.addStringOption('Xdoclint:none', '-quiet')
-    }
-}
-
 
 processResources {
-    // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
 
-    // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-                
-        // replace version and mcversion
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
-        
-    // copy everything else except the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
 }
+
+//sourceSets {
+//    main {
+//        ext.refMap = "mixins.galactictweaks.refmap.json"
+//    }
+//}
 
 jar {
 
@@ -192,35 +144,7 @@ jar {
     }
 }
 
-task apiJar(type: Jar) {
-    onlyIf {
-        getBooleanProperty('create_api_jar')
-    }
-    from(sourceSets.main.output) {
-        include "net/rom/api/**"
-    }
-	from(sourceSets.main.java) {
-        include "net/rom/api/**"
-    }
-
-    classifier = 'api'
-    from apiClasses
-    // from sourceSets.api.output
-    manifest.mainAttributes(
-            'Maven-Artifact': "${project.group}:${project.archivesBaseName}:${project.version}:api",
-            'Timestamp': System.currentTimeMillis(),
-            'Implementation-Title': project.name + '-api',
-            'Implementation-Version': project.version,
-            'Built-On': "${project.mc_version}-${project.forge_version}",
-            'Built-On-Java': "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})"
-    )
-}
-
 task deobfJar(type: Jar) {
-    onlyIf {
-        getBooleanProperty('create_deobf_jar')
-    }
-
     classifier = 'dev'
     from sourceSets.main.output
     manifest {
@@ -232,140 +156,30 @@ task deobfJar(type: Jar) {
                 'Built-On-Java': "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
                 'Built-On': "${project.mc_version}-${project.forge_version}"
         )
-        if (project.hasProperty('at_file')) {
-            attributes 'FMLAT': project.at_file
-        }
-        if (project.hasProperty('core_plugin')) {
-            attributes 'FMLCorePlugin': project.core_plugin
-        }
     }
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    onlyIf {
-        getBooleanProperty('create_javadoc_jar')
-    }
-
-    classifier = 'javadoc'
-    from javadoc.getDestinationDir()
-    manifest.mainAttributes(
-            'Maven-Artifact': "${project.group}:${project.archivesBaseName}:${project.version}:javadoc",
-            'Timestamp': System.currentTimeMillis(),
-            'Implementation-Title': project.name + '-javadoc',
-            'Implementation-Version': project.version,
-            'Built-On-Java': "${System.getProperty('java.vm.version')} + (${System.getProperty('java.vm.vendor')})",
-            'Built-On': "${project.mc_version}-${project.forge_version}"
-    )
 }
 
 task signJar(type: SignJar, dependsOn: reobfJar) {
     onlyIf {
-        getBooleanProperty('do_sign_jar') &&
-                project.hasProperty('keyStore')
+        project.hasProperty('keyStore')
     }
 
     inputFile = jar.archivePath
     outputFile = jar.archivePath
 
-    keyStore = secret.keyStore
-    alias = secret.keyStoreAlias
-    storePass = secret.keyStorePass
-    keyPass = secret.keyStoreKeyPass
+    keyStore = findProperty('keyStore')
+    alias = findProperty('keyStoreAlias')
+    storePass = findProperty('keyStorePass')
+    keyPass = findProperty('keyStoreKeyPass')
 }
 
-task signApiJar(type: SignJar) {
-    onlyIf {
-        getBooleanProperty('create_api_jar') &&
-                getBooleanProperty('do_sign_jar') &&
-                project.hasProperty('keyStore')
-    }
-
-    keyStore = secret.keyStore
-    alias = secret.keyStoreAlias
-    storePass = secret.keyStorePass
-    keyPass = secret.keyStoreKeyPass
-
-    inputFile = apiJar.archivePath
-    outputFile = apiJar.archivePath
-}
-
-task signDeobfJar(type: SignJar) {
-    onlyIf {
-        getBooleanProperty('create_deobf_jar') &&
-                getBooleanProperty('do_sign_jar') &&
-                project.hasProperty('keyStore')
-    }
-
-    keyStore = secret.keyStore
-    alias = secret.keyStoreAlias
-    storePass = secret.keyStorePass
-    keyPass = secret.keyStoreKeyPass
-
-    inputFile = deobfJar.archivePath
-    outputFile = deobfJar.archivePath
-}
-
-task signSourceJar(type: SignJar) {
-    onlyIf {
-        getBooleanProperty('create_source_jar') &&
-                getBooleanProperty('do_sign_jar') &&
-                project.hasProperty('keyStore')
-    }
-
-    keyStore = secret.keyStore
-    alias = secret.keyStoreAlias
-    storePass = secret.keyStorePass
-    keyPass = secret.keyStoreKeyPass
-
-    inputFile = sourceJar.archivePath
-    outputFile = sourceJar.archivePath
-}
-
-task signJavadocJar(type: SignJar) {
-    onlyIf {
-        getBooleanProperty('create_javadoc_jar') &&
-                getBooleanProperty('do_sign_jar') &&
-                project.hasProperty('keyStore')
-    }
-
-    keyStore = secret.keyStore
-    alias = secret.keyStoreAlias
-    storePass = secret.keyStorePass
-    keyPass = secret.keyStoreKeyPass
-
-    inputFile = javadocJar.archivePath
-    outputFile = javadocJar.archivePath
-}
-
-if (getBooleanProperty('do_sign_jar')) {
-    build.dependsOn signJar
-    build.dependsOn signApiJar
-    build.dependsOn signDeobfJar
-    build.dependsOn signSourceJar
-    build.dependsOn signJavadocJar
-}
-
+build.dependsOn signJar
 tasks.publish.dependsOn build
 tasks.curseforge.dependsOn publish
 
-artifacts {
-    if (getBooleanProperty('create_api_jar')) {
-        archives apiJar
-    }
-    if (getBooleanProperty('create_deobf_jar')) {
-        archives deobfJar
-    }
-    if (getBooleanProperty('create_source_jar')) {
-        archives sourceJar
-    }
-    if (getBooleanProperty('create_javadoc_jar')) {
-        archives javadocJar
-    }
-}
-
 curseforge {
     if (project.hasProperty('cf_project_id')) {
-        apiKey = secret.curseforgeAPIKey
+        apiKey = findProperty('curseforgeAPIKey') ?: 0
         project {
             id = project.cf_project_id
             if (project.hasProperty('cf_changelog_filename')) {
@@ -461,69 +275,6 @@ curseforge {
                 }
             }
         }
-    }
-}
-
-String getModFile() {
-    String path = ''
-    final FileTree tree = fileTree(dir: 'src/main/java')
-    tree.include '**/*.java'
-    tree.visit { final element ->
-        if (element.file.isFile()) {
-            element.file.eachLine { final String s ->
-                final String sTrim = s.trim()
-                if (sTrim.startsWith('@Mod(')) {
-                    path = "src/main/java/${element.relativePath}"
-                }
-            }
-        }
-    }
-    return path
-}
-
-String getModVersion(final String type) {
-    return getModVersion(type, modFile)
-}
-
-String getModVersion(final String type, final String modFile) {
-    if ((modFile != null) && (modFile != '')) {
-        final File file = file(modFile)
-        final def prefix = ~/^(?:\s*)(?:(?<modifier>public|protected|private) )?(?:(?<static>static) )?(?:(?<final>final) )?String $type = "(?:(?<major>\d*)\.)?(?:(?<minor>\d*)\.)?(?:(?<patch>[^."]*)\.?)(?<build>[^"]*)";$/
-        for (final String s in file.readLines()) {
-            final Matcher matcher = (s.trim() =~ prefix)
-            if (matcher.matches()) {
-                return "${matcher.group('major') ?: '0'}.${matcher.group('minor') ?: '0'}.${matcher.group('patch')}"
-            }
-        }
-    }
-    return '0.0.0'
-}
-
-def getGitChangelog() {
-    try {
-        def stdout = new ByteArrayOutputStream()
-        def gitHash = System.getenv('GIT_COMMIT')
-        def gitPrevHash = System.getenv('GIT_PREVIOUS_COMMIT')
-        def travisRange = System.getenv('TRAVIS_COMMIT_RANGE')
-        if(gitHash && gitPrevHash) {
-            exec {
-            	println gitHash
-            	println gitPrevHash
-                commandLine 'git', 'log', '--pretty=tformat:- %s - %aN', '' + gitPrevHash + '...' + gitHash
-                standardOutput = stdout
-            }
-            return stdout.toString().trim()
-        } else if(travisRange) {
-            exec {
-                commandLine 'git', 'log', '--pretty=tformat:- %s - %aN', '' + travisRange
-                standardOutput = stdout
-            }
-            return stdout.toString().trim()
-        } else {
-            return "";
-        }
-    } catch(ignored) {
-        return "";
     }
 }
 

@@ -22,7 +22,7 @@ public class Ref {
 	public static final String E					 = "after:moreplanets;";
 	public static final String OPTS				     = A + B + C + D + E;
 
-	public static final String MOD_GC = "required-after:galacticraftcore@[4.0.2.261,];required-after:galacticraftplanets;";
+	public static final String MOD_GC = "required-after:galacticraftcore@[4.0.2.261,];required-after:galacticraftplanets";
 
 	// Dependencies
 	public static final String DEPS = "required:forge@[" + MOD_FORGE_VERSION_MIN + ",);" + MOD_GC + ";" + OPTS;

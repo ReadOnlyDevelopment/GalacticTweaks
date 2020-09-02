@@ -80,6 +80,10 @@ public abstract class Feature {
 	public boolean sidedProxy() {
 		return false;
 	}
+	
+	public void ServerStartingEvent() {
+		
+	}
 
 	/**
 	 * Register packet.

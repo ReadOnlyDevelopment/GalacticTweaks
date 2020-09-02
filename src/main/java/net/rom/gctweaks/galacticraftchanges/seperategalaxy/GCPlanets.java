@@ -1,10 +1,9 @@
-package net.rom.gctweaks.core;
+package net.rom.gctweaks.galacticraftchanges.seperategalaxy;
 
 import java.util.Map;
 
 import com.mjr.extraplanets.planets.ExtraPlanets_Planets;
 
-import asmodeuscore.core.configs.AsmodeusConfig;
 import galaxyspace.systems.SolarSystem.SolarSystemBodies;
 import micdoodle8.mods.galacticraft.api.galaxies.CelestialBody;
 import micdoodle8.mods.galacticraft.api.galaxies.CelestialBody.ScalableDistance;
@@ -16,8 +15,6 @@ import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.planets.asteroids.AsteroidsModule;
 import net.minecraft.util.ResourceLocation;
 import net.rom.gctweaks.core.compat.CompatMods;
-import stevekung.mods.moreplanets.init.MPPlanets;
-import zollerngalaxy.planets.ZGPlanets;
 
 public class GCPlanets {
 	public static Planet FAKE_OVERWORLD;
@@ -72,37 +69,6 @@ public class GCPlanets {
 				}
 			}
 		}
-
-//		if (AsmodeusConfig.enableNewGalaxyMap) {
-//			if (CompatMods.ZOLLERN.isLoaded()) {
-//				ZGPlanets.starPsios.setRelativeSize(1.0F);
-//				ZGPlanets.starPraedyth.setRelativeSize(1.0F);
-//				ZGPlanets.starSol2.setRelativeSize(1.0F);
-//				ZGPlanets.starPantheon.setRelativeSize(1.0F);
-//				ZGPlanets.starOlympus.setRelativeSize(1.0F);
-//				ZGPlanets.starAsgard.setRelativeSize(1.0F);
-//				ZGPlanets.starVega.setRelativeSize(1.0F);
-//				ZGPlanets.starNova.setRelativeSize(1.0F);
-//				ZGPlanets.planetZollus.setRelativeSize(1.0F);
-//				ZGPlanets.planetKriffon.setRelativeSize(1.0F);
-//				ZGPlanets.planetPurgot.setRelativeSize(1.0F);
-//				ZGPlanets.planetEden.setRelativeSize(1.0F);
-//				ZGPlanets.planetXathius.setRelativeSize(1.0F);
-//				ZGPlanets.planetOasis.setRelativeSize(1.0F);
-//				ZGPlanets.planetXantheon.setRelativeSize(1.0F);
-//				ZGPlanets.planetCandora.setRelativeSize(1.0F);
-//				ZGPlanets.planetAtheon.setRelativeSize(1.0F);
-//				ZGPlanets.planetAltum.setRelativeSize(1.0F);
-//				ZGPlanets.planetCaligro.setRelativeSize(1.0F);
-//			}
-//			if (CompatMods.MOREPLANETS.isLoaded()) {
-//				MPPlanets.LAZENDUS.setRelativeSize(1.0F);
-//				MPPlanets.DIONA.setRelativeSize(1.0F);
-//				MPPlanets.CHALOS.setRelativeSize(1.0F);
-//				MPPlanets.NIBIRU.setRelativeSize(1.0F);
-//				MPPlanets.KOENTUS.setRelativeSize(1.0F);
-//			}
-//		}
 	}
 
 	public static void buildAsteroids (Planet planet, String planetName, SolarSystem solarSystem, float randomPhase, float au) {

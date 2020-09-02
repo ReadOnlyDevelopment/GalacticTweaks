@@ -1,0 +1,14 @@
+{
+    "required": true,
+    "minVersion": "0.7.11",
+    "compatibilityLevel": "JAVA_8",
+    "package": "net.rom.gctweaks.mixins",
+    "refmap": "mixins.galactictweaks.refmap.json",
+    "target": "@env(DEFAULT)",
+    "mixins": [
+        "CommandLocateMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}

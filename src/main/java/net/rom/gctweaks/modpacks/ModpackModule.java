@@ -11,7 +11,6 @@ public class ModpackModule extends Module {
 
 	@Override
 	public void addFeatures() {
-		registerFeature(new CustomCrashLogData());
 	}
 
 }
