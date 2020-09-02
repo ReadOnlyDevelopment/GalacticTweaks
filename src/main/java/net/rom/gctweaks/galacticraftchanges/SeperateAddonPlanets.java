@@ -1,5 +1,6 @@
 package net.rom.gctweaks.galacticraftchanges;
 
+import asmodeuscore.core.astronomy.BodiesRegistry;
 import net.minecraftforge.common.config.Configuration;
 import net.rom.gctweaks.core.Feature;
 import net.rom.gctweaks.core.GCPlanets;
@@ -38,7 +39,8 @@ public class SeperateAddonPlanets extends Feature {
 	@Override
 	public void preInit () {
 		if (seperatePlanets && CompatMods.EXTRAPLANETS.isLoaded() && CompatMods.GALAXYSPACE.isLoaded()) {
-
+			BodiesRegistry.setMaxTier(10);
+			
 			switch (modid) {
 			case "extraplanets":
 				GCSystems.init();
