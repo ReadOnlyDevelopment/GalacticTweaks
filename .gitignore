@@ -30,6 +30,5 @@ build
 # other
 eclipse
 run
-secrets.json
 .gradle
-/secret.json
+build.properties

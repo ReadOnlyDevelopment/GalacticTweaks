@@ -2,12 +2,7 @@
 
 [Added]
 
- - Option to choose addon for Separate Galaxy feature
- - Default addon for Seperate Galaxy is now "none"
- - Warning in crash-log if Separate Galaxy is enabled
+  - command /leaverace to leave GC SpaceRace team
+    (Team owners cannot use command)
 
-
- [Changed/Removed]
-
- - Parse loaded Addons from FML Loader
- - Modpack Crashlog Data
+  - Feature to fix planet/star Icon sizes when using AsmodeusCore celestial map
