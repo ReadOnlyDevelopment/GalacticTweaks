@@ -23,7 +23,6 @@ import net.rom.gctweaks.base.core.utils.GameUtil;
 import net.rom.gctweaks.base.core.utils.I18nHelper;
 import net.rom.gctweaks.base.core.utils.LogHelper;
 import net.rom.gctweaks.base.version.CommandDownloadUpdate;
-import net.rom.gctweaks.gc.features.oxygenfeature.command.CommandOxygenReset;
 
 @Mod(modid = Ref.MOD_ID, name = Ref.MOD_NAME, version = Ref.MOD_VERSION, dependencies = Ref.DEPS, certificateFingerprint = Ref.MOD_FINGERPRINT, useMetadata = true)
 public class GalacticTweaks {

@@ -18,6 +18,7 @@ import net.rom.gctweaks.Ref;
 
 
 @Mod.EventBusSubscriber(value = Side.CLIENT, modid = Ref.MOD_ID)
+@SuppressWarnings("deprecation")
 public final class VersionChecker {
 
 	private VersionChecker() {}
@@ -50,6 +51,7 @@ public final class VersionChecker {
 					player.sendMessage(new TextComponentTranslation("gctweaks.versions.outdated2", online
 							.toString()));
 					player.sendMessage(new TextComponentTranslation("gctweaks.versions.outdated0"));
+					
 					ITextComponent component = ITextComponent.Serializer.fromJsonLenient(I18n
 							.translateToLocal("gctweaks.versions.updateMessage").replaceAll("%version%", fileId));
 					player.sendMessage(component);

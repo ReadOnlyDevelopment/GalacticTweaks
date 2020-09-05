@@ -2,6 +2,7 @@ package net.rom.gctweaks.gc;
 
 import net.rom.gctweaks.base.Module;
 import net.rom.gctweaks.gc.features.CompressorFixes;
+import net.rom.gctweaks.gc.features.FixAsmodeusMapIcons;
 import net.rom.gctweaks.gc.features.MobsBreatheInSpace;
 import net.rom.gctweaks.gc.features.NoSpaceMusic;
 import net.rom.gctweaks.gc.features.OverworldComets;
@@ -24,6 +25,6 @@ public class GalacticraftModule extends Module {
 		registerFeature(new OverworldComets());
 		registerFeature(new SeperateAddonPlanets());
 		registerFeature(new SpaceRaceFeature());
+		registerFeature(new FixAsmodeusMapIcons());
 	}
-
 }
