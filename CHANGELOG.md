@@ -2,6 +2,7 @@
 
 [Added]
 
- - command /leaverace to leave GC SpaceRace team
- 	- Team owners cannot use command
+  - command /leaverace to leave GC SpaceRace team
+    (Team owners cannot use command)
 
+  - Feature to fix planet/star Icon sizes when using AsmodeusCore celestial map
