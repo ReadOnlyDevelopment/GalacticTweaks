@@ -1,37 +1,39 @@
 buildscript {
-    repositories {
-        maven {
-            name = "forge"
-            url = "https://files.minecraftforge.net/maven"
-        }
+	repositories {
 		maven {
-			name = 'sponge'
-			url = 'https://repo.spongepowered.org/maven'
+			name = "gradle"
+			url = "https://plugins.gradle.org/m2/"
 		}
-    }
-    dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-		classpath 'org.spongepowered:mixingradle:0.6-SNAPSHOT'
-    }
+		maven {
+			name = "forge"
+			url = "https://files.minecraftforge.net/maven"
+		}
+	}
+	dependencies {
+		classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+		classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7"
+	}
 }
 
 plugins {
-    id 'com.matthewprenger.cursegradle' version '1.4.0'
-	id 'net.ltgt.apt' version '0.10' // for lombok
-	id 'maven-publish'
+	id 'com.matthewprenger.cursegradle' version '1.4.0'
+	id 'net.ltgt.apt' version '0.10'
 	id 'eclipse'
-    id 'maven'
+	id "jacoco"
 }
 
+apply plugin: "java"
+apply plugin: "org.sonarqube"
 apply plugin: 'net.minecraftforge.gradle.forge'
-apply plugin: 'org.spongepowered.mixin'
 
-apply from: "https://raw.githubusercontent.com/ReadOnly-Mods/Misc/master/Gradle/secretfile.gradle"
 
-if (project.hasProperty('secretFile')) {
-	
-	loadSecrets(new File((String) findProperty('secretFile')))
-}
+// ==========================================
+//            Load Secrets
+// ==========================================
+apply from: "https://raw.githubusercontent.com/ReadOnly-Mods/Misc/master/Gradle/secret.gradle"
+loadSecrets()
+// ==========================================
+
 
 version = "${versionMajor}.${versionMinor}.${versionRev}"
 group = "${group}"
@@ -39,19 +41,30 @@ archivesBaseName = "${name}"
 
 sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 compileJava {
-    sourceCompatibility = targetCompatibility = '1.8'
+	sourceCompatibility = targetCompatibility = '1.8'
 }
 
-configurations {
-	embed
-	implementation.extendsFrom(embed)
-}
-
+// ==========================================
+//            Load GC Dev Files
+// ==========================================
 project.ext {
-    GCBuild = "261"
-    GCVersion = "1.12.2-4.0.2.${GCBuild}"
+	GCBuild = "261"
+	GCVersion = "1.12.2-4.0.2.${GCBuild}"
 }
 apply from: "https://raw.githubusercontent.com/ReadOnly-Mods/Misc/master/Gradle/gcdevfiles.gradle"
+// ==========================================
+
+sonarqube {
+	properties {
+		property 'sonar.GalacticTweaks', 'GalacticTweaks SonarQube Scanner'
+	}
+}
+
+jacocoTestReport {
+	reports {
+		xml.enabled true
+	}
+}
 
 repositories {
 	jcenter()
@@ -62,11 +75,11 @@ repositories {
 	maven {
 		name = 'curseforge'
 		url = 'https://minecraft.curseforge.com/api/maven/'
-	}    
-    maven {
-        name 'DVS1 Maven FS'
-        url 'http://dvs1.progwml6.com/files/maven'
-    }
+	}
+	maven {
+		name 'DVS1 Maven FS'
+		url 'http://dvs1.progwml6.com/files/maven'
+	}
 	maven {
 		name 'IC2'
 		url = "http://maven.ic2.player.to"
@@ -75,17 +88,24 @@ repositories {
 		url = "https://www.cursemaven.com"
 	}
 	maven {
-		url "http://repo.spongepowered.org/maven/"
+		// Location of CurseAPI Files
+		url "https://jitpack.io"
 	}
 }
 
 dependencies {
 	
+	compile "com.vdurmont:semver4j:3.1.0"
+	
+	compile("com.github.TheRandomLabs:CurseAPI:master-SNAPSHOT"){
+		exclude group: 'com.google.guava', module: 'guava'
+		}
+
 	compile "org.projectlombok:lombok:1.18.12"
 	apt "org.projectlombok:lombok:1.18.12"
 
 	compile "industrial-craft:industrialcraft-2-2.8.99:ex112:api"
-	
+
 	// LOAD GC ADDONS
 	compile "com.mjr.planetprogression:PlanetProgression:1.12.2-0.4.5:api"
 	compile "curse.maven:AsmodeusCore-Dev:3039768"
@@ -94,141 +114,63 @@ dependencies {
 	runtime "curse.maven:MJRLib-1.2.0:3029769"
 	compile "industrial-craft:industrialcraft-2-2.8.99:ex112:api"
 	runtime "mezz.jei:jei_1.12.2:4.15.0.297"
-	embed("org.spongepowered:mixin:0.7.11-SNAPSHOT") { transitive = false }
-		
+
 }
 
 minecraft {
-    version = "${mc_version}-${forge_version}"
-    runDir = "run"
-    replace '${version}', project.version
-    mappings = "${mcp}"
-	
-    if (project.hasProperty('signSHA1') && getBooleanProperty('do_sign_jar')) {
-        replace '@FINGERPRINT@', secret.signSHA1
-    } else {
-        replace '@FINGERPRINT@', ''
-    }
-	
-	clientRunArgs += "--mixin mixins.galactictweaks.json"
-	serverRunArgs += "--mixin mixins.galactictweaks.json"
-}
+	version = "${mc_version}-${forge_version}"
+	runDir = "run"
+	mappings = "${mcp}"
 
-sourceSets {
-	main {
-		ext.refMap = "mixins.galactictweaks.refmap.json"
-	}
+	replace '@VERSION@', project.version
+	replace '@MCVERSION@', project.minecraft.version
+	replace '@FINGERPRINT@', project.findProperty('signSHA1')
+	replaceIn "Ref.java"
 }
 
 jar {
-	from(configurations.embed.collect { it.isDirectory() ? it : zipTree(it) }) {
-		exclude "LICENSE.txt", "META-INF/*.txt", "META-INF/MANIFSET.MF", "META-INF/maven/**", "META-INF/*.RSA", "META-INF/*.SF"
+	manifest {
+		mainAttributes(
+				'Maven-Artifact': "${project.group}:${project.archivesBaseName}:${project.version}",
+				'Timestamp': System.currentTimeMillis(),
+				'Implementation-Title': project.archivesBaseName,
+				'Implementation-Version': version,
+				'Built-On-Java': "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
+				'Built-On': "${project.mc_version}-${project.forge_version}"
+				)
 	}
-    manifest {
-		attributes(
-			"FMLAT": "galactictweaks_at.cfg",
-			"FMLCorePluginContainsFMLMod": "true",
-        	"TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
-        	"MixinConfigs": "mixins.galactictweaks.json",
-			"ForceLoadAsMod": "true"
-    	)
-    }
 }
 
 task signJar(type: SignJar, dependsOn: reobfJar) {
-    onlyIf {
-        project.hasProperty('keyStore')
-    }
+	onlyIf {
+		project.hasProperty('keyStore')
+	}
 
-    inputFile = jar.archivePath
-    outputFile = jar.archivePath
+	inputFile = jar.archivePath
+	outputFile = jar.archivePath
 
-    keyStore = findProperty('keyStore')
-    alias = findProperty('keyStoreAlias')
-    storePass = findProperty('keyStorePass')
-    keyPass = findProperty('keyStoreKeyPass')
+	keyStore = findProperty('keyStore')
+	alias = findProperty('keyStoreAlias')
+	storePass = findProperty('keyStorePass')
+	keyPass = findProperty('keyStoreKeyPass')
 }
 
 curseforge {
-    if (project.hasProperty('cf_project_id')) {
-        apiKey = findProperty('curseforgeAPIKey') ?: 0
+	if (secret.containsKey('curseapi')) {
+		apiKey = secret.curseapi
         project {
-            id = project.cf_project_id
-            if (project.hasProperty('cf_changelog_filename')) {
-                changelog = file(project.cf_changelog_filename)
-            } else {
-                changelog = getGitChangelog
-            }
-            if (project.hasProperty('cf_changelog_type')) {
-                changelogType = project.cf_changelog_type
-            }
-            if ((project.hasProperty('cf_release_type')) && ((project.cf_release_type == 'alpha') || (project.cf_release_type == 'beta') || (project.cf_release_type == 'release'))) {
-                releaseType = project.cf_release_type
-            } else {
-                releaseType = 'alpha'
-            }
-            if (project.hasProperty('cf_versions')) {
-                final def versions = "${project.cf_versions}".split(', ')
-                versions.each {
-                    addGameVersion "${it}"
-                }
-            }
+            id = "359766"
+            changelog = file("CHANGELOG.md")
+            changelogType = "markdown"
+            releaseType = "release"
+            addGameVersion mc_version
+
             mainArtifact(jar) {
-                if (getBooleanProperty('cf_use_custom_display_name')) {
-                    displayName = "${project.name} ${project.display_version}"
-                }
-                if (project.hasProperty('cf_requirements') || project.hasProperty('cf_optionals') || project.hasProperty('cf_embeddeds') || project.hasProperty('cf_tools') || project.hasProperty('cf_incompatibles') || project.hasProperty('cf_includes')) {
-                    relations {
-                        if (project.hasProperty('cf_requirements')) {
-                            final def requirements = "${project.cf_requirements}".split(', ')
-                            requirements.each {
-                                requiredDependency "${it}"
-                            }
-                        }
-                        if (project.hasProperty('cf_optionals')) {
-                            final def optionals = "${project.cf_optionals}".split(', ')
-                            optionals.each {
-                                optionalDependency "${it}"
-                            }
-                        }
-                        if (project.hasProperty('cf_embeddeds')) {
-                            final def embeddeds = "${project.cf_embeddeds}".split(', ')
-                            embeddeds.each {
-                                embeddedLibrary "${it}"
-                            }
-                        }
-                        if (project.hasProperty('cf_tools')) {
-                            final def tools = "${project.cf_tools}".split(', ')
-                            tools.each {
-                                tool "${it}"
-                            }
-                        }
-                        if (project.hasProperty('cf_incompatibles')) {
-                            final def incompatibles = "${project.cf_incompatibles}".split(', ')
-                            incompatibles.each {
-                                incompatible "${it}"
-                            }
-                        }
-                        if (project.hasProperty('cf_includes')) {
-                            final def includes = "${project.cf_includes}".split(', ')
-                            includes.each {
-                                include "${it}"
-                            }
-                        }
-                    }
-                }
+                displayName = "GalacticTweaks-" + mc_version + "-" + version
             }
         }
-    }
+	}
 }
 
 build.dependsOn signJar
 tasks.curseforge.dependsOn(build)
-
-boolean getBooleanProperty(final String property) {
-    if (project.hasProperty(property)) {
-        return ((String) project.findProperty(property)).toBoolean()
-    } else {
-        return false
-    }
-}

@@ -3,13 +3,11 @@ package net.rom.gctweaks;
 public class Ref {
 
 	// Mod info
-	public static final String MOD_ID           = "gtweaks";
+	public static final String MOD_ID           = "gctweaks";
 	public static final String MOD_NAME         = "GalacticTweaks";
-	public static final String MOD_VERSION      = "${version}";
-	public static final String MOD_BUILD_NUMBER = "@BUILD_NUMBER@";
-	public static final String MOD_MC_VERSION   = "@MC_VERSION@";
+	public static final String MOD_VERSION      = "@VERSION@";
+	public static final String MOD_MC_VERSION   = "@MCVERSION@";
 	public static final String MOD_FINGERPRINT  = "@FINGERPRINT@";
-	public static final String VERSION_URL      = "";
 
 	// MOD ID's
 	public static final String MOD_FORGE             = "forge";

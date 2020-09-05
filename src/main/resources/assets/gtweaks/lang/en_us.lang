@@ -3,3 +3,20 @@ solarsystem.secondSystem=Alternate Sol
 star.epsystem=Sun
 planet.fakeOverworld=Earth
 planet.fakeRocks=Asteroids
+
+gctweaks.leaverace.playerleave=You have sucsessfully left %s
+gctweaks.leaverace.leader=Team Leaders cannot use this command!
+gctweaks.leaverace.noarg=Command has no arguments!
+gctweaks.leaverace.useage=%s
+gctweaks.leaverace.noteam=You must be in a team to use this command!
+
+gctweaks.versions.notify=Hey player! Hey player hey! GalacticTweaks update!
+gctweaks.versions.outdated0=§6****************************************
+gctweaks.versions.outdated1=§6* §aRunning......v§c%s
+gctweaks.versions.outdated2=§6* §aLatest.........v§9%s
+gctweaks.versions.updateMessage=["Click To... [",{"text":"Download","color":"green","hoverEvent":{"action":"show_text","value":{"text":"Click this to automatically download the latest version","color":"green"}},"clickEvent":{"action":"run_command","value":"/download-latest-gctweaks %version%"}},"]"]
+gctweaks.versions.startingDownload=[{"text":"Starting download . . . . . Please do not remove your hard disk. Enjoying ","color":"aqua"},{"text":"GalacticTweaks?","color":"green"}]
+gctweaks.versions.startingDownload2=[{"text":" Consider supporting ","color":"aqua"},{"text":"ROMVoid95","color":"light_purple"},{"text":" on [","color":"aqua"},{"text":"Patreon","color":"gold","hoverEvent":{"action":"show_text","value":{"text":"Click this to go to ROMVoid95's Patreon","color":"light_purple"}},"clickEvent":{"action":"open_url","value":"http://www.patreon.com/romvoid95"}},{"text":"]!","color":"aqua"}]
+gctweaks.versions.doneDownloading=Finished downloading . . . . . Delete your old GalacticTweaks jar and reload your game to update.
+gctweaks.versions.downloadedAlready=You already downloaded the latest version. Close your game, delete the old version from your mods folder and load it again to update!
+gctweaks.versions.downloadingAlready=The update is already downloading, give it some time, will you?

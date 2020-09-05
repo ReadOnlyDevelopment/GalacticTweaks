@@ -7,17 +7,23 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLFingerprintViolationEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkCheckHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
-import net.rom.gctweaks.core.Module;
-import net.rom.gctweaks.core.proxy.CommonProxy;
-import net.rom.gctweaks.core.utils.I18nHelper;
-import net.rom.gctweaks.core.utils.LogHelper;
+import net.rom.gctweaks.base.InternalModule;
+import net.rom.gctweaks.base.Module;
+import net.rom.gctweaks.base.core.proxy.CommonProxy;
+import net.rom.gctweaks.base.core.utils.GameUtil;
+import net.rom.gctweaks.base.core.utils.I18nHelper;
+import net.rom.gctweaks.base.core.utils.LogHelper;
+import net.rom.gctweaks.base.version.CommandDownloadUpdate;
+import net.rom.gctweaks.gc.features.oxygenfeature.command.CommandOxygenReset;
 
 @Mod(modid = Ref.MOD_ID, name = Ref.MOD_NAME, version = Ref.MOD_VERSION, dependencies = Ref.DEPS, certificateFingerprint = Ref.MOD_FINGERPRINT, useMetadata = true)
 public class GalacticTweaks {
@@ -33,35 +39,103 @@ public class GalacticTweaks {
 		return true;
 	}
 
-	@SidedProxy(clientSide = "net.rom.gctweaks.core.proxy.ClientProxy", serverSide = "net.rom.gctweaks.core.proxy.CommonProxy")
+	@SidedProxy(clientSide = "net.rom.gctweaks.base.core.proxy.ClientProxy", serverSide = "net.rom.gctweaks.base.core.proxy.CommonProxy")
 	public static CommonProxy proxy;
+	
+	@EventHandler
+	public void onFingerprintViolation (FMLFingerprintViolationEvent event) {
+		if(!GameUtil.isDeobfuscated()) {
+			logger.warn("Invalid fingerprint detected! The file " + event.getSource().getName()
+					+ " may have been tampered with. This version will NOT be supported by the author!");
+		} else {
+			logger.info("Ignoring fingerprint signing since we are in a Development Enviroment");
+		}
+
+	}
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		MinecraftForge.EVENT_BUS.register(this);
+		
+		// ==========================================
+		//            Internal Modules
+		// ==========================================
+		// ~ Register ~ //
+		ModuleController.registerInternalModules();
+		
+		// ~ Network ~ //
+		ModuleController.internals.forEach(module -> module.registerPacket(network));
+		
+		// ~ Phase ~ //
+		ModuleController.internals.forEach(InternalModule::preInit);
+		
+		// ==========================================
+		//            Feature Modules
+		// ==========================================
+		// ~ Register ~ //
 		ModuleController.registerModules();
+		
+		// ~ Configurations ~ //
 		ModuleController.modules.forEach(module -> module.setupConfig(event));
-		syncConfig();
+		ModuleController.modules.forEach(Module::syncConfig);
+		
+		// ~ Network ~ //
 		ModuleController.modules.forEach(module -> module.registerPacket(network));
 
+		// ~ Phase ~ //
 		ModuleController.modules.forEach(Module::preInit);
 		proxy.preInit(event);
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
+		
+		// ==========================================
+		//            Internal Modules
+		// ==========================================
+		// ~ Phase ~ //
+		ModuleController.internals.forEach(InternalModule::init);
+		
+		// ==========================================
+		//            Feature Modules
+		// ==========================================
+		// ~ Phase ~ //
 		ModuleController.modules.forEach(Module::init);
 		proxy.init(event);
 	}
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
+		
+		// ==========================================
+		//            Internal Modules
+		// ==========================================
+		// ~ Phase ~ //
+		ModuleController.internals.forEach(InternalModule::postInit);
+		
+		// ==========================================
+		//            Feature Modules
+		// ==========================================
+		// ~ Phase ~ //
 		ModuleController.modules.forEach(Module::postInit);
 		proxy.postInit(event);
 	}
-
-	private void syncConfig() {
-		ModuleController.modules.forEach(Module::syncConfig);
-
-	}
+	
+    @EventHandler
+    public void onServerStarting(FMLServerStartingEvent event) {
+    	
+		// ==========================================
+		//            Internal Modules
+		// ==========================================
+		// ~ Phase ~ //
+    	ModuleController.internals.forEach(internal -> internal.serverStartingEvent(event));
+		
+		// ==========================================
+		//            Feature Modules
+		// ==========================================
+		// ~ Phase ~ //
+        ModuleController.modules.forEach(module -> module.serverStartingEvent(event));
+        
+        event.registerServerCommand(new CommandDownloadUpdate());
+    }
 }
