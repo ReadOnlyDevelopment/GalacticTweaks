@@ -1,0 +1,22 @@
+galaxy.wormhole=   Alt Sol
+solarsystem.secondSystem=Sol Alternativo
+star.epsystem=El sol
+planet.fakeOverworld=La Tierra
+planet.fakeRocks=El Asteroides
+
+gctweaks.leaverace.playerleave=Has abandonado %s con éxito
+gctweaks.leaverace.leader=¡Los líderes de equipo no pueden usar este comando!
+gctweaks.leaverace.noarg=¡Esta comando no tiene argumentos!
+gctweaks.leaverace.useage=%s
+gctweaks.leaverace.noteam=¡Debes estar en un equipo para usar este comando!
+
+gctweaks.versions.notify=Oye jugador! Oye jugador Oye! Actualizaciones de GalacticTweaks!
+gctweaks.versions.outdated0=§6****************************************
+gctweaks.versions.outdated1=§6* §Funcionamiento......v§c%s
+gctweaks.versions.outdated2=§6* §aAúltimo.........v§9%s
+gctweaks.versions.updateMessage=["Haga clic para... [",{"text":"Descargar","color":"green","hoverEvent":{"action":"show_text","value":{"text":"Haga clic en esto para descargar automáticamente la última versión","color":"green"}},"clickEvent":{"action":"run_command","value":"/download-latest-gctweaks %version%"}},"]"]
+gctweaks.versions.startingDownload=[{"text":"Iniciando descarga . . . . . Por favor no quite su disco duro. ¿Te gusta ","color":"aqua"},{"text":"GalacticTweaks?","color":"green"}]
+gctweaks.versions.startingDownload2=[{"text":" Considere la posibilidad de admitir ","color":"aqua"},{"text":"ROMVoid95","color":"light_purple"},{"text":" en [","color":"aqua"},{"text":"Patreon","color":"gold","hoverEvent":{"action":"show_text","value":{"text":"Haga clic aquí para ir a Patreon de ROMVoid95","color":"light_purple"}},"clickEvent":{"action":"open_url","value":"http://www.patreon.com/romvoid95"}},{"text":"]!","color":"aqua"}]
+gctweaks.versions.doneDownloading=Finalizada la descarga . . . . . Elimina tu antiguo GalacticTweaks.jar y vuelve a cargar el juego para actualizarlo.
+gctweaks.versions.downloadedAlready=Ya descargó la última versión. ¡Cierre su juego, suprima la vieja versión de su carpeta de mods y cárguelo otra vez para actualizar!
+gctweaks.versions.downloadingAlready=La actualización ya se está descargando, dale algo de tiempo, ¿quieres?
