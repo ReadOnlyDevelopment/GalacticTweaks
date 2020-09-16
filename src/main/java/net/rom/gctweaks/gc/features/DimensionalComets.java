@@ -11,12 +11,6 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.rom.gctweaks.base.Feature;
 
-/*
-* LOGIC BY ROMVOID
-* CONFIG VIA DIMENSION IDS BY SEBASPHERE
-* https://sebastianb.dev heh don't tell rom I plugged my site
- */
-
 public class DimensionalComets extends Feature {
 
     private static boolean cometModification;
