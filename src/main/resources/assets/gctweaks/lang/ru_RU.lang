@@ -1,0 +1,22 @@
+galaxy.wormhole=   Алт Солнце
+solarsystem.secondSystem=Альтернативное Солнце
+star.epsystem=Солнце
+planet.fakeOverworld=Земля
+planet.fakeRocks=Астероиды
+
+galactictweaks.leaverace.playerleave=Вы успешно покинули  %s
+galactictweaks.leaverace.leader=Командиры команды не могут использовать эту команду!
+galactictweaks.leaverace.noarg=Команда не имеет аргументов!
+galactictweaks.leaverace.useage=%s
+galactictweaks.leaverace.noteam=вы должны состоять в команде чтобы использовать эту команду!
+
+galactictweaks.versions.notify=Ей игрок! Зацени ! GalacticTweaks Обновился
+galactictweaks.versions.outdated0=§6****************************************
+galactictweaks.versions.outdated1=§6* §aТекущая версия......v§c%s
+galactictweaks.versions.outdated2=§6* §aПоследняя.........v§9%s
+galactictweaks.versions.updateMessage=["Нажмите... [",{"text":"Скачать","color":"green","hoverEvent":{"action":"show_text","value":{"text":"Нажмите сюда чтобы автоматически скачать последнюю версию","color":"green"}},"clickEvent":{"action":"run_command","value":"/download-latest-gctweaks"}},"]"]
+galactictweaks.versions.startingDownload=[{"text":"Начинаем Скачивание . . . . . Пожалуйста не удаляйте ваш жесткий диск. Наслаждайтесь ","color":"aqua"},{"text":"GalacticTweaks?","color":"green"}]
+galactictweaks.versions.startingDownload2=[{"text":" Поддержите ","color":"aqua"},{"text":"ROMVoid95","color":"light_purple"},{"text":" on [","color":"aqua"},{"text":"Patreon","color":"gold","hoverEvent":{"action":"show_text","value":{"text":"Это патреон ROMVoid95's ","color":"light_purple"}},"clickEvent":{"action":"open_url","value":"http://www.patreon.com/romvoid95"}},{"text":"]!","color":"aqua"}]
+galactictweaks.versions.doneDownloading=Скачивание закончено . . . . . Удалите ваше старое версию GalacticTweaks jar и перезагрузите игру чтобы обновится.
+galactictweaks.versions.downloadedAlready=Вы уже скачали последнию версию. Закройте игру. удалите старую версию. и зайдите в игру заново!
+galactictweaks.versions.downloadingAlready=Обновление уже скачивается. дайте ему время. Дашь??
