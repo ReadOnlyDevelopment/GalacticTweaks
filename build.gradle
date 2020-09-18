@@ -94,12 +94,6 @@ repositories {
 }
 
 dependencies {
-	
-	compile "com.vdurmont:semver4j:3.1.0"
-	
-	compile("com.github.TheRandomLabs:CurseAPI:master-SNAPSHOT"){
-		exclude group: 'com.google.guava', module: 'guava'
-		}
 
 	compile "org.projectlombok:lombok:1.18.12"
 	apt "org.projectlombok:lombok:1.18.12"
@@ -127,6 +121,25 @@ minecraft {
 	replace '@FINGERPRINT@', project.findProperty('signSHA1')
 	replaceIn "Ref.java"
 }
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+    rename '(.+_at.cfg)', 'META-INF/$1'
+}
+
+jar {
+    manifest {
+ 	    attributes 'FMLAT': 'galactictweaks_at.cfg'
+ 	}
+ }
 
 jar {
 	manifest {

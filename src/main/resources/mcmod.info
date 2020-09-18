@@ -1,12 +1,12 @@
 [
 {
-  "modid": "gtweaks",
+  "modid": "gctweaks",
   "name": "GalacticTweaks",
   "description": "Tweaking Mod to Galacticraft",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "https://www.curseforge.com/minecraft/mc-mods/galactictweaks",
-  "updateUrl": "https://github.com/ROMVoid95/GalacticTweaks/blob/dev/update.json",
+  "updateUrl": "",
   "authorList": ["ROMVoid95"],
   "credits": "",
   "logoFile": "",
