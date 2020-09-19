@@ -1,4 +1,4 @@
-package net.rom.gctweaks.gc.features;
+package net.romvoid95.gctweaks.gc.features;
 
 import micdoodle8.mods.galacticraft.core.entities.EntityMeteor;
 import net.minecraft.entity.EntityLivingBase;
@@ -9,13 +9,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.rom.gctweaks.base.Feature;
+import net.romvoid95.gctweaks.base.Feature;
 
-/*
-* LOGIC BY ROMVOID
-* CONFIG VIA DIMENSION IDS BY SEBASPHERE
-* https://sebastianb.dev heh don't tell rom I plugged my site
- */
+
 
 public class DimensionalComets extends Feature {
 
@@ -37,9 +33,11 @@ public class DimensionalComets extends Feature {
     @Override
     public void syncConfig(Configuration config, String[] category) {
         cometModification = config
-                .get(category[0],"comet-modification", false, "Set to true to modify comets on other dimensions").getBoolean();
-        cometSpawnRate = config.get(category[0], "cometSpawnRate", 1.0D, "Specify the global asteroid spawn rate").getDouble();
-        dimensionID = config.get(category[0], "dimension-id", new int[] {-1, 0, 1}, "dimension IDs for asteroids").getIntList();
+                .get(category[0],"comet-modification", false, "Set to true to specify what new dimensions asteroids drop").getBoolean();
+        cometSpawnRate = config
+                .get(category[0], "cometSpawnRate", 1.0D, "Specify the global asteroid spawn rate between values 0.0 - 1.0").getDouble();
+        dimensionID = config
+                .get(category[0], "dimension-id", new int[] {-1, 0, 1}, "dimension IDs for asteroids").getIntList();
     }
 
     @Override
@@ -57,7 +55,6 @@ public class DimensionalComets extends Feature {
     private void onPlayerUpdate(EntityPlayerMP player) {
         for (int id : dimensionID) {
             this.meteors(player, id);
-
         }
     }
 
@@ -94,7 +91,5 @@ public class DimensionalComets extends Feature {
                 }
             }
         }
-
     }
-
 }
