@@ -1,9 +1,12 @@
 package net.romvoid95.gctweaks.gc;
 
 import net.romvoid95.gctweaks.base.Module;
-import net.romvoid95.gctweaks.gc.features.*;
+import net.romvoid95.gctweaks.gc.features.CompressorFixes;
+import net.romvoid95.gctweaks.gc.features.FixAsmodeusMapIcons;
+import net.romvoid95.gctweaks.gc.features.MobsBreatheInSpace;
+import net.romvoid95.gctweaks.gc.features.NoSpaceMusic;
+import net.romvoid95.gctweaks.gc.features.OverworldComets;
 import net.romvoid95.gctweaks.gc.features.galaxyfeature.SeperateAddonPlanets;
-import net.romvoid95.gctweaks.gc.features.generation.DisableDungeonGeneration;
 import net.romvoid95.gctweaks.gc.features.oxygenfeature.SpawnWithOxygenEquip;
 import net.romvoid95.gctweaks.gc.features.sprfeature.SpaceRaceFeature;
 
@@ -19,14 +22,9 @@ public class GalacticraftModule extends Module {
 		registerFeature(new SpawnWithOxygenEquip());
 		registerFeature(new NoSpaceMusic());
 		registerFeature(new CompressorFixes());
+		registerFeature(new OverworldComets());
 		registerFeature(new SeperateAddonPlanets());
 		registerFeature(new SpaceRaceFeature());
 		registerFeature(new FixAsmodeusMapIcons());
-		registerFeature(new DimensionalComets());
-		registerFeature(new UnlockSchematics());
-
-		//registerFeature(new OverworldComets()); -Don't need this feature anymore
-		//registerFeature(new DisableDungeonGeneration()); -I couldn't figure this out. I'll get back to this later
-
 	}
 }
