@@ -15,7 +15,7 @@ public class MobsBreatheInSpace extends Feature {
 	
 	@Override
 	public String comment() {
-		return "Adds ability for passive mobs to beathe on other planets";
+		return "Adds ability for passive mobs to breathe on other planets";
 	}
 	
 	@Override
