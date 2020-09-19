@@ -20,12 +20,13 @@ public class GalacticraftModule extends Module {
 		registerFeature(new SpawnWithOxygenEquip());
 		registerFeature(new NoSpaceMusic());
 		registerFeature(new CompressorFixes());
-		//registerFeature(new OverworldComets()); No longer needed
 		registerFeature(new SeperateAddonPlanets());
 		registerFeature(new SpaceRaceFeature());
 		registerFeature(new FixAsmodeusMapIcons());
 		registerFeature(new DimensionalComets());
 		registerFeature(new UnlockSchematics());
+
+		//registerFeature(new OverworldComets()); No longer needed. Replaced with DimensionalComets.java
 		//registerFeature(new DisableDungeonGeneration()); I couldn't figure this our right now. Later
 	}
 }
