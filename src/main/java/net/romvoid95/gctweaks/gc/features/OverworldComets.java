@@ -11,6 +11,10 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.romvoid95.gctweaks.base.Feature;
 
+/**
+ * Replaced with DimensionalComets.java
+ */
+@Deprecated
 public class OverworldComets extends Feature {
 
 	private static boolean overworldComets;
@@ -23,7 +27,7 @@ public class OverworldComets extends Feature {
 
 	@Override
 	public String comment() {
-		return "have comets also drop in the overworld - extending realism even further";
+		return "Have comets also drop in the overworld - extending realism even further";
 	}
 
 	@Override

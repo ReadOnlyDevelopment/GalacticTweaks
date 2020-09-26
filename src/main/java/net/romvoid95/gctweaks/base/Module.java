@@ -71,6 +71,9 @@ public abstract class Module {
 		return config;
 	}
 
+	/**
+	 * Method in every feature class. You can just specify this in a class and auto adds to GalacticTweaks.cfg
+	 */
 	public void syncConfig () {
 		features.forEach(feature -> {
 			feature.syncConfig(config, feature.category());

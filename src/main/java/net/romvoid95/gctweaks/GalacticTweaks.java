@@ -50,7 +50,7 @@ public class GalacticTweaks {
 			logger.warn("Invalid fingerprint detected! The file " + event.getSource().getName()
 					+ " may have been tampered with. This version will NOT be supported by the author!");
 		} else {
-			logger.info("Ignoring fingerprint signing since we are in a Development Enviroment");
+			logger.info("Ignoring fingerprint signing since we are in a Development Environment");
 		}
 
 	}
