@@ -1,4 +1,4 @@
-package net.romvoid95.gctweaks.gc.features.sprfeature.command;
+package net.romvoid95.gctweaks.gc.features.spawnitems.command;
 
 import java.util.ArrayList;
 import java.util.List;

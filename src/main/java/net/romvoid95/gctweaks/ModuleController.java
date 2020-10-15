@@ -11,8 +11,8 @@ import net.romvoid95.gctweaks.internal.BuiltInModule;
 public class ModuleController {
 	
     public static List<Module> modules = new ArrayList<>();
-    
     public static List<InternalModule> internals = new ArrayList<>();
+
     
     public static void registerModules() {
         modules.add(new GalacticraftModule("Galacticraft Module"));

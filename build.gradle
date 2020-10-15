@@ -67,7 +67,11 @@ jacocoTestReport {
 }
 
 repositories {
-	jcenter()
+	maven {
+		// Location of CurseAPI Files
+		url "https://jitpack.io"
+	}
+	mavenCentral()
 	maven {
 		name 'MJRLegends'
 		url = "https://maven.mjrlegends.com/"
@@ -87,13 +91,17 @@ repositories {
 	maven {
 		url = "https://www.cursemaven.com"
 	}
-	maven {
-		// Location of CurseAPI Files
-		url "https://jitpack.io"
-	}
+
 }
 
 dependencies {
+
+	compile("com.github.TheRandomLabs:CurseAPI:master-SNAPSHOT"){	
+		exclude group: 'com.google.guava', module: 'guava'	
+		}
+		
+	compile "org.apache.logging.log4j:log4j-core:2.13.3"
+	compile "org.apache.logging.log4j:log4j-slf4j18-impl:2.13.3"
 
 	compile "org.projectlombok:lombok:1.18.12"
 	apt "org.projectlombok:lombok:1.18.12"
@@ -102,7 +110,7 @@ dependencies {
 
 	// LOAD GC ADDONS
 	compile "com.mjr.planetprogression:PlanetProgression:1.12.2-0.4.5:api"
-	compile "curse.maven:AsmodeusCore-Dev:3039768"
+	compile "curse.maven:AsmodeusCore-Dev:3063158"
 	compile "curse.maven:GSMod-0.0.14:3015062"
 	compile "curse.maven:ExtraPlanets-1.7.0:3031689"
 	runtime "curse.maven:MJRLib-1.2.0:3029769"

@@ -2,7 +2,15 @@
 
 [Added]
 
-  - command /leaverace to leave GC SpaceRace team
-    (Team owners cannot use command)
+  - Ability to unlock Rocket Schematics via Configs
 
-  - Feature to fix planet/star Icon sizes when using AsmodeusCore celestial map
+  - Dimensional-Comets Spawn Rate can be modified per dimension via Configs
+  
+  - Custom Spawn Dimension can be set via Configs
+  
+  - New Version checking system
+  
+  
+[Changed]
+
+  - Overworld-Comets merged into Dimensional-Comets

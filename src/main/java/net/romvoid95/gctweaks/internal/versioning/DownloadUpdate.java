@@ -10,14 +10,9 @@ import java.nio.file.Path;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
-import com.google.gson.JsonObject;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.*;
 
 public class DownloadUpdate {
 
@@ -27,11 +22,9 @@ public class DownloadUpdate {
 
 	public void run () {
 
-		JsonObject obj         = null;
 		URL        downloadUrl = null;
 		try {
-			obj         = Request.get();
-			downloadUrl = new URL(obj.get("downloadUrl").getAsString());
+			downloadUrl = new URL(Request.getLatestVersionDownload());
 		}
 		catch (Exception e) {
 			e.printStackTrace();

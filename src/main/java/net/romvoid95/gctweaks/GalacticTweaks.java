@@ -8,21 +8,16 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLFingerprintViolationEvent;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.network.NetworkCheckHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
+
 import net.romvoid95.gctweaks.base.InternalModule;
 import net.romvoid95.gctweaks.base.Module;
 import net.romvoid95.gctweaks.base.core.proxy.CommonProxy;
-import net.romvoid95.gctweaks.base.core.utils.GameUtil;
-import net.romvoid95.gctweaks.base.core.utils.I18nHelper;
-import net.romvoid95.gctweaks.base.core.utils.LogHelper;
+import net.romvoid95.gctweaks.base.core.utils.*;
 //import net.romvoid95.gctweaks.base.version.CommandDownloadUpdate;
 import net.romvoid95.gctweaks.internal.command.DownloadCommand;
 import net.romvoid95.gctweaks.internal.config.ConfigCore;
@@ -31,10 +26,11 @@ import net.romvoid95.gctweaks.internal.config.ConfigCore;
 public class GalacticTweaks {
 
 	@Instance(Ref.MOD_ID)
-	public static GalacticTweaks instance;
-	public static SimpleNetworkWrapper network = NetworkRegistry.INSTANCE.newSimpleChannel(Ref.MOD_ID);
-	public static LogHelper logger = new LogHelper();
-	public static I18nHelper stringz = new I18nHelper(Ref.MOD_ID, logger, false);
+	public static GalacticTweaks		instance;
+	public static SimpleNetworkWrapper	network		= NetworkRegistry.INSTANCE.newSimpleChannel(Ref.MOD_ID);
+	public static LogHelper				logger		= new LogHelper();
+	public static I18nHelper			stringz		= new I18nHelper(Ref.MOD_ID, logger, false);
+	public static File					modFolder	= null;
 
 	@NetworkCheckHandler
 	public boolean networkCheck(Map<String, String> map, Side side) {
@@ -57,9 +53,10 @@ public class GalacticTweaks {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
+		GalacticTweaks.modFolder = event.getModConfigurationDirectory();
+
 		MinecraftForge.EVENT_BUS.register(this);
-		MinecraftForge.EVENT_BUS
-				.register(new ConfigCore(new File(event.getModConfigurationDirectory(), "GalacticTweaks/core.cfg")));
+		MinecraftForge.EVENT_BUS.register(new ConfigCore(new File(modFolder, "GalacticTweaks/core.cfg")));
 
 		// ==========================================
 		// Internal Modules
@@ -140,7 +137,7 @@ public class GalacticTweaks {
 		// ~ Phase ~ //
 		ModuleController.modules.forEach(module -> module.serverStartingEvent(event));
 
-		if(ConfigCore.enableCheckVersion)
+		if (ConfigCore.enableCheckVersion)
 			event.registerServerCommand(new DownloadCommand());
 	}
 }

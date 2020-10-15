@@ -1,28 +1,21 @@
 package net.romvoid95.gctweaks.internal;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.ICrashCallable;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.ModContainer;
+import net.minecraftforge.fml.common.*;
 import net.minecraftforge.fml.common.versioning.ArtifactVersion;
+
 import net.romvoid95.gctweaks.base.InternalFeature;
-import net.romvoid95.gctweaks.gc.features.galaxyfeature.SeperateAddonPlanets;
+import net.romvoid95.gctweaks.gc.features.galaxy.SeperateAddonPlanets;
 
 public class CrashLogWarning extends InternalFeature {
 
 	private static List<ModContainer>  loaded = Loader.instance().getActiveModList();
-	private static Map<String, String> sets   = new HashMap<String, String>();
-	private static Map<String, String> cores  = new HashMap<String, String>();
-	private static Set<Entry<String, String>> setRemove = new HashSet<Map.Entry<String,String>>();
-	private static Set<Entry<String, String>> coreRemove = new HashSet<Map.Entry<String,String>>();
+	private static Map<String, String> sets   = new HashMap<>();
+	private static Map<String, String> cores  = new HashMap<>();
+	private static Set<Entry<String, String>> setRemove = new HashSet<>();
+	private static Set<Entry<String, String>> coreRemove = new HashSet<>();
 
 	private static String setter  = "\n\t|\t";
 	private static String setter2 = "\t|\t";

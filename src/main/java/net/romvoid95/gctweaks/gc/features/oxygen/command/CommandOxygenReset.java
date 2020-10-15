@@ -1,4 +1,4 @@
-package net.romvoid95.gctweaks.gc.features.oxygenfeature.command;
+package net.romvoid95.gctweaks.gc.features.oxygen.command;
 
 import java.util.List;
 

@@ -20,19 +20,13 @@ package net.romvoid95.gctweaks.internal.config;
 import static net.romvoid95.gctweaks.Ref.*;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
-import net.minecraftforge.common.config.ConfigCategory;
-import net.minecraftforge.common.config.ConfigElement;
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.common.config.Property;
+import net.minecraftforge.common.config.*;
 import net.minecraftforge.fml.client.config.IConfigElement;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
 import net.romvoid95.gctweaks.GalacticTweaks;
 import net.romvoid95.gctweaks.Ref;
 
@@ -46,12 +40,6 @@ public class ConfigCore {
 	}
 
 	public static boolean enableCheckVersion;
-	public static boolean enableOverworldOres;
-	public static boolean enableDebug;
-	public static boolean enableRealism;
-
-	public static boolean warnBetaBuild;
-	public static int configVersion;
 
 	private static Map<String, List<String>> propOrder = new TreeMap<>();
 	private static String currentCat;
@@ -123,7 +111,7 @@ public class ConfigCore {
 	}
 
 	public static List<IConfigElement> getConfigElements() {
-		List<IConfigElement> list = new ArrayList<IConfigElement>();
+		List<IConfigElement> list = new ArrayList<>();
 		ConfigCategory configGeneral = config.getCategory(CATEGORY_CORE);
 		configGeneral.setComment("Core Settings");
 		list.add(new ConfigElement(configGeneral));

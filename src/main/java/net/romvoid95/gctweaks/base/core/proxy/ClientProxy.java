@@ -1,10 +1,10 @@
 package net.romvoid95.gctweaks.base.core.proxy;
 
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.*;
+
 import net.romvoid95.gctweaks.ModuleController;
 import net.romvoid95.gctweaks.base.Module;
+import net.romvoid95.gctweaks.internal.config.ConfigCore;
 //import net.romvoid95.gctweaks.base.version.VersionChecker;
 import net.romvoid95.gctweaks.internal.versioning.VersionChecker;
 
@@ -19,7 +19,9 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void init(FMLInitializationEvent event) {
 		ModuleController.modules.forEach(Module::proxyInit);
-		VersionChecker.init();
+		if (ConfigCore.enableCheckVersion) {
+			VersionChecker.init();
+		}
 		super.init(event);
 	}
 

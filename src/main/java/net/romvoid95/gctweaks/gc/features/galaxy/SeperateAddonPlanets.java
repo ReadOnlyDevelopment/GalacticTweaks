@@ -1,4 +1,4 @@
-package net.romvoid95.gctweaks.gc.features.galaxyfeature;
+package net.romvoid95.gctweaks.gc.features.galaxy;
 
 import asmodeuscore.core.astronomy.BodiesRegistry;
 import net.minecraftforge.common.config.Configuration;

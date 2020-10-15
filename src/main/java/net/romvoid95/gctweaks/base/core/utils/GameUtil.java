@@ -1,11 +1,12 @@
 package net.romvoid95.gctweaks.base.core.utils;
 
+import java.io.IOException;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.launchwrapper.Launch;
+
 import net.minecraftforge.fml.client.FMLClientHandler;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.LoaderState;
+import net.minecraftforge.fml.common.*;
 
 public final class GameUtil {
 	private GameUtil() {
@@ -36,7 +37,12 @@ public final class GameUtil {
 	 * @return True if and only if we are running in a deobfuscated environment
 	 */
 	public static boolean isDeobfuscated() {
-		return (Boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
+		try {
+			return Launch.classLoader.getClassBytes("net.minecraft.world.World") != null;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	public static Minecraft getMinecraft() {
@@ -56,7 +62,7 @@ public final class GameUtil {
 		LoaderState state = Loader.instance().getLoaderState();
 		// These states have no reason to go through tooltips that I can tell, but they
 		// do.
-		return state != LoaderState.INITIALIZATION && state != LoaderState.SERVER_ABOUT_TO_START
-				&& state != LoaderState.SERVER_STOPPING;
+		return (state != LoaderState.INITIALIZATION) && (state != LoaderState.SERVER_ABOUT_TO_START)
+				&& (state != LoaderState.SERVER_STOPPING);
 	}
 }

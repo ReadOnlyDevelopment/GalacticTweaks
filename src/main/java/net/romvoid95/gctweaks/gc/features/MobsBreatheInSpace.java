@@ -2,8 +2,8 @@ package net.romvoid95.gctweaks.gc.features;
 
 import micdoodle8.mods.galacticraft.api.event.oxygen.GCCoreOxygenSuffocationEvent;
 import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
+
+import net.minecraft.entity.*;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -39,7 +39,7 @@ public class MobsBreatheInSpace extends Feature {
 		if (mobsBreatheInSpace) {
 			EntityLivingBase e = event.getEntityLiving();
 			if (e.world.provider instanceof IGalacticraftWorldProvider) {
-				if (e instanceof EntityLiving || e instanceof EntityAnimal) {
+				if (e instanceof EntityLiving || e instanceof EntityAnimal || e instanceof EntityCreature) {
 					event.setCanceled(true);
 				}
 			}

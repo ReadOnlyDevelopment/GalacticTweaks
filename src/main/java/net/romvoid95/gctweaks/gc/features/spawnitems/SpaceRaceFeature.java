@@ -1,9 +1,9 @@
-package net.romvoid95.gctweaks.gc.features.sprfeature;
+package net.romvoid95.gctweaks.gc.features.spawnitems;
 
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.romvoid95.gctweaks.base.Feature;
-import net.romvoid95.gctweaks.gc.features.sprfeature.command.CommandLeaveSpaceRace;
+import net.romvoid95.gctweaks.gc.features.spawnitems.command.CommandLeaveSpaceRace;
 
 public class SpaceRaceFeature extends Feature {
 

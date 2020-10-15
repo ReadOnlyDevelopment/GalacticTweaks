@@ -2,11 +2,11 @@ package net.romvoid95.gctweaks.gc;
 
 import net.romvoid95.gctweaks.base.Module;
 import net.romvoid95.gctweaks.gc.features.*;
-import net.romvoid95.gctweaks.gc.features.DimensionalComets;
-import net.romvoid95.gctweaks.gc.features.galaxyfeature.SeperateAddonPlanets;
-import net.romvoid95.gctweaks.gc.features.generation.DisableDungeonGeneration;
-import net.romvoid95.gctweaks.gc.features.oxygenfeature.SpawnWithOxygenEquip;
-import net.romvoid95.gctweaks.gc.features.sprfeature.SpaceRaceFeature;
+import net.romvoid95.gctweaks.gc.features.galaxy.SeperateAddonPlanets;
+import net.romvoid95.gctweaks.gc.features.oxygen.SpawnWithOxygenEquip;
+import net.romvoid95.gctweaks.gc.features.schematic.UnlockSchematics;
+import net.romvoid95.gctweaks.gc.features.spawndim.SpawnDimension;
+import net.romvoid95.gctweaks.gc.features.spawnitems.SpaceRaceFeature;
 
 public class GalacticraftModule extends Module {
 
@@ -25,8 +25,7 @@ public class GalacticraftModule extends Module {
 		registerFeature(new FixAsmodeusMapIcons());
 		registerFeature(new DimensionalComets());
 		registerFeature(new UnlockSchematics());
-
-		//registerFeature(new OverworldComets()); No longer needed. Replaced with DimensionalComets.java
-		//registerFeature(new DisableDungeonGeneration()); I couldn't figure this our right now. Later
+		registerFeature(new SpawnDimension());
+		
 	}
 }

@@ -1,17 +1,16 @@
-package net.romvoid95.gctweaks.gc.features.galaxyfeature;
+package net.romvoid95.gctweaks.gc.features.galaxy;
 
 import com.mjr.extraplanets.planets.ExtraPlanets_Planets;
 
-import galaxyspace.systems.SolarSystem.SolarSystemBodies;
-import micdoodle8.mods.galacticraft.api.galaxies.CelestialBody;
+import net.minecraft.util.ResourceLocation;
+
+import micdoodle8.mods.galacticraft.api.galaxies.*;
 import micdoodle8.mods.galacticraft.api.galaxies.CelestialBody.ScalableDistance;
-import micdoodle8.mods.galacticraft.api.galaxies.GalaxyRegistry;
-import micdoodle8.mods.galacticraft.api.galaxies.Planet;
-import micdoodle8.mods.galacticraft.api.galaxies.SolarSystem;
 import micdoodle8.mods.galacticraft.api.world.EnumAtmosphericGas;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
 import micdoodle8.mods.galacticraft.planets.asteroids.AsteroidsModule;
-import net.minecraft.util.ResourceLocation;
+
+import galaxyspace.systems.SolarSystem.SolarSystemBodies;
 
 public class GCPlanets {
 	public static Planet FAKE_OVERWORLD;
@@ -74,7 +73,7 @@ public class GCPlanets {
 		planet.setRelativeSize(1.0F);
 		planet.setBodyIcon(new ResourceLocation("galacticraftcore:textures/gui/celestialbodies/earth.png"));
 		planet.atmosphereComponent(EnumAtmosphericGas.NITROGEN).atmosphereComponent(EnumAtmosphericGas.OXYGEN)
-				.atmosphereComponent(EnumAtmosphericGas.ARGON).atmosphereComponent(EnumAtmosphericGas.WATER);
+		.atmosphereComponent(EnumAtmosphericGas.ARGON).atmosphereComponent(EnumAtmosphericGas.WATER);
 		planet.setUnreachable();
 		GalaxyRegistry.registerPlanet(planet);
 	}
