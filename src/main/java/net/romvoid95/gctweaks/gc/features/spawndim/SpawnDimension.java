@@ -52,7 +52,7 @@ public class SpawnDimension extends Feature {
 				+ "every death respawn.\n [default: false]").getBoolean();
 		spawnDimId = config.get(category[0], "spawnDimId", 0,
 				"Set the Dimension ID of the planet/moon you want players join on\n"
-						+ "There is a file under this one called ValidSpawnDimsneions.txt\n"
+						+ "There is a file under this one called ValidSpawnDimensions.txt\n"
 						+ "that will contain every valid dimension ID you can set").getInt();
 
 	}
@@ -104,7 +104,7 @@ public class SpawnDimension extends Feature {
 	}
 
 	private static boolean creatFile() {
-		File dims = new File(GalacticTweaks.modFolder, "GalacticTweaks/ValidSpawnDimsneions.txt");
+		File dims = new File(GalacticTweaks.modFolder, "GalacticTweaks/ValidSpawnDimensions.txt");
 		if (dims.exists()) {
 			dims.delete();
 		}
