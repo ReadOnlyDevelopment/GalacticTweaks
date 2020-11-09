@@ -20,6 +20,7 @@ public class SpawnDimension extends Feature {
 	private static boolean	enableSpawnDimension, firstJoinOnly, everyDeath, useCoord;
 	private static int		spawnDimId;
 	private static int[]    sPos;
+	private static String   spawnPos;
 
 	@Override
 	public String category() {
@@ -44,7 +45,7 @@ public class SpawnDimension extends Feature {
 		spawnDimId = set(category, "dimensionId",
 				"Set the Dimension ID of the planet/moon you want players join on\n"
 						+ "see file under `config\\GalacticTweaks\\ValidDimensions.txt` for valid dimension ID's\n", 0);
-		sPos = set(category, "spawnCoords", "Set the spawn position for players to spawn at", new int[] {128, 64, 128});
+		spawnPos = set(category, "spawnCoords", "Set the spawn position for players to spawn at", "128,64,128");
 
 	}
 
@@ -85,8 +86,9 @@ public class SpawnDimension extends Feature {
 		BlockPos pos;;
 		MinecraftServer mcServer = player.getServer();
 		final WorldServer world = mcServer.getWorld(dimId);
+		String[] spawnString = spawnPos.split(",");
 		if(useCoord) {
-			pos = new BlockPos(sPos[0], sPos[1], sPos[2]);
+			pos = new BlockPos(Integer.valueOf(spawnString[0]), Integer.valueOf(spawnString[1]), Integer.valueOf(spawnString[2]));
 		} else {
 			int y = world.getChunkFromBlockCoords(world.getSpawnPoint()).getHeight(world.getSpawnPoint());
 			pos = new BlockPos(world.getSpawnPoint().getX(), y, world.getSpawnPoint().getZ());
