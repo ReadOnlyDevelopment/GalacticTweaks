@@ -31,6 +31,7 @@ public class SpawnWithOxygenEquip extends Feature {
 
 	@Override
 	public String category () {
+		
 		return  "spawnItems" ;
 	}
 
