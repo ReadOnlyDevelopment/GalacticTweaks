@@ -19,7 +19,6 @@ public class SpawnDimension extends Feature {
 
 	private static boolean	enableSpawnDimension, firstJoinOnly, everyDeath, useCoord;
 	private static int		spawnDimId;
-	private static int[]    sPos;
 	private static String   spawnPos;
 
 	@Override
