@@ -5,15 +5,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Config.Type;
+import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.romvoid95.gctweaks.GalacticTweaks;
+import net.romvoid95.gctweaks.Ref;
+import net.romvoid95.gctweaks.base.core.ConfigBase;
+import net.romvoid95.gctweaks.base.core.ConfigBase.ConfigVersion;
 
 public abstract class Module {
 	private List<Feature>         features  = new ArrayList<>();
 	private String                name;
-	private Configuration         config;
+	public static ConfigBase      config;
+	private ConfigVersion         cfgVersion = new ConfigVersion(1, 1, 0);
 	private boolean               setConfig;
 
 	public Module(String name) {
@@ -42,8 +48,9 @@ public abstract class Module {
 	public void setupConfig (FMLPreInitializationEvent event) {
 		if (setConfig) {
 			File file = new File(event.getModConfigurationDirectory().toString() + "/GalacticTweaks/" + name + ".cfg");
-			config = new Configuration(file, "3");
-			config.load();
+			config = new ConfigBase(file, cfgVersion); 
+			ConfigManager.sync(Ref.MOD_ID, Type.INSTANCE);
+			config.getConfig().load();
 		}
 	}
 
@@ -68,7 +75,7 @@ public abstract class Module {
 	}
 
 	public Configuration getConfig () {
-		return config;
+		return config.getConfig();
 	}
 
 	/**
@@ -76,10 +83,12 @@ public abstract class Module {
 	 */
 	public void syncConfig () {
 		features.forEach(feature -> {
-			feature.syncConfig(config, feature.category());
-			config.addCustomCategoryComment(feature.category()[0], feature.comment());
-			if (config.hasChanged())
-				config.save();
+			feature.syncConfig(feature.category());
+			config.addElement(feature.category());
+			config.getConfig().addCustomCategoryComment(feature.category(), feature.comment());
+			config.getConfig().setCategoryPropertyOrder(feature.category(), feature.propOrder);
+			if (config.getConfig().hasChanged())
+				config.getConfig().save();
 		});
 	}
 
@@ -87,7 +96,7 @@ public abstract class Module {
 		features.add(feature);
 	}
 
-	public void registerPacket (SimpleNetworkWrapper network) {
-		features.forEach(feature -> feature.registerPacket(network));
+	public void registerPacket () {
+		features.forEach(feature -> feature.registerPacket(GalacticTweaks.network));
 	}
 }

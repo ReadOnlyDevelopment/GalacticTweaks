@@ -17,16 +17,23 @@
 
 package net.romvoid95.gctweaks.internal.config;
 
-import static net.romvoid95.gctweaks.Ref.*;
+import static net.romvoid95.gctweaks.Ref.CATEGORY_CORE;
+import static net.romvoid95.gctweaks.Ref.CATEGORY_CORE_LANGKEY;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
-import net.minecraftforge.common.config.*;
+import net.minecraftforge.common.config.ConfigCategory;
+import net.minecraftforge.common.config.ConfigElement;
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.client.config.IConfigElement;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
 import net.romvoid95.gctweaks.GalacticTweaks;
 import net.romvoid95.gctweaks.Ref;
 
@@ -40,6 +47,7 @@ public class ConfigCore {
 	}
 
 	public static boolean enableCheckVersion;
+	public static boolean enableDebugOutput;
 
 	private static Map<String, List<String>> propOrder = new TreeMap<>();
 	private static String currentCat;
@@ -62,6 +70,12 @@ public class ConfigCore {
 			prop.setComment("Enable/Disable Check Version");
 			prop.setLanguageKey("galactictweaks.configgui.enableCheckVersion");
 			enableCheckVersion = prop.getBoolean(true);
+			finishProp(prop);
+			
+			prop = getConfig(CATEGORY_CORE, "enableDebugOutput", false);
+			prop.setComment("Enable/Disable Debug Information in Logs");
+			prop.setLanguageKey("galactictweaks.configgui.enableDebugOutput");
+			enableDebugOutput = prop.getBoolean(false);
 			finishProp(prop);
 
 			if (config.hasChanged()) {

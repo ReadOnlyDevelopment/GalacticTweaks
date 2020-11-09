@@ -7,11 +7,10 @@ import asmodeuscore.core.configs.AsmodeusConfig;
 import micdoodle8.mods.galacticraft.api.galaxies.GalaxyRegistry;
 import micdoodle8.mods.galacticraft.api.galaxies.Planet;
 import micdoodle8.mods.galacticraft.api.galaxies.SolarSystem;
-import net.minecraftforge.common.config.Configuration;
 import net.romvoid95.gctweaks.base.Feature;
 import net.romvoid95.gctweaks.base.core.compat.CompatMods;
 
-public class FixAsmodeusMapIcons extends Feature {
+public class FixAsmodeusMapIcons extends Feature  {
 
 	public static boolean fixIcons;
 
@@ -21,15 +20,13 @@ public class FixAsmodeusMapIcons extends Feature {
 	}
 
 	@Override
-	public String[] category () {
-		return new String[] { "fix-icons" };
+	public String category () {
+		return  "asmodeusMapIcons";
 	}
 
 	@Override
-	public void syncConfig (Configuration config, String[] category) {
-		fixIcons = config
-				.get(category[0], "fixAsmodeusMapIcons", false, "Set to true to enable Fix Icons feature\nOnly affects icons if enableNewGalaxyMap is enabled in 'Asmodeuscore/core.conf'")
-				.getBoolean();
+	public void syncConfig (String category) {
+		fixIcons = set(category, "enableFeature", false);
 	}
 
 	@Override

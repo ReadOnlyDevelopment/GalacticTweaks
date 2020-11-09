@@ -21,17 +21,16 @@ import micdoodle8.mods.galacticraft.api.recipe.CompressorRecipes;
 import micdoodle8.mods.galacticraft.core.GCItems;
 import micdoodle8.mods.galacticraft.planets.asteroids.items.AsteroidsItems;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
 import net.romvoid95.gctweaks.base.Feature;
 
-public class CompressorFixes extends Feature {
+public class CompressorFixes extends Feature  {
 
 	private static boolean compressorFix;
 
 	@Override
-	public String[] category() {
-		return new String[] {"compressor-enhancement"};
+	public String category() {
+		return "compressorFixes";
 	}
 
 	@Override
@@ -40,8 +39,8 @@ public class CompressorFixes extends Feature {
 	}
 
 	@Override
-	public void syncConfig(Configuration config, String[] category) {
-		compressorFix = config.get(category[0], "compressorFix", false, "Set to true if you want to register Compressor Fixes").getBoolean();
+	public void syncConfig(String category) {
+		compressorFix = set(category, "enableFeature", false);
 	}
 
 	@Override

@@ -1,14 +1,10 @@
 package net.romvoid95.gctweaks.gc.features.schematic;
 
+import micdoodle8.mods.galacticraft.api.recipe.SchematicRegistry;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
-
-import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
-
-import micdoodle8.mods.galacticraft.api.recipe.SchematicRegistry;
-
 import net.romvoid95.gctweaks.GalacticTweaks;
 import net.romvoid95.gctweaks.base.Feature;
 
@@ -18,8 +14,8 @@ public class UnlockSchematics extends Feature {
 	private static int[]	schematicID;
 
 	@Override
-	public String[] category() {
-		return new String[] { "unlock-schematics" };
+	public String category() {
+		return  "unlockSchematics";
 	}
 
 	@Override
@@ -28,11 +24,10 @@ public class UnlockSchematics extends Feature {
 	}
 
 	@Override
-	public void syncConfig(Configuration config, String[] category) {
-		unlockSchematicsOnJoin = config.get(category[0], "unlock-schematics", false,
-				"Set to true unlock schematics specified in config on player join.\nYou can see what schematic IDs are in GC by default in configs.").getBoolean();
-		schematicID = config.get(category[0], "schematic-ids", new int[] { 0, 1, 2, 3, 4 },
-				"Check galacticraft/addon config for schematic IDs").getIntList();
+	public void syncConfig(String category) {
+		unlockSchematicsOnJoin = set(category, "enableFeature", false);
+		schematicID = set(category, "idList", "Check galacticraft/addon config for schematic IDs", new int[] { 0, 1, 2, 3, 4 });
+
 	}
 
 	@Override

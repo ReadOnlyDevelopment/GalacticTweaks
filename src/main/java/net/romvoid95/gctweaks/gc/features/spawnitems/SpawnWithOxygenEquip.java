@@ -1,14 +1,4 @@
-package net.romvoid95.gctweaks.gc.features.oxygen;
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+package net.romvoid95.gctweaks.gc.features.spawnitems;
 
 import micdoodle8.mods.galacticraft.core.GCItems;
 import micdoodle8.mods.galacticraft.core.entities.player.GCCapabilities;
@@ -16,53 +6,52 @@ import micdoodle8.mods.galacticraft.core.entities.player.GCPlayerStats;
 import micdoodle8.mods.galacticraft.core.inventory.InventoryExtended;
 import micdoodle8.mods.galacticraft.planets.asteroids.items.AsteroidsItems;
 import micdoodle8.mods.galacticraft.planets.venus.VenusItems;
-
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.romvoid95.gctweaks.Ref;
 import net.romvoid95.gctweaks.base.Feature;
-import net.romvoid95.gctweaks.gc.features.oxygen.command.CommandOxygenReset;
+import net.romvoid95.gctweaks.gc.features.spawnitems.command.CommandOxygenReset;
 
 public class SpawnWithOxygenEquip extends Feature {
+	
+	private boolean         spawnWithOxygenEquip;
+	private boolean         includeParachute;
+	private boolean         includeFreqModule;
+	private boolean         includeShieldController;
+	private boolean         includeThermals;
+	private static String   tanksValue;
+	private static String   thermalArmor;
+	private static String[] validValues   = { "light", "medium", "heavy" };
+	private static String[] validThermals = { "thermal", "isothermal" };
 
 	@Override
-	public String[] category () {
-		return new String[] { "spawn-with-oxygen-equipment" };
+	public String category () {
+		return  "spawnItems" ;
 	}
 
 	@Override
 	public String comment () {
 		return "Allows Players to Spawn With Oxygen Items Equipped";
 	}
-
-	private boolean         spawnWithOxygenEquip;
-	private boolean         includeParachute;
-	private static String   tanksValue;
-	private static String[] validValues   = { "light", "medium", "heavy" };
-	private static String   thermalArmor;
-	private static String[] validThermals = { "thermal", "isothermal" };
-	private boolean         includeFreqModule;
-	private boolean         includeShieldController;
-
+	
 	@Override
-	public void syncConfig (Configuration config, String[] category) {
-		spawnWithOxygenEquip    = config.get(category[0], "00-Spawn With Oxygen-Gear", false, "[default: false]")
-				.getBoolean();
-		tanksValue              = config
-				.get(category[0], "01-Spawn With Oxygen Tank Tier", "light", "[valid: light | medium | heavy, default: light]", validValues)
-				.getString();
-		thermalArmor            = config
-				.get(category[0], "01-Spawn With Thermal Armor", "thermal", "[valid: thermal | isothermal, default: thermal]", validThermals)
-				.getString();
-		includeParachute        = config
-				.get(category[0], "02-Spawn With Parachute", false, "**False IF \"00-Spawn With Oxygen-Gear\" Is Disabled**\n[default: false] ")
-				.getBoolean();
-		includeFreqModule       = config
-				.get(category[0], "02-Spawn With Frequency Module", false, "**False IF \"00-Spawn With Oxygen-Gear\" Is Disabled**\n[default: false] ")
-				.getBoolean();
-		includeShieldController = config
-				.get(category[0], "02-Spawn With Shield Controller", false, "**False IF \"00-Spawn With Oxygen-Gear\" Is Disabled**\n[default: false]")
-				.getBoolean();
+	public void syncConfig (String category) {
+		
+		spawnWithOxygenEquip    = set(category, "enableFeature", true);
+		tanksValue              = setFormated(category, "tankProp", "light", validValues);
+		thermalArmor            = setFormated(category, "thermalProp", "thermal", validThermals);
+		includeThermals			= set(category, "enableThermals",  "Always FALSE if \"enableFeature\" = FALSE", false);
+		includeParachute        = set(category, "enableParachute", "Always FALSE if \"enableFeature\" = FALSE", false);
+		includeFreqModule       = set(category, "enableFreqModule", "Always FALSE if \"enableFeature\" = FALSE", false);
+		includeShieldController = set(category, "enableShieldItem", "Always FALSE if \"enableFeature\" = FALSE", false);
 
 		if (spawnWithOxygenEquip == false) {
+			includeThermals			= false;
 			includeParachute        = false;
 			includeFreqModule       = false;
 			includeShieldController = false;
@@ -100,10 +89,12 @@ public class SpawnWithOxygenEquip extends Feature {
 				if (includeFreqModule) {
 					inv.setInventorySlotContents(5, getStack(GCItems.basicItem, 19));
 				}
-				inv.setInventorySlotContents(6, setThermals(0));
-				inv.setInventorySlotContents(7, setThermals(1));
-				inv.setInventorySlotContents(8, setThermals(2));
-				inv.setInventorySlotContents(9, setThermals(3));
+				if(includeThermals) {
+					inv.setInventorySlotContents(6, setThermals(0));
+					inv.setInventorySlotContents(7, setThermals(1));
+					inv.setInventorySlotContents(8, setThermals(2));
+					inv.setInventorySlotContents(9, setThermals(3));
+				}
 				gcstats.setExtendedInventory(inv);
 				persistedData.setBoolean(key, true);
 			}

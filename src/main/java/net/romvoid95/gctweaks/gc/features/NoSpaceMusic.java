@@ -6,15 +6,14 @@ import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
 import micdoodle8.mods.galacticraft.core.util.GCCoreUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MusicTicker;
-import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.romvoid95.gctweaks.base.Feature;
 
-public class NoSpaceMusic extends Feature {
+public class NoSpaceMusic extends Feature  {
 
 	@Override
-	public String[] category() {
-		return new String[] {"music"};
+	public String category() {
+		return "noSpaceMusic";
 	}
 
 	@Override
@@ -25,8 +24,8 @@ public class NoSpaceMusic extends Feature {
 	private boolean disableSpaceMusic;
 
 	@Override
-	public void syncConfig(Configuration config, String[] category) {
-		disableSpaceMusic = config.get(category[0], "disableSpaceMusic", false, "Set to true if you want to disable the music played on Galacticraft Planets").getBoolean();
+	public void syncConfig(String category) {
+		disableSpaceMusic = set(category, "enableFeature", false);
 	}
 
 	@Override

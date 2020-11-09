@@ -1,18 +1,14 @@
 package net.romvoid95.gctweaks.gc.features;
 
+import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
+import micdoodle8.mods.galacticraft.core.entities.EntityMeteor;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-
-import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
-import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
-import micdoodle8.mods.galacticraft.core.entities.EntityMeteor;
-
 import net.romvoid95.gctweaks.base.Feature;
 
 public class DimensionalComets extends Feature {
@@ -21,21 +17,24 @@ public class DimensionalComets extends Feature {
 	private static String[]	dimensionID_spawnrate;
 
 	@Override
-	public String[] category() {
-		return new String[] { "dimensional-comets" };
+	public String category() {
+		return  "dimensionComets";
 	}
 
 	@Override
 	public String comment() {
-		return "You can specify where asteroids will drop via dimension IDs\nCheck GC dimension ID's here https://wiki.micdoodle8.com/wiki/Dimensions";
+		return ">> INFO: Comets will not be allowed to spawn in the Nether <<\n"
+				+ "specify where and how often asteroids will drop in set dimensions\n"
+				+ "see file under `config\\GalacticTweaks\\ValidDimensions.txt` for valid dimension ID's\n";
 	}
 
 	@Override
-	public void syncConfig(Configuration config, String[] category) {
-		cometModification = config.get(category[0], "comet-modification", false,
-				"Set to true to specify what new dimensions asteroids drop").getBoolean();
-		dimensionID_spawnrate = config.get(category[0], "dimension-id", new String[] { "0:1.0", "1:2.0" },
-				"Data consisting of which Dimensions meteors will spawn in and the spawn-rate modification value.\nSpec: <dimID:rate> (Ex: -1:3.5)").getStringList();
+	public void syncConfig(String category) {
+		cometModification = set(category, "enableFeature", false);
+		//dimensionID_spawnrate = set(category, key, defaultValue)
+		dimensionID_spawnrate = set(category, "cometData",
+				"Data consisting of which Dimensions meteors will spawn in and the spawn-rate modification value.\nSpec: <dimID:rate> (Ex: -29:3.5)", 
+				new String[] { "0:1.0", "1:2.0" });
 	}
 
 	@Override
@@ -64,9 +63,15 @@ public class DimensionalComets extends Feature {
 	protected void meteors(EntityPlayerMP player, int dimensionid, double spawnRate) {
 		World world = player.world;
 		int f;
+		if(world.provider.getDimensionType().getId() == -1) {
+			return;
+		}
 		if (world.provider.getDimensionType().getId() == dimensionid && !world.isRemote) {
 			if (world.provider instanceof IGalacticraftWorldProvider) {
-				f = (int) (((IGalacticraftWorldProvider) world.provider).getMeteorFrequency() * 750D * (1.0 / spawnRate));
+				IGalacticraftWorldProvider provider = (IGalacticraftWorldProvider) world.provider;
+				double x = provider.getMeteorFrequency();
+				f = (int) ((provider.getMeteorFrequency() - x) * 750D * (1.0 / spawnRate));
+				
 			} else {
 				f = (int) (750D * (1.0 / spawnRate));
 			}

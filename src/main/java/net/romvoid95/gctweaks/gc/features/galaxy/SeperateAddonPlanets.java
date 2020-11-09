@@ -1,7 +1,6 @@
 package net.romvoid95.gctweaks.gc.features.galaxy;
 
 import asmodeuscore.core.astronomy.BodiesRegistry;
-import net.minecraftforge.common.config.Configuration;
 import net.romvoid95.gctweaks.base.Feature;
 import net.romvoid95.gctweaks.base.core.compat.CompatMods;
 
@@ -9,10 +8,11 @@ public class SeperateAddonPlanets extends Feature {
 
 	public static boolean seperatePlanets;
 	public static String  modid;
+	private String[] valid = {"none" , "extraplanets", "galaxyspace"};
 
 	@Override
-	public String[] category () {
-		return new String[] { "new-galaxy" };
+	public String category () {
+		return "seperatePlanets" ;
 	}
 
 	@Override
@@ -23,19 +23,13 @@ public class SeperateAddonPlanets extends Feature {
 	}
 
 	@Override
-	public void syncConfig (Configuration config, String[] category) {
-		seperatePlanets = config
-				.get(category[0], "00-Seperate Duplicate Planets", false, "Set to true if you want Seperate Addon Planets\n"
-						+ "Note: AsmodeusCore, ExtraPlanets & GalaxySpace must be installed ")
-				.getBoolean();
-		modid           = config
-				.get(category[0], "01-Addon Planets To Move", "none", "[valid: extraplanets | galaxyspace | none, default: none]", new String[] {
-						"extraplanets", "galaxyspace" })
-				.getString();
+	public void syncConfig (String category) {
+		seperatePlanets = set(category, "enableFeature", false);
+		modid           = setFormated(category, "planetsFromMod", "none", valid);
 	}
 
 	@Override
-	public void preInit () {
+	public void postInit () {
 		if (seperatePlanets && CompatMods.EXTRAPLANETS.isLoaded() && CompatMods.GALAXYSPACE.isLoaded()) {
 			BodiesRegistry.setMaxTier(10);
 			

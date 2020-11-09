@@ -1,17 +1,16 @@
-package net.romvoid95.gctweaks.gc.features.spawnitems;
+package net.romvoid95.gctweaks.gc.features.spacerace;
 
-import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.romvoid95.gctweaks.base.Feature;
-import net.romvoid95.gctweaks.gc.features.spawnitems.command.CommandLeaveSpaceRace;
+import net.romvoid95.gctweaks.gc.features.spacerace.command.CommandLeaveSpaceRace;
 
 public class SpaceRaceFeature extends Feature {
 
 	private static boolean spacerace;
 
 	@Override
-	public String[] category () {
-		return new String[] { "space-race" };
+	public String category () {
+		return "spaceRaceCommand";
 	}
 
 	@Override
@@ -20,10 +19,8 @@ public class SpaceRaceFeature extends Feature {
 	}
 
 	@Override
-	public void syncConfig (Configuration config, String[] category) {
-		spacerace = config
-				.get(category[0], "Enable SpaceRace Feature", false, "Set to true if you want to enable features for Galacticraft SpaceRace")
-				.getBoolean();
+	public void syncConfig (String category) {
+		spacerace = set(category, "enableFeature", false);
 	}
 
 	@Override

@@ -5,7 +5,7 @@ import java.util.List;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.romvoid95.gctweaks.GalacticTweaks;
 
 public abstract class InternalModule {
 	private List<InternalFeature> internals = new ArrayList<>();
@@ -55,7 +55,7 @@ public abstract class InternalModule {
 		internals.add(feature);
 	}
 
-	public void registerPacket (SimpleNetworkWrapper network) {
-		internals.forEach(feature -> feature.registerPacket(network));
+	public void registerPacket () {
+		internals.forEach(feature -> feature.registerPacket(GalacticTweaks.network));
 	}
 }

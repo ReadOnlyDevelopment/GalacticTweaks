@@ -1,4 +1,4 @@
-package net.romvoid95.gctweaks.gc.features.oxygen.command;
+package net.romvoid95.gctweaks.gc.features.spawnitems.command;
 
 import java.util.List;
 
