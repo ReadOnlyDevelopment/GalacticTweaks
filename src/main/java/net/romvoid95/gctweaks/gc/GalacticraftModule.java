@@ -7,6 +7,7 @@ import net.romvoid95.gctweaks.gc.features.FixAsmodeusMapIcons;
 import net.romvoid95.gctweaks.gc.features.MobsBreatheInSpace;
 import net.romvoid95.gctweaks.gc.features.NoSpaceMusic;
 import net.romvoid95.gctweaks.gc.features.SpawnDimension;
+import net.romvoid95.gctweaks.gc.features.breathable.OxygenPlanets;
 import net.romvoid95.gctweaks.gc.features.galaxy.SeperateAddonPlanets;
 import net.romvoid95.gctweaks.gc.features.schematic.UnlockSchematics;
 import net.romvoid95.gctweaks.gc.features.spacerace.SpaceRaceFeature;
@@ -30,6 +31,7 @@ public class GalacticraftModule extends Module {
 		registerFeature(new DimensionalComets());
 		registerFeature(new UnlockSchematics());
 		registerFeature(new SpawnDimension());
+		registerFeature(new OxygenPlanets());
 		
 	}
 }
