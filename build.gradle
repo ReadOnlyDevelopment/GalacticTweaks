@@ -110,7 +110,7 @@ dependencies {
 
 	// LOAD GC ADDONS
 	compile "com.mjr.planetprogression:PlanetProgression:1.12.2-0.4.5:api"
-	compile "curse.maven:AsmodeusCore-Dev:3063158"
+	compile "curse.maven:AsmodeusCore-Dev:3117821"
 	compile "curse.maven:GSMod-0.0.14:3015062"
 	compile "curse.maven:ExtraPlanets-1.7.0:3031689"
 	runtime "curse.maven:MJRLib-1.2.0:3029769"
