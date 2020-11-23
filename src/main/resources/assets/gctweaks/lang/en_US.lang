@@ -20,3 +20,13 @@ galactictweaks.versions.startingDownload2=[{"text":" Consider supporting ","colo
 galactictweaks.versions.doneDownloading=Finished downloading . . . . . Delete your old GalacticTweaks jar and reload your game to update.
 galactictweaks.versions.downloadedAlready=You already downloaded the latest version. Close your game, delete the old version from your mods folder and load it again to update!
 galactictweaks.versions.downloadingAlready=The update is already downloading, give it some time, will you?
+
+galactictweaks.disabler.mod_options=Mod Options
+galactictweaks.disabler.subtitle_true=(Double Click in the list to disable) 
+galactictweaks.disabler.subtitle_false=(Double Click in the list to enable)
+galactictweaks.disabler.website=View Mod Website
+galactictweaks.disabler.needs_restart=Game Restart Required
+galactictweaks.disabler.name=Player's Choice
+galactictweaks.disabler.info=Since this is your first time playing this modpack, please select which optional mods you want to play with.
+galactictweaks.disabler.ok=OK
+galactictweaks.disabler.no_category=Uncategorized

@@ -2,15 +2,16 @@ package net.romvoid95.gctweaks.internal.versioning;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.text.*;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
-
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.relauncher.Side;
-
 import net.romvoid95.api.versioning.Version;
 import net.romvoid95.gctweaks.Ref;
 
@@ -29,6 +30,7 @@ public final class VersionChecker {
 		new ThreadVersionChecker();
 	}
 
+	@SuppressWarnings("deprecation")
 	@SubscribeEvent
 	public static void onTick (ClientTickEvent event) {
 		if (event.phase == Phase.END && Minecraft.getMinecraft().player != null && !triedToWarnPlayer && doneChecking) {

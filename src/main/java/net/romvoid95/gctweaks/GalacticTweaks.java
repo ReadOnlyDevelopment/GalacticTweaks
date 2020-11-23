@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.LoaderState.ModState;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -44,6 +45,8 @@ public class GalacticTweaks {
 
 	@SidedProxy(clientSide = "net.romvoid95.gctweaks.base.core.proxy.ClientProxy", serverSide = "net.romvoid95.gctweaks.base.core.proxy.CommonProxy")
 	public static CommonProxy proxy;
+	
+	public static final int PRE_INIT = ModState.PREINITIALIZED.ordinal();
 	
 	@SuppressWarnings("serial")
 	private static List<IHandler> registers = new ArrayList<IHandler>() {{

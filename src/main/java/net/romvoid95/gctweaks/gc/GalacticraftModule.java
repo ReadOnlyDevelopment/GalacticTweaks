@@ -31,7 +31,6 @@ public class GalacticraftModule extends Module {
 		registerFeature(new DimensionalComets());
 		registerFeature(new UnlockSchematics());
 		registerFeature(new SpawnDimension());
-		registerFeature(new OxygenToggle());
-		
+		registerFeature(new OxygenToggle());	
 	}
 }

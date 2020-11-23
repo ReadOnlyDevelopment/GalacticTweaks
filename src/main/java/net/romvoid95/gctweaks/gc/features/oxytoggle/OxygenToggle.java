@@ -10,14 +10,12 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.romvoid95.gctweaks.base.Feature;
-import net.romvoid95.gctweaks.base.core.TickHandlerClientOverride;
 
 public class OxygenToggle extends Feature {
 
 	private static boolean oxygenToggle;
 	private int[] setDimsBreatheable;
 	private int[] setDimsNonBreatheable;
-	private TickHandlerClientOverride clientHandler;
 
 	@Override
 	public String comment() {
@@ -52,7 +50,8 @@ public class OxygenToggle extends Feature {
 				if (setDimsBreatheable.length == 0) {
 					return;
 				}
-				if (player.world.provider.getDimensionType().getId() == dimId) {
+				if (player.world.provider.getDimensionType().getId() == dimId
+						&& player.world.provider instanceof IGalacticraftWorldProvider) {
 					event.setCanceled(true);
 				}
 			}
@@ -66,22 +65,21 @@ public class OxygenToggle extends Feature {
 				return;
 			}
 			final EntityLivingBase entityLiving = event.getEntityLiving();
-			if (entityLiving instanceof EntityPlayer && entityLiving.ticksExisted % ConfigManagerCore.suffocationCooldown == 0) {
-				IGalacticraftWorldProvider galacticraftWorldProvider = (IGalacticraftWorldProvider) entityLiving.world.provider;
-				if (galacticraftWorldProvider.hasBreathableAtmosphere()) {
-					for (int dimId : setDimsNonBreatheable) {
-						if (entityLiving.world.provider.getDimensionType().getId() == dimId) {
-							GCCoreOxygenSuffocationEvent suffocationEvent = new GCCoreOxygenSuffocationEvent.Pre(
-									entityLiving);
-							MinecraftForge.EVENT_BUS.post(suffocationEvent);
+			if (entityLiving instanceof EntityPlayer
+					&& entityLiving.ticksExisted % ConfigManagerCore.suffocationCooldown == 0) {
+				for (int dimId : setDimsNonBreatheable) {
+					if (entityLiving.world.provider.getDimensionType().getId() == dimId) {
+						GCCoreOxygenSuffocationEvent suffocationEvent = new GCCoreOxygenSuffocationEvent.Pre(
+								entityLiving);
+						MinecraftForge.EVENT_BUS.post(suffocationEvent);
 
-							entityLiving.attackEntityFrom(DamageSourceGC.oxygenSuffocation,
-									Math.max(ConfigManagerCore.suffocationDamage / 2, 1));
+						entityLiving.attackEntityFrom(DamageSourceGC.oxygenSuffocation,
+								Math.max(ConfigManagerCore.suffocationDamage / 2, 1));
 
-							GCCoreOxygenSuffocationEvent suffocationEventPost = new GCCoreOxygenSuffocationEvent.Post(
-									entityLiving);
-							MinecraftForge.EVENT_BUS.post(suffocationEventPost);
-						}
+						GCCoreOxygenSuffocationEvent suffocationEventPost = new GCCoreOxygenSuffocationEvent.Post(
+								entityLiving);
+						MinecraftForge.EVENT_BUS.post(suffocationEventPost);
+
 					}
 				}
 			}
