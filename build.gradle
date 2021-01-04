@@ -11,7 +11,6 @@ buildscript {
 	}
 	dependencies {
 		classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-		classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7"
 	}
 }
 
@@ -19,11 +18,9 @@ plugins {
 	id 'com.matthewprenger.cursegradle' version '1.4.0'
 	id 'net.ltgt.apt' version '0.10'
 	id 'eclipse'
-	id "jacoco"
 }
 
 apply plugin: "java"
-apply plugin: "org.sonarqube"
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 
@@ -54,18 +51,6 @@ project.ext {
 apply from: "https://raw.githubusercontent.com/ReadOnly-Mods/Misc/master/Gradle/gcdevfiles.gradle"
 // ==========================================
 
-sonarqube {
-	properties {
-		property 'sonar.GalacticTweaks', 'GalacticTweaks SonarQube Scanner'
-	}
-}
-
-jacocoTestReport {
-	reports {
-		xml.enabled true
-	}
-}
-
 repositories {
 	maven {
 		// Location of CurseAPI Files
@@ -88,34 +73,21 @@ repositories {
 		name 'IC2'
 		url = "http://maven.ic2.player.to"
 	}
-	maven {
-		url = "https://www.cursemaven.com"
-	}
 
 }
 
 dependencies {
 
-	compile("com.github.TheRandomLabs:CurseAPI:master-SNAPSHOT"){	
-		exclude group: 'com.google.guava', module: 'guava'	
-		}
-		
-	compile "org.apache.logging.log4j:log4j-core:2.13.3"
-	compile "org.apache.logging.log4j:log4j-slf4j18-impl:2.13.3"
-
 	compile "org.projectlombok:lombok:1.18.12"
 	apt "org.projectlombok:lombok:1.18.12"
 
-	compile "industrial-craft:industrialcraft-2-2.8.99:ex112:api"
-
 	// LOAD GC ADDONS
+	compile fileTree(include: ['*.jar'], dir: 'lib')
+
 	compile "com.mjr.planetprogression:PlanetProgression:1.12.2-0.4.5:api"
-	compile "curse.maven:AsmodeusCore-Dev:3117821"
-	compile "curse.maven:GSMod-0.0.14:3015062"
-	compile "curse.maven:ExtraPlanets-1.7.0:3031689"
-	runtime "curse.maven:MJRLib-1.2.0:3029769"
+	compile "com.mjr.extraplanets:ExtraPlanets:1.12.2-0.7.0:dev"
+	runtime "com.mjr.mjrlegendslib:MJRLegendsLib:1.12.2-1.2.0"
 	compile "industrial-craft:industrialcraft-2-2.8.99:ex112:api"
-	runtime "mezz.jei:jei_1.12.2:4.15.0.297"
 
 }
 

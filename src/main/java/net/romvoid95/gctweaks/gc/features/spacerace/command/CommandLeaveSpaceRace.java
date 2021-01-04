@@ -13,11 +13,13 @@ import micdoodle8.mods.galacticraft.core.util.PlayerUtil;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
+import net.romvoid95.gctweaks.internal.permission.PermissionRegistry;
 
 public class CommandLeaveSpaceRace extends CommandBase {
 
@@ -28,7 +30,8 @@ public class CommandLeaveSpaceRace extends CommandBase {
 
 	@Override
 	public boolean checkPermission (MinecraftServer server, ICommandSender sender) {
-		return sender.canUseCommand(this.getRequiredPermissionLevel(), this.getName());
+		EntityPlayer player = (EntityPlayer) sender.getCommandSenderEntity();
+		return PermissionRegistry.hasPermissionHere(player);
 	}
 
 	@Override
