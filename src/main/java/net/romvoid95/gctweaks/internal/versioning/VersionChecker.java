@@ -5,6 +5,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -43,8 +44,10 @@ public class VersionChecker {
     		} else if(VersionChecker.notifyForUpdate) {
                 player.sendMessage(StringUtil.format("galactictweaks.versions.notify", new Style().setColor(TextFormatting.LIGHT_PURPLE)));
                 player.sendMessage(ITextComponent.Serializer.fromJsonLenient(I18n.format("galactictweaks.versions.outdated0")));
-                player.sendMessage(StringUtil.formatComponent("galactictweaks.versions.outdated1", currentRunningVersion.toString()));
-                player.sendMessage(StringUtil.formatComponent("galactictweaks.versions.outdated2", updateVersion.toString()));
+                player.sendMessage(new TextComponentTranslation("galactictweaks.versions.outdated1", currentRunningVersion
+						.toString()));
+				player.sendMessage(new TextComponentTranslation("galactictweaks.versions.outdated2", updateVersion
+						.toString()));
                 player.sendMessage(ITextComponent.Serializer.fromJsonLenient(I18n.format("galactictweaks.versions.outdated0")));
                 player.sendMessage(ITextComponent.Serializer.fromJsonLenient(I18n.format("galactictweaks.versions.updateMessage")));
     		}
