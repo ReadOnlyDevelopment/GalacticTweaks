@@ -65,6 +65,7 @@ public class ModuleController implements IHandler {
 		});
 	}
 	
+	@Override
 	@EventHandler
 	public void onServerStarting(FMLServerStartingEvent event) {
 		internals.forEach(m -> {

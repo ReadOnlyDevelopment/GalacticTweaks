@@ -8,7 +8,6 @@ import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.romvoid95.gctweaks.internal.versioning.DownloadUpdate;
-import net.romvoid95.gctweaks.internal.versioning.VersionChecker;
 
 
 public class DownloadCommand extends CommandBase {
@@ -31,11 +30,11 @@ public class DownloadCommand extends CommandBase {
 	@Override
 	public void execute (MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 		if (args.length == 0) {
-			if (VersionChecker.downloadedFile) {
+			if (DownloadUpdate.downloadedFile) {
 				sender.sendMessage(new TextComponentTranslation("galactictweaks.versions.downloadedAlready")
 						.setStyle(new Style().setColor(TextFormatting.RED)));
 			}
-			else if (VersionChecker.startedDownload) {
+			else if (DownloadUpdate.startedDownload) {
 				sender.sendMessage(new TextComponentTranslation("galactictweaks.versions.downloadingAlready")
 						.setStyle(new Style().setColor(TextFormatting.RED)));
 			}
