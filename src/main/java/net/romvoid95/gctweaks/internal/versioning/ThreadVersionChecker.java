@@ -1,9 +1,12 @@
 package net.romvoid95.gctweaks.internal.versioning;
 
+import net.romvoid95.gctweaks.GalacticTweaks;
+import net.romvoid95.gctweaks.Ref;
+
 public class ThreadVersionChecker extends Thread {
 
 	public ThreadVersionChecker () {
-		setName("Version Checker Thread");
+		setName(Ref.MOD_NAME + " Version Check");
 		setDaemon(true);
 		start();
 	}
@@ -11,11 +14,26 @@ public class ThreadVersionChecker extends Thread {
 	@Override
 	public void run() {
 		try {
-			VersionChecker.onlineVersion = Request.getLatestVersion();
-
+			GalacticTweaks.logger.info("Starting GalacticTweaks Version Check Thread");
+			
+			VersionChecker.updateVersion = Request.getLatestVersion();
+			
+			if(VersionChecker.updateVersion.isGreaterThan(VersionChecker.currentRunningVersion)) {
+				VersionChecker.notifyForUpdate = true;
+			}
+			GalacticTweaks.logger.info("GalacticTweaks Version Check Finished");
 		} catch (Exception e) {
-			e.printStackTrace();
+			GalacticTweaks.logger.getLogger().error("GalacticTweaks Version Check Failed", e);
+			VersionChecker.checkThreadFailed  = true;
 		}
-		VersionChecker.doneChecking = true;
+		
+		if(!VersionChecker.checkThreadFailed) {
+			if(VersionChecker.notifyForUpdate) {
+				GalacticTweaks.logger.info("GalacticTweaks Update Found!");
+			} else {
+				GalacticTweaks.logger.info("GalacticTweaks is up to date");
+			}
+		}
+		VersionChecker.checkThreadDone = true;
 	}
 }

@@ -5,15 +5,18 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import com.google.gson.*;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
+import net.romvoid95.api.versioning.Version;
 import net.romvoid95.gctweaks.GalacticTweaks;
 
 public class Request {
 
 	public static String domain1 = "https://addons-ecs.forgesvc.net/api/v2/addon/359766";
 
-	public static String getLatestVersion() {
+	public static Version getLatestVersion() {
 		try {
 			URL getRequestURL = new URL(domain1);
 			HttpURLConnection con = (HttpURLConnection) getRequestURL.openConnection();
@@ -30,7 +33,8 @@ public class Request {
 				JsonArray json = array.getAsJsonArray("latestFiles");
 				JsonObject ob = json.get(0).getAsJsonObject();
 				String version = ob.get("displayName").getAsString().split("-")[1].replace(".jar", "");
-				return version;
+				return new Version(version);
+				//return version;
 			}
 		} catch (Exception e) {
 			GalacticTweaks.logger.error("There was an issue communicating with the CurseAPI");

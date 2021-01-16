@@ -61,6 +61,10 @@ public class LogHelper {
 		LOG.log(logLevel, String.valueOf(object), throwable);
 	}
 
+	public Logger getLogger() {
+		return LOG;
+	}
+	
 	/**
 	 * Dev.
 	 *
@@ -106,6 +110,10 @@ public class LogHelper {
 	 */
 	public void error (Object object) {
 		log(Level.ERROR, object);
+	}
+	
+	public void error (Object object, Throwable throwable) {
+		log(Level.ERROR, object, throwable);
 	}
 
 	/**

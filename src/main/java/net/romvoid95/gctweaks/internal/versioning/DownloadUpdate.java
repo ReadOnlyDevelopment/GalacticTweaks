@@ -11,10 +11,13 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.util.text.*;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
 
 public class DownloadUpdate {
+	
+	public static boolean startedDownload   = false;
+	public static boolean downloadedFile    = false;
 
 	public DownloadUpdate() {
 		run();
@@ -35,17 +38,13 @@ public class DownloadUpdate {
 		String fileName = FilenameUtils.getName(downloadUrl.getPath());
 		File   newFile  = new File(dir.toString() + "/" + fileName);
 
-		ITextComponent component  = ITextComponent.Serializer
-				.jsonToComponent(I18n.format("galactictweaks.versions.startingDownload", fileName));
-		ITextComponent component2 = ITextComponent.Serializer
-				.jsonToComponent(I18n.format("galactictweaks.versions.startingDownload2"));
 		if (Minecraft.getMinecraft().player != null) {
 
-			Minecraft.getMinecraft().player.sendMessage(component);
-			Minecraft.getMinecraft().player.sendMessage(component2);
+			Minecraft.getMinecraft().player.sendMessage(StringUtil.formatFromJson("galactictweaks.versions.startingDownload", fileName));
+			Minecraft.getMinecraft().player.sendMessage(StringUtil.formatFromJson("galactictweaks.versions.startingDownload2"));
 		}
 
-		VersionChecker.startedDownload = true;
+		startedDownload = true;
 
 		try {
 			URLConnection conn = downloadUrl.openConnection();
@@ -59,8 +58,7 @@ public class DownloadUpdate {
 		if (newFile.exists()) {
 			if (Minecraft.getMinecraft().player != null)
 				Minecraft.getMinecraft().player
-						.sendMessage(new TextComponentTranslation("galactictweaks.versions.doneDownloading", fileName)
-								.setStyle(new Style().setColor(TextFormatting.GREEN)));
+						.sendMessage(StringUtil.format("galactictweaks.versions.doneDownloading", fileName, new Style().setColor(TextFormatting.GREEN)));
 
 			try {
 				Desktop.getDesktop().open(dir.toFile());
@@ -69,6 +67,6 @@ public class DownloadUpdate {
 				e.printStackTrace();
 			}
 		}
-		VersionChecker.downloadedFile = true;
+		downloadedFile = true;
 	}
 }

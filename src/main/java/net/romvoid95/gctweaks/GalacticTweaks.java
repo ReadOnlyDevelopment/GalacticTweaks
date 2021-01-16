@@ -2,10 +2,12 @@ package net.romvoid95.gctweaks;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.LoaderState.ModState;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -23,45 +25,40 @@ import net.romvoid95.gctweaks.base.core.utils.GameUtil;
 import net.romvoid95.gctweaks.base.core.utils.LogHelper;
 import net.romvoid95.gctweaks.base.core.utils.Utilz;
 import net.romvoid95.gctweaks.internal.command.DownloadCommand;
-import net.romvoid95.gctweaks.internal.config.ConfigCore;
+import net.romvoid95.gctweaks.internal.config.CoreBooleanValues;
+import net.romvoid95.gctweaks.internal.config.CoreConfigHandler;
+import net.romvoid95.gctweaks.internal.versioning.VersionChecker;
 
-@Mod(	
-		modid = Ref.MOD_ID, 
-		name = Ref.MOD_NAME, 
-		version = Ref.MOD_VERSION, 
-		dependencies = Ref.DEPS, 
-		certificateFingerprint = 
-		Ref.MOD_FINGERPRINT, 
-		guiFactory = GalacticTweaks.factory
-		)
+@Mod(modid = Ref.MOD_ID, name = Ref.MOD_NAME, version = Ref.MOD_VERSION, dependencies = Ref.DEPS, certificateFingerprint = Ref.MOD_FINGERPRINT)
 public class GalacticTweaks {
 
 	@Instance(Ref.MOD_ID)
 	public static GalacticTweaks instance = new GalacticTweaks();
 	public static SimpleNetworkWrapper network = NetworkRegistry.INSTANCE.newSimpleChannel(Ref.MOD_ID);
 	public static LogHelper logger = new LogHelper();
-	public static final String factory = "net.romvoid95.gctweaks.base.core.gui.GuiConfigFactory";
 	public static File modFolder = null;
+	public static LinkedList<ItemStack> itemList = new LinkedList<>();
+	public static LinkedList<Item> itemListTrue = new LinkedList<>();
 
 	@SidedProxy(clientSide = "net.romvoid95.gctweaks.base.core.proxy.ClientProxy", serverSide = "net.romvoid95.gctweaks.base.core.proxy.CommonProxy")
 	public static CommonProxy proxy;
-	
-	public static final int PRE_INIT = ModState.PREINITIALIZED.ordinal();
-	
+
 	@SuppressWarnings("serial")
-	private static List<IHandler> registers = new ArrayList<IHandler>() {{
-		add(ModuleController.INSTANCE);
-	}};
+	private static List<IHandler> registers = new ArrayList<IHandler>() {
+		{
+			add(ModuleController.INSTANCE);
+		}
+	};
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		GalacticTweaks.modFolder = event.getModConfigurationDirectory();
 		MinecraftForge.EVENT_BUS.register(this);
 
-		MinecraftForge.EVENT_BUS.register(new ConfigCore(new File(modFolder, "GalacticTweaks/core.cfg")));
-
+		new CoreConfigHandler(modFolder);
+		new VersionChecker();
 		registers.forEach(handler -> handler.preInit(event));
-		
+
 		proxy.preInit(event);
 	}
 
@@ -69,7 +66,7 @@ public class GalacticTweaks {
 	public void init(FMLInitializationEvent event) {
 
 		registers.forEach(handler -> handler.init(event));
-		
+
 		proxy.init(event);
 	}
 
@@ -77,9 +74,9 @@ public class GalacticTweaks {
 	public void postInit(FMLPostInitializationEvent event) {
 
 		registers.forEach(handler -> handler.postInit(event));
-		
+
 		Utilz.creatFile();
-		
+
 		proxy.postInit(event);
 	}
 
@@ -88,10 +85,10 @@ public class GalacticTweaks {
 
 		registers.forEach(handler -> handler.onServerStarting(event));
 
-		if (ConfigCore.enableCheckVersion)
+		if (CoreBooleanValues.DO_UPDATE_CHECK.isEnabled())
 			event.registerServerCommand(new DownloadCommand());
 	}
-	
+
 	@EventHandler
 	public void onFingerprintViolation(FMLFingerprintViolationEvent event) {
 		if (!GameUtil.isDeobfuscated()) {
