@@ -1,16 +1,13 @@
 buildscript {
 	repositories {
-		maven {
-			name = "gradle"
-			url = "https://plugins.gradle.org/m2/"
-		}
-		maven {
-			name = "forge"
-			url = "https://files.minecraftforge.net/maven"
-		}
+		jcenter()
+		maven { url = "https://plugins.gradle.org/m2/" }
+        maven { url = "http://files.minecraftforge.net/maven" }
+        maven { url = "http://repo.spongepowered.org/maven" }
 	}
 	dependencies {
-		classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath "net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT"
+        classpath "org.spongepowered:mixingradle:0.6-SNAPSHOT"
 	}
 }
 
@@ -21,7 +18,8 @@ plugins {
 }
 
 apply plugin: "java"
-apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: "net.minecraftforge.gradle.forge"
+apply plugin: "org.spongepowered.mixin"
 
 
 // ==========================================
@@ -51,11 +49,33 @@ project.ext {
 apply from: "https://raw.githubusercontent.com/ReadOnly-Mods/Misc/master/Gradle/gcdevfiles.gradle"
 // ==========================================
 
+configurations {
+	embed
+	compile.extendsFrom(embed)
+}
+
+minecraft {
+	version = "${mc_version}-${forge_version}"
+	runDir = "run"
+	coreMod = 'net.romvoid95.gctweaks.GalacticTweaksPlugin'
+	mappings = "${mcp}"
+	def args = [
+		"-Dfml.coreMods.load=net.romvoid95.gctweaks.GalacticTweaksPlugin",
+		"-Dmixin.hotSwap=true",
+		"-Dmixin.checks.interfaces=true",
+		"-Dmixin.debug.export=true"
+	]
+	clientJvmArgs.addAll(args)
+	serverJvmArgs.addAll(args)
+
+	replace '@VERSION@', project.version
+	replace '@MCVERSION@', project.minecraft.version
+	replace '@FINGERPRINT@', project.findProperty('signSHA1')
+	replaceIn "Ref.java"
+}
+
 repositories {
-	maven {
-		// Location of CurseAPI Files
-		url "https://jitpack.io"
-	}
+	maven { url "http://repo.spongepowered.org/maven" }
 	mavenCentral()
 	maven {
 		name 'MJRLegends'
@@ -78,6 +98,7 @@ repositories {
 
 dependencies {
 
+	embed 'org.spongepowered:mixin:0.8.2'
 	compile "org.projectlombok:lombok:1.18.12"
 	apt "org.projectlombok:lombok:1.18.12"
 
@@ -91,49 +112,46 @@ dependencies {
 
 }
 
-minecraft {
-	version = "${mc_version}-${forge_version}"
-	runDir = "run"
-	mappings = "${mcp}"
-
-	replace '@VERSION@', project.version
-	replace '@MCVERSION@', project.minecraft.version
-	replace '@FINGERPRINT@', project.findProperty('signSHA1')
-	replaceIn "Ref.java"
-}
-
-processResources {
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
-    rename '(.+_at.cfg)', 'META-INF/$1'
-}
-
-jar {
-    manifest {
- 	    attributes 'FMLAT': 'galactictweaks_at.cfg'
- 	}
- }
-
-jar {
-	manifest {
-		mainAttributes(
-				'Maven-Artifact': "${project.group}:${project.archivesBaseName}:${project.version}",
-				'Timestamp': System.currentTimeMillis(),
-				'Implementation-Title': project.archivesBaseName,
-				'Implementation-Version': version,
-				'Built-On-Java': "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
-				'Built-On': "${project.mc_version}-${project.forge_version}"
-				)
+sourceSets {
+	main {
+		ext.refMap = "mixins.gctweaks.refmap.json"
 	}
 }
 
+jar {
+	from(configurations.embed.collect { it.isDirectory() ? it : zipTree(it) }) {
+		exclude "LICENSE.txt", "META-INF/*.txt", "META-INF/MANIFSET.MF", "META-INF/maven/**", "META-INF/*.RSA", "META-INF/*.SF"
+	}
+    manifest {
+ 	    attributes 'FMLAT': 'galactictweaks_at.cfg',
+                   "FMLCorePluginContainsFMLMod": "true",
+                   "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
+                   "MixinConfigs": "mixins.gctweaks.json",
+                   "FMLCorePlugin": "net.romvoid95.gctweaks.GalacticTweaksPlugin",
+                   "ForceLoadAsMod": "true"
+ 	}
+ }
+ 
+ reobf {
+	 jar {
+		 mappingType = 'SEARGE'
+		 classpath = sourceSets.main.compileClasspath
+	 }
+ }
+ 
+ processResources {
+	 inputs.property "version", project.version
+	 inputs.property "mcversion", project.minecraft.version
+	 from(sourceSets.main.resources.srcDirs) {
+		 include 'mcmod.info'
+		 expand 'version':project.version, 'mcversion':project.minecraft.version
+	 }
+	 from(sourceSets.main.resources.srcDirs) {
+		 exclude 'mcmod.info'
+	 }
+	 rename '(.+_at.cfg)', 'META-INF/$1'
+ }
+ 
 task signJar(type: SignJar, dependsOn: reobfJar) {
 	onlyIf {
 		project.hasProperty('keyStore')
@@ -165,5 +183,4 @@ curseforge {
 	}
 }
 
-build.dependsOn signJar
 tasks.curseforge.dependsOn(build)

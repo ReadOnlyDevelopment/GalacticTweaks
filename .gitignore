@@ -32,3 +32,4 @@ eclipse
 run
 .gradle
 build.properties
+/.apt_generated/

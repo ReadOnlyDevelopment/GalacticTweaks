@@ -10,7 +10,7 @@ import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.romvoid95.gctweaks.GalacticTweaks;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.romvoid95.gctweaks.Ref;
 import net.romvoid95.gctweaks.base.core.ConfigBase;
 import net.romvoid95.gctweaks.base.core.ConfigBase.ConfigVersion;
@@ -96,7 +96,7 @@ public abstract class Module {
 		features.add(feature);
 	}
 
-	public void registerPacket () {
-		features.forEach(feature -> feature.registerPacket(GalacticTweaks.network));
+	public void registerPacket (SimpleNetworkWrapper network) {
+		features.forEach(feature -> feature.registerPacket(network));
 	}
 }

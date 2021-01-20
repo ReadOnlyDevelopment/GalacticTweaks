@@ -1,0 +1,12 @@
+{
+    "required": true,
+    "minVersion": "0.7.11",
+    "compatibilityLevel": "JAVA_8",
+    "package": "net.romvoid95.gctweaks.internal.mixins",
+    "refmap": "mixins.gctweaks.refmap.json",
+    "target": "@env(DEFAULT)",
+    "mixins": [
+        "MixinWorld",
+        "MixinEntity"
+    ]
+}

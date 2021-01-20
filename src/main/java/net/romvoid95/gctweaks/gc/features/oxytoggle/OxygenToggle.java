@@ -1,7 +1,6 @@
 package net.romvoid95.gctweaks.gc.features.oxytoggle;
 
 import micdoodle8.mods.galacticraft.api.event.oxygen.GCCoreOxygenSuffocationEvent;
-import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
 import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
 import micdoodle8.mods.galacticraft.core.util.DamageSourceGC;
 import net.minecraft.entity.EntityLivingBase;
@@ -9,6 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.romvoid95.gctweaks.GalacticTweaks;
 import net.romvoid95.gctweaks.base.Feature;
 
 public class OxygenToggle extends Feature {
@@ -51,7 +51,7 @@ public class OxygenToggle extends Feature {
 					return;
 				}
 				if (player.world.provider.getDimensionType().getId() == dimId
-						&& player.world.provider instanceof IGalacticraftWorldProvider) {
+				/* && player.world.provider instanceof IGalacticraftWorldProvider */) {
 					event.setCanceled(true);
 				}
 			}
@@ -68,6 +68,7 @@ public class OxygenToggle extends Feature {
 			if (entityLiving instanceof EntityPlayer
 					&& entityLiving.ticksExisted % ConfigManagerCore.suffocationCooldown == 0) {
 				for (int dimId : setDimsNonBreatheable) {
+					GalacticTweaks.logger.info(entityLiving.world.provider.getDimensionType().getId());
 					if (entityLiving.world.provider.getDimensionType().getId() == dimId) {
 						GCCoreOxygenSuffocationEvent suffocationEvent = new GCCoreOxygenSuffocationEvent.Pre(
 								entityLiving);

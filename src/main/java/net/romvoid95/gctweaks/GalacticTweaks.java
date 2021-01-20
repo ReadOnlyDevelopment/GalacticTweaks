@@ -1,9 +1,7 @@
 package net.romvoid95.gctweaks;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -19,7 +17,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import net.romvoid95.gctweaks.base.core.IHandler;
+import net.romvoid95.gctweaks.base.InternalModule;
+import net.romvoid95.gctweaks.base.Module;
 import net.romvoid95.gctweaks.base.core.proxy.CommonProxy;
 import net.romvoid95.gctweaks.base.core.utils.GameUtil;
 import net.romvoid95.gctweaks.base.core.utils.LogHelper;
@@ -43,13 +42,6 @@ public class GalacticTweaks {
 	@SidedProxy(clientSide = "net.romvoid95.gctweaks.base.core.proxy.ClientProxy", serverSide = "net.romvoid95.gctweaks.base.core.proxy.CommonProxy")
 	public static CommonProxy proxy;
 
-	@SuppressWarnings("serial")
-	private static List<IHandler> registers = new ArrayList<IHandler>() {
-		{
-			add(ModuleController.INSTANCE);
-		}
-	};
-
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		GalacticTweaks.modFolder = event.getModConfigurationDirectory();
@@ -57,7 +49,33 @@ public class GalacticTweaks {
 
 		new CoreConfigHandler(modFolder);
 		new VersionChecker();
-		registers.forEach(handler -> handler.preInit(event));
+		// ==========================================
+		// Internal Modules
+		// ==========================================
+		// ~ Register ~ //
+		ModuleController.registerInternalModules();
+
+		// ~ Network ~ //
+		ModuleController.internals.forEach(module -> module.registerPacket(network));
+
+		// ~ Phase ~ //
+		ModuleController.internals.forEach(InternalModule::preInit);
+
+		// ==========================================
+		// Feature Modules
+		// ==========================================
+		// ~ Register ~ //
+		ModuleController.registerModules();
+
+		// ~ Configurations ~ //
+		ModuleController.modules.forEach(module -> module.setupConfig(event));
+		ModuleController.modules.forEach(Module::syncConfig);
+
+		// ~ Network ~ //
+		ModuleController.modules.forEach(module -> module.registerPacket(network));
+
+		// ~ Phase ~ //
+		ModuleController.modules.forEach(Module::preInit);
 
 		proxy.preInit(event);
 	}
@@ -65,7 +83,17 @@ public class GalacticTweaks {
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 
-		registers.forEach(handler -> handler.init(event));
+		// ==========================================
+		// Internal Modules
+		// ==========================================
+		// ~ Phase ~ //
+		ModuleController.internals.forEach(InternalModule::init);
+
+		// ==========================================
+		// Feature Modules
+		// ==========================================
+		// ~ Phase ~ //
+		ModuleController.modules.forEach(Module::init);
 
 		proxy.init(event);
 	}
@@ -73,7 +101,17 @@ public class GalacticTweaks {
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 
-		registers.forEach(handler -> handler.postInit(event));
+		// ==========================================
+		// Internal Modules
+		// ==========================================
+		// ~ Phase ~ //
+		ModuleController.internals.forEach(InternalModule::postInit);
+
+		// ==========================================
+		// Feature Modules
+		// ==========================================
+		// ~ Phase ~ //
+		ModuleController.modules.forEach(Module::postInit);
 
 		Utilz.creatFile();
 
@@ -83,7 +121,17 @@ public class GalacticTweaks {
 	@EventHandler
 	public void onServerStarting(FMLServerStartingEvent event) {
 
-		registers.forEach(handler -> handler.onServerStarting(event));
+		// ==========================================
+		// Internal Modules
+		// ==========================================
+		// ~ Phase ~ //
+		ModuleController.internals.forEach(internal -> internal.serverStartingEvent(event));
+
+		// ==========================================
+		// Feature Modules
+		// ==========================================
+		// ~ Phase ~ //
+		ModuleController.modules.forEach(module -> module.serverStartingEvent(event));
 
 		if (CoreBooleanValues.DO_UPDATE_CHECK.isEnabled())
 			event.registerServerCommand(new DownloadCommand());
