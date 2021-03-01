@@ -1,1 +1,0 @@
-package net.romvoid95.gctweaks.internal.permission;

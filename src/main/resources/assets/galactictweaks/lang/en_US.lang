@@ -1,8 +1,8 @@
 galaxy.wormhole=   Alt Sol
 solarsystem.secondSystem=Alternate Sol
 star.epsystem=Sun
-planet.fakeOverworld=Earth
-planet.fakeRocks=Asteroids
+planet.fake_overworld=Earth
+planet.fake_asteroids=Asteroids
 
 galactictweaks.leaverace.playerleave=You have sucsessfully left %s
 galactictweaks.leaverace.leader=Team Leaders cannot use this command!
@@ -19,25 +19,22 @@ galactictweaks.versions.startingDownload=[{"text":"Starting download . . . . . P
 galactictweaks.versions.startingDownload2=[{"text":" Consider supporting ","color":"aqua"},{"text":"ROMVoid95","color":"light_purple"},{"text":" on [","color":"aqua"},{"text":"Patreon","color":"gold","hoverEvent":{"action":"show_text","value":{"text":"Click this to go to ROMVoid95's Patreon","color":"light_purple"}},"clickEvent":{"action":"open_url","value":"http://www.patreon.com/romvoid95"}},{"text":"]!","color":"aqua"}]
 galactictweaks.versions.doneDownloading=Finished downloading . . . . . Delete your old GalacticTweaks jar and reload your game to update.
 galactictweaks.versions.downloadedAlready=You already downloaded the latest version. Close your game, delete the old version from your mods folder and load it again to update!
-<<<<<<< Updated upstream:src/main/resources/assets/gctweaks/lang/en_US.lang
-galactictweaks.versions.downloadingAlready=The update is already downloading, give it some time, will you?
-=======
 galactictweaks.versions.downloadingAlready=The update is already downloading, give it some time, will you?
 
 galactictweaks.config.gui.cat.allfeatures=Features
 galactictweaks.config.gui.cat.featureopts=Feature Options
 
-galactictweaks.config.gui.cat.features.featureopts.unlockschematics=Unlock Schematics
-galactictweaks.config.gui.cat.features.featureopts.oxygenspawngear=Spawn Gear
-galactictweaks.config.gui.cat.features.featureopts.spawndimension=Spawn Dimension
-galactictweaks.config.gui.cat.features.featureopts.spaceracefeature=Space Race Command
-galactictweaks.config.gui.cat.features.featureopts.seperateaddonplanets=Seperate Planets
-galactictweaks.config.gui.cat.features.featureopts.oxygentoggle=Toggle Oxygen
-galactictweaks.config.gui.cat.features.featureopts.mobsbreatheinspace=Mobs Breathe In Space
-galactictweaks.config.gui.cat.features.featureopts.dimensionalcomets=Dimensional Comets
-galactictweaks.config.gui.cat.features.featureopts.compressorfixes=Compressor Fixes
-galactictweaks.config.gui.cat.features.featureopts.nospacemusic=No Space Music
-galactictweaks.config.gui.cat.features.featureopts.fixasmodeusmapicons=Fix Map Icons
+galactictweaks.config.gui.cat.featureopts.unlockschematics=Unlock Schematics
+galactictweaks.config.gui.cat.featureopts.oxygenspawngear=Spawn Gear
+galactictweaks.config.gui.cat.featureopts.spawndimension=Spawn Dimension
+galactictweaks.config.gui.cat.featureopts.spaceracefeature=Space Race Command
+galactictweaks.config.gui.cat.featureopts.seperateaddonplanets=Seperate Planets
+galactictweaks.config.gui.cat.featureopts.oxygentoggle=Toggle Oxygen
+galactictweaks.config.gui.cat.featureopts.mobsbreatheinspace=Mobs Breathe In Space
+galactictweaks.config.gui.cat.featureopts.dimensionalcomets=Dimensional Comets
+galactictweaks.config.gui.cat.featureopts.compressorfixes=Compressor Fixes
+galactictweaks.config.gui.cat.featureopts.nospacemusic=No Space Music
+galactictweaks.config.gui.cat.featureopts.fixasmodeusmapicons=Fix Map Icons
 
 galactictweaks.config.gui.key.schematicids=Schematic ID's
 galactictweaks.config.gui.key.usecoord=Use Coords
@@ -55,4 +52,3 @@ galactictweaks.config.gui.key.includethermals=Include Thermal Armor
 galactictweaks.config.gui.key.includeparachute=Include Parachute
 galactictweaks.config.gui.key.includefreqmodule=Include Freq. Module
 galactictweaks.config.gui.key.includeshieldcontroller=Include Shield Controller
->>>>>>> Stashed changes:src/main/resources/assets/galactictweaks/lang/en_US.lang

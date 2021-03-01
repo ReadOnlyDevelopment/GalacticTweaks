@@ -379,7 +379,7 @@ public abstract class ReadOnlyConfig {
 
 	public List<IConfigElement> getElements() {
 		List<IConfigElement> list = new ArrayList<>();
-		ConfigCategory allFeatures = getCategory(Values.Categories.FEATURES).setLanguageKey("galactictweaks.config.gui.cat.features");
+		ConfigCategory allFeatures = getCategory(Values.Categories.FEATURES).setLanguageKey("galactictweaks.config.gui.cat.allfeatures");
 		ConfigCategory featureOpts = getCategory(Values.Categories.FEATURE_OPTS).setLanguageKey("galactictweaks.config.gui.cat.featureopts");
 		list.add(new ConfigElement(allFeatures));
 		list.add(new ConfigElement(featureOpts));

@@ -1,4 +1,4 @@
-package net.romvoid95.api.versioning;
+package net.romvoid95.api.version;
 
 public class VersionException extends RuntimeException {
 

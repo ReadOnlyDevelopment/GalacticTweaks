@@ -1,6 +1,6 @@
-package net.romvoid95.api.versioning;
+package net.romvoid95.api.version;
 
-import java.util.Objects;
+import java.util.*;
 
 public class Version implements Comparable<Version> {
 

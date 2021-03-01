@@ -23,6 +23,6 @@ public class ConfigKey implements Supplier<String> {
 	}
 	
 	public String getLangKey() {
-		return Info.ID + ".config.gui." + this.key.toLowerCase();
+		return Info.ID + ".config.gui.key." + this.key.toLowerCase();
 	}
 }
