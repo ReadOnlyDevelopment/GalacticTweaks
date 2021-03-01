@@ -1,6 +1,6 @@
 [
 {
-  "modid": "gctweaks",
+  "modid": "galactictweaks",
   "name": "GalacticTweaks",
   "description": "Tweaking Mod to Galacticraft",
   "version": "${version}",
@@ -10,9 +10,6 @@
   "authorList": ["ROMVoid95"],
   "credits": "",
   "logoFile": "",
-  "screenshots": [],
-   "useDependencyInformation": true,
-   "requiredMods": ["galacticraftcore@[4.0.2.261,]"],
-   "dependencies": ["mod_MinecraftForge","galacticraftcore", "galacticraftplanets"]
+  "screenshots": []
 }
 ]

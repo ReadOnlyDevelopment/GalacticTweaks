@@ -1,0 +1,21 @@
+def loadSecrets() {
+
+	final def secretFile = file System.getenv('SECRET_FILE') ?: 'build.properties'
+	loadSecrets(secretFile)
+}
+
+def loadSecrets(secretFile) {
+
+	if (secretFile.exists()) {
+
+		secretFile.withReader {
+			def prop = new Properties()
+			prop.load(it)
+			ext.secret = new ConfigSlurper().parse prop
+		}
+	}
+}
+
+ext {
+	loadSecrets = this.&loadSecrets
+}

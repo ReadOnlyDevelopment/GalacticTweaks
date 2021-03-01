@@ -1,6 +1,6 @@
 package net.romvoid95.api.versioning;
 
-import java.util.Objects;
+import java.util.*;
 
 public class Version implements Comparable<Version> {
 
@@ -11,12 +11,11 @@ public class Version implements Comparable<Version> {
 	private final Integer  patch;
 	private final String[] suffixTokens;
 	private final String   build;
-	//	private final String      mcVersion;
-	//	private final String      majorMod;
-	//	private final String      majorApi;
-	//	private final String      mcMinor;
-	//	private final String      mcPatch;
 	private final VersionType type;
+	
+	public Version() {
+		this(null, VersionType.STRICT);
+	}
 
 	public Version(String value) {
 		this(value, VersionType.STRICT);
@@ -529,7 +528,7 @@ public class Version implements Comparable<Version> {
 	}
 
 	/**
-	 * Get the original value as a string
+	 * Get the original defaultValue as a string
 	 *
 	 * @return the original string passed in the constructor
 	 */

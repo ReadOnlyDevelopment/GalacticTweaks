@@ -15,6 +15,7 @@ buildscript {
 }
 
 plugins {
+	id "com.wynprice.cursemaven" version "2.1.5"
 	id 'com.matthewprenger.cursegradle' version '1.4.0'
 	id 'net.ltgt.apt' version '0.10'
 	id 'eclipse'
@@ -23,16 +24,19 @@ plugins {
 apply plugin: "java"
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-
-// ==========================================
-//            Load Secrets
-// ==========================================
-apply from: "https://raw.githubusercontent.com/ReadOnly-Mods/Misc/master/Gradle/secret.gradle"
+apply from: 'gradle/functions.gradle'
+apply from: 'gradle/artifact.gradle'
+apply from: 'gradle/git2md_changelog.gradle'
+apply from: 'gradle/private.gradle'
 loadSecrets()
 // ==========================================
 
 
-version = "${versionMajor}.${versionMinor}.${versionRev}"
+def versionInfo = getModVersion()
+System.out.println(versionInfo)
+def ver = "${versionInfo['version']}"
+def build_num = getBuildNumber()
+version = ver + "." + build_num
 group = "${group}"
 archivesBaseName = "${name}"
 
@@ -41,54 +45,48 @@ compileJava {
 	sourceCompatibility = targetCompatibility = '1.8'
 }
 
-// ==========================================
-//            Load GC Dev Files
-// ==========================================
-project.ext {
-	GCBuild = "261"
-	GCVersion = "1.12.2-4.0.2.${GCBuild}"
-}
-apply from: "https://raw.githubusercontent.com/ReadOnly-Mods/Misc/master/Gradle/gcdevfiles.gradle"
-// ==========================================
+apply from: "https://raw.githubusercontent.com/ReadOnlyDevelopment/gradle/galacticraft/dev-latest.gradle"
 
 repositories {
-	maven {
-		// Location of CurseAPI Files
-		url "https://jitpack.io"
-	}
+	mavenLocal()
 	mavenCentral()
-	maven {
-		name 'MJRLegends'
-		url = "https://maven.mjrlegends.com/"
-	}
-	maven {
-		name = 'curseforge'
-		url = 'https://minecraft.curseforge.com/api/maven/'
-	}
-	maven {
-		name 'DVS1 Maven FS'
-		url 'http://dvs1.progwml6.com/files/maven'
-	}
-	maven {
-		name 'IC2'
-		url = "http://maven.ic2.player.to"
-	}
-
+	maven { url "https://jitpack.io" }
+	maven { url "https://maven.mjrlegends.com/" }
+	maven { url "https://minecraft.curseforge.com/api/maven/" }
+	maven { url "http://dvs1.progwml6.com/files/maven" }
+	maven { url "http://maven.ic2.player.to" }
+	maven { url 'https://squiddev.cc/maven/' }
 }
 
 dependencies {
-
-	compile "org.projectlombok:lombok:1.18.12"
-	apt "org.projectlombok:lombok:1.18.12"
+	
+	compile "org.reflections:reflections:0.9.12"
+	
+    compileOnly 'org.projectlombok:lombok:1.18.16'
+    annotationProcessor 'org.projectlombok:lombok:1.18.16'
+    
+    testCompileOnly 'org.projectlombok:lombok:1.18.16'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.16'
 
 	// LOAD GC ADDONS
 	compile fileTree(include: ['*.jar'], dir: 'lib')
 
-	compile "com.mjr.planetprogression:PlanetProgression:1.12.2-0.4.5:api"
-	compile "com.mjr.extraplanets:ExtraPlanets:1.12.2-0.7.0:dev"
+	compile("com.mjr.planetprogression:PlanetProgression:1.12.2-0.4.5:api") {
+		exclude module: 'jei_1.12.2'
+		exclude module: 'industrialcraft-2'
+	}
+	compile("com.mjr.extraplanets:ExtraPlanets:1.12.2-0.7.0:dev") {
+		exclude module: 'jei_1.12.2'
+	}
+	compile "mezz.jei:jei_${mc_version}:4.16.1.302:api"
+	runtime "mezz.jei:jei_${mc_version}:4.16.1.302"
+	
 	runtime "com.mjr.mjrlegendslib:MJRLegendsLib:1.12.2-1.2.0"
 	compile "industrial-craft:industrialcraft-2-2.8.99:ex112:api"
-
+	
+	compile "curse.maven:zollerngalaxy-2.0.23:3187752"
+	compile "curse.maven:moreplanets-2.2.1_280:3165054"
+	runtime "curse.maven:stevekunglib-1.1.9:3051420"
 }
 
 minecraft {
@@ -99,7 +97,7 @@ minecraft {
 	replace '@VERSION@', project.version
 	replace '@MCVERSION@', project.minecraft.version
 	replace '@FINGERPRINT@', project.findProperty('signSHA1')
-	replaceIn "Ref.java"
+	replaceIn "Info.java"
 }
 
 processResources {
