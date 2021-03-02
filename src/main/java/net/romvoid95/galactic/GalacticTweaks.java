@@ -4,14 +4,16 @@ import static net.romvoid95.galactic.Info.*;
 
 import java.io.*;
 
+import javax.annotation.*;
+
 import asmodeuscore.core.astronomy.*;
 import asmodeuscore.core.configs.*;
+import mcp.*;
 import net.minecraftforge.common.*;
 import net.minecraftforge.fml.common.*;
 import net.minecraftforge.fml.common.Mod.*;
 import net.minecraftforge.fml.common.event.*;
 import net.romvoid95.api.*;
-import net.romvoid95.api.registry.*;
 import net.romvoid95.galactic.core.*;
 import net.romvoid95.galactic.core.config.*;
 import net.romvoid95.galactic.core.gc.*;
@@ -27,55 +29,40 @@ import net.romvoid95.galactic.proxy.*;
 		certificateFingerprint = FINGERPRINT,
 		guiFactory = "net.romvoid95.galactic.core.gui.GCTGuiFactory"
 )
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class GalacticTweaks implements IReadOnly{
 
-	@Instance(value = "GalacticTweaks", owner = ID)
-	public static GalacticTweaks instance = new GalacticTweaks();
+	@Instance(ID)
+	public static GalacticTweaks instance;
 	
 	@SidedProxy(clientSide = "net.romvoid95.galactic.proxy.ClientProxy", serverSide = "net.romvoid95.galactic.proxy.ServerProxy")
 	public static ServerProxy proxy;
-	
-	//public static GCTNetworkManager packetmanager;
-	
+
 	public static final GCTLogger LOG = new GCTLogger(ID);
 	public static File modFolder = null;
 
-	public final GCTRegistry registry = new GCTRegistry();
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		registry.setMod(this);
-		registry.getRecipeMaker();
 		GalacticTweaks.modFolder = new File(event.getModConfigurationDirectory(), "GalacticTweaks");
 		MinecraftForge.EVENT_BUS.register(this);
 
 		FMLCommonHandler.instance().registerCrashCallable(new PackCrashEnhancement());
 		new CoreConfigHandler(modFolder, CONFVERSION);
 		new VersionChecker();
-		
-		//GalacticTweaks.packetmanager = GCTNetworkManager.init();
-		
+
 		ModuleController.registerModules();
 		ModuleController.modules.forEach(Module::setupConfig);
 		ModuleController.modules.forEach(Module::handleFeatures);
-		
-		//ModuleController.modules.forEach(module -> module.registryPreInit(registry));
-
 		ModuleController.modules.forEach(Module::preInit);
-		
-		//NetworkRegistry.INSTANCE.registerGuiHandler(this, new GCTGuiHandler());
-
-		proxy.preInit(registry, event);
+		proxy.preInit(event);
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		 
-		
-
 		ModuleController.modules.forEach(Module::init);
-
-		proxy.init(registry, event);
+		proxy.init(event);
 	}
 
 	@EventHandler
@@ -107,7 +94,7 @@ public class GalacticTweaks implements IReadOnly{
 		
 		ModuleController.modules.forEach(Module::postInit);
 
-		proxy.postInit(registry, event);
+		proxy.postInit(event);
 	}
 
 	@EventHandler
@@ -117,13 +104,7 @@ public class GalacticTweaks implements IReadOnly{
 
 		if (CoreBooleanValues.DO_UPDATE_CHECK.isEnabled())
 			event.registerServerCommand(new DownloadCommand());
-		
-//    	Map<DimensionType, IntSortedSet> set = DimensionManager.getRegisteredDimensions();
-//    	StringBuilder buffer = new StringBuilder();
-//    	buffer.append("~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-//    	set.keySet().forEach(dim -> buffer.append("Dim: " + dim.getName() + " | ID: " + dim.getId() + "\n"));
-//    	buffer.append("~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-//    	LOG.info(buffer.toString());
+
 	}
 
 	@EventHandler

@@ -3,13 +3,10 @@ package net.romvoid95.galactic.feature;
 import java.util.*;
 
 import net.minecraftforge.fml.common.event.*;
-import net.romvoid95.api.registry.*;
 
 public abstract class Feature implements IFeature {
 
 	protected List<String> propOrder = new ArrayList<>();
-	
-	public void registryPreInit(GCTRegistry registry) {}
 
 	public void preInit () {}
 

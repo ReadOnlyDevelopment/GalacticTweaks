@@ -102,7 +102,14 @@ dependencies {
 minecraft {
 	version = "${mc_version}-${forge_version}"
 	runDir = "run"
+	coreMod = 'net.romvoid95.plugin.GalacticTweaksPlugin'
 	mappings = "${mcp}"
+	
+	def args = [
+		"-Dfml.coreMods.load=net.romvoid95.plugin.GalacticTweaksPlugin"
+	]
+	clientJvmArgs.addAll(args)
+	serverJvmArgs.addAll(args)
 
 	replace '@VERSION@', project.version
 	replace '@MCVERSION@', project.minecraft.version
@@ -124,12 +131,6 @@ processResources {
 }
 
 jar {
-    manifest {
- 	    attributes 'FMLAT': 'galactictweaks_at.cfg'
- 	}
- }
-
-jar {
 	manifest {
 		mainAttributes(
 				'Maven-Artifact': "${project.group}:${project.archivesBaseName}:${project.version}",
@@ -138,7 +139,13 @@ jar {
 				'Implementation-Version': version,
 				'Built-On-Java': "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
 				'Built-On': "${project.mc_version}-${project.forge_version}"
-				)
+		)
+		attributes( 
+				"FMLCorePluginContainsFMLMod": "true",
+				"FMLCorePlugin": "net.romvoid95.plugin.GalacticTweaksPlugin",
+				"ForceLoadAsMod": "true",
+				"FMLAT": "galactictweaks_at.cfg"
+		)
 	}
 }
 

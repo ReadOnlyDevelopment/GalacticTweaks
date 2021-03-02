@@ -5,7 +5,6 @@ import net.minecraft.network.*;
 import net.minecraftforge.common.*;
 import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.event.FMLInterModComms.*;
-import net.romvoid95.api.registry.*;
 
 public class ServerProxy implements IProxy {
 
@@ -14,22 +13,22 @@ public class ServerProxy implements IProxy {
 	}
 
 	@Override
-	public void preInit(GCTRegistry registry, FMLPreInitializationEvent event) {
+	public void preInit(FMLPreInitializationEvent event) {
 		event.getSuggestedConfigurationFile();
-		registry.preInit(event);
+
 	}
 
 	@Override
-	public void init(GCTRegistry registry, FMLInitializationEvent event) {
-		registry.init(event);
+	public void init(FMLInitializationEvent event) {
+
 	}
 	
 	public void receiveIMC(IMCEvent event) {
 	}
 
 	@Override
-	public void postInit(GCTRegistry registry, FMLPostInitializationEvent event) {
-		registry.postInit(event);
+	public void postInit(FMLPostInitializationEvent event) {
+
 	}
 
 	@Override

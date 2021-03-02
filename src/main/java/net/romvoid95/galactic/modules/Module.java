@@ -6,7 +6,6 @@ import java.util.*;
 import net.minecraftforge.common.*;
 import net.minecraftforge.fml.common.event.*;
 import net.romvoid95.api.ReadOnlyConfig.*;
-import net.romvoid95.api.registry.*;
 import net.romvoid95.galactic.*;
 import net.romvoid95.galactic.feature.*;
 
@@ -40,10 +39,6 @@ public abstract class Module {
 			GalacticTweaks.LOG.debug("Feature Enabled: {}", feature.getClass().getSimpleName());
 			enabledFeatures.add(feature);
 		});
-	}
-	
-	public void registryPreInit(GCTRegistry registry) {
-		enabledFeatures.forEach(feature -> feature.registryPreInit(registry));
 	}
 
 	public void preInit() {
