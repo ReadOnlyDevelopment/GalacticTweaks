@@ -12,18 +12,12 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 	classifier = 'javadoc'
 }
 
-task deobfJar(type: Jar) {
+task devJar(type: Jar) {
 
 	description = 'Creates a JAR containing the non-obfuscated compiled code.'
 	from sourceSets.main.output
-	classifier = "deobf"
-}
-
-task forgelibJar(type: Jar) {
-	description = 'Creates a compiled JAR which also contains raw sources.'
-	from sourceSets.main.output
 	from sourceSets.main.allJava
-	classifier = 'forgelib'
+	classifier = "dev"
 }
 
 //Adds the artifact types added by this script to the actual artifacts list.
@@ -31,6 +25,5 @@ artifacts {
 
 	archives sourcesJar
 	archives javadocJar
-	archives deobfJar
-	archives forgelibJar
+	archives devJar
 }

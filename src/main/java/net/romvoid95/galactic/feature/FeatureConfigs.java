@@ -37,6 +37,8 @@ public class FeatureConfigs extends ReadOnlyConfig {
 	public static boolean NO_SPACE_MUSIC;
 	@GTFeature(featureClass = FixAsmodeusMapIcons.class)
 	public static boolean FIX_MAP_ICONS;
+	//@GTFeature(featureClass = PublicAirlock.class)
+	//public static boolean PUBLIC_AIRLOCK;
 	
 	// UNLOCK SCHEMATICS
 	public static OptArrayInteger schematicIDs;
@@ -45,10 +47,8 @@ public class FeatureConfigs extends ReadOnlyConfig {
 	public static OptBoolean useCoord;
 	public static OptBoolean firstJoinOnly;
 	public static OptBoolean everyDeath;
-	///
 	public static OptString SpawnDim;
 	public static DimValidValues validSPawnDims;
-	///
 	public static OptString spawnPos;
 	
 	// SEPERATE PLANETS

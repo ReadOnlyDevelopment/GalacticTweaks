@@ -19,7 +19,7 @@ public class FixAsmodeusMapIcons extends Feature  {
 	@Override
 	public void postInit () {
 		// If the feature is enabled and we are using AsmodeusCore's Map
-		if (isEnabled() && AsmodeusConfig.enableNewGalaxyMap) {
+		if (AsmodeusConfig.enableNewGalaxyMap) {
 			
 			// Only try and fix Zollern Icons if loaded
 			if (CompatMods.ZOLLERN.isLoaded()) {

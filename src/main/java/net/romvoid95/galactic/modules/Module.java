@@ -5,8 +5,8 @@ import java.util.*;
 
 import net.minecraftforge.common.*;
 import net.minecraftforge.fml.common.event.*;
-import net.minecraftforge.fml.common.network.simpleimpl.*;
 import net.romvoid95.api.ReadOnlyConfig.*;
+import net.romvoid95.api.registry.*;
 import net.romvoid95.galactic.*;
 import net.romvoid95.galactic.feature.*;
 
@@ -41,6 +41,10 @@ public abstract class Module {
 			enabledFeatures.add(feature);
 		});
 	}
+	
+	public void registryPreInit(GCTRegistry registry) {
+		enabledFeatures.forEach(feature -> feature.registryPreInit(registry));
+	}
 
 	public void preInit() {
 		enabledFeatures.stream().filter(Feature::usesEvents).forEach(MinecraftForge.EVENT_BUS::register);
@@ -74,9 +78,5 @@ public abstract class Module {
 
 	protected void registerFeature(Feature feature) {
 		features.add(feature);
-	}
-
-	public void registerPacket(SimpleNetworkWrapper network) {
-		enabledFeatures.forEach(feature -> feature.registerPacket(network));
 	}
 }

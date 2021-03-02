@@ -24,7 +24,7 @@ public class ThreadVersionChecker extends Thread {
 			GalacticTweaks.LOG.info("Starting GalacticTweaks Version Check Thread");
 			
 			VersionChecker.updateVersion = getLatestVersion();
-			
+
 			if(VersionChecker.updateVersion.isGreaterThan(VersionChecker.currentRunningVersion)) {
 				VersionChecker.notifyForUpdate = true;
 			}

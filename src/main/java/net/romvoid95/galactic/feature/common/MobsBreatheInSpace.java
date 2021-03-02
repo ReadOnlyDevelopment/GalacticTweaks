@@ -26,12 +26,10 @@ public class MobsBreatheInSpace extends Feature {
 
 	@SubscribeEvent
 	public void GCCoreOxygenSuffocationEvent(GCCoreOxygenSuffocationEvent.Pre event) {
-		if (isEnabled()) {
-			EntityLivingBase e = event.getEntityLiving();
-			if (e.world.provider instanceof IGalacticraftWorldProvider) {
-				if (e instanceof EntityLiving || e instanceof EntityAnimal || e instanceof EntityCreature) {
-					event.setCanceled(true);
-				}
+		EntityLivingBase e = event.getEntityLiving();
+		if (e.world.provider instanceof IGalacticraftWorldProvider) {
+			if (e instanceof EntityLiving || e instanceof EntityAnimal || e instanceof EntityCreature) {
+				event.setCanceled(true);
 			}
 		}
 	}

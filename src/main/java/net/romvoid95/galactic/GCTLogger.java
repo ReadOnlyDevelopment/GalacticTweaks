@@ -13,20 +13,16 @@ public class GCTLogger {
 
     @Getter
     private final Logger logger;
-    @Getter
-    private final int buildNumber;
     private String lastDebugOutput = "";
     private boolean logDebug;
 
-    public GCTLogger(String modName, int buildNumber) {
+    public GCTLogger(String modName) {
         this.logger = LogManager.getLogger(modName);
-        this.buildNumber = buildNumber;
         addLogHelper(modName);
     }
 
-    public GCTLogger(Logger providedLogger, int buildNumber) {
+    public GCTLogger(Logger providedLogger) {
         this.logger = providedLogger;
-        this.buildNumber = buildNumber;
         addLogHelper(providedLogger.getName());
     }
 

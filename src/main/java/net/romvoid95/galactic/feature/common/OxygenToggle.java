@@ -35,7 +35,7 @@ public class OxygenToggle extends Feature implements IOrdered {
 
 	@SubscribeEvent
 	public void GCCoreOxygenSuffocationEvent(GCCoreOxygenSuffocationEvent.Pre event) {
-		if (isEnabled() && FeatureConfigs.breatheableDims.get().length > 0) {
+		if (FeatureConfigs.breatheableDims.get().length > 0) {
 			EntityPlayer player = (EntityPlayer) event.getEntityLiving();
 			for (int dimId : FeatureConfigs.breatheableDims.get()) {
 				if (player.world.provider.getDimensionType().getId() == dimId) {
@@ -47,7 +47,7 @@ public class OxygenToggle extends Feature implements IOrdered {
 
 	@SubscribeEvent
 	public void entityLivingEvent(LivingEvent.LivingUpdateEvent event) {
-		if (FeatureConfigs.OXYGEN_TOGGLE && FeatureConfigs.nonBreatheableDims.get().length > 0) {
+		if (FeatureConfigs.nonBreatheableDims.get().length > 0) {
 			final EntityLivingBase entityLiving = event.getEntityLiving();
 			if (entityLiving instanceof EntityPlayer
 					&& entityLiving.ticksExisted % ConfigManagerCore.suffocationCooldown == 0) {

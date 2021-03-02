@@ -28,9 +28,7 @@ public class UnlockSchematics extends Feature {
 	@SubscribeEvent
 	public void PlayerWorldJoin(PlayerEvent.PlayerLoggedInEvent e) {
 		final EntityPlayerMP player = (EntityPlayerMP) e.player;
-		if (isEnabled()) {
-			perPlayerSchems(player);
-		}
+		perPlayerSchems(player);
 	}
 
 	private void perPlayerSchems(EntityPlayerMP player) {

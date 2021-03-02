@@ -4,18 +4,22 @@ import lombok.experimental.*;
 import net.minecraft.block.*;
 import net.minecraft.item.*;
 
+/**
+ * Instantiates a new item stack util.
+ */
 @UtilityClass
 public class ItemStackUtil {
 	
 	/**
-	 * Get ItemStack (1 item) from a block
-	 * 
-	 * @param block
-	 * @return
+	 * Get ItemStack (1 item) from a block.
+	 *
+	 * @param block the block
+	 * @return the item stack
 	 */
 	public static ItemStack blockStack(Block block) {
 		return new ItemStack(block);
 	}
+	
 	/**
 	 * Get ItemStack (1 item) from a blocks meta
 	 * 
@@ -24,49 +28,56 @@ public class ItemStackUtil {
 	 * <code>
 	 * ItemStack gcBlockTin = ItemStackUtil.blockStack(GCBlocks.basicblock, 4);
 	 * </code>
-	 * 
-	 * @param block
-	 * @return
+	 *
+	 * @param block the block
+	 * @param meta  the meta
+	 * @return the item stack
 	 */
 	public static ItemStack blockStack(Block block, int meta) {
 		return new ItemStack(block);
 	}
+	
 	/**
 	 * Get ItemStack quantity from a block
 	 * 
 	 * <code>
 	 * ItemStack diamondBlock = ItemStackUtil.blockStack(32, Blocks.DIAMOND_BLOCK);
 	 * </code>
-	 * 
-	 * @param block
-	 * @return
+	 *
+	 * @param amount the amount
+	 * @param block  the block
+	 * @return the item stack
 	 */
-	public static ItemStack blockStack( int amount, Block block) {
+	public static ItemStack blockStack(int amount, Block block) {
 		return new ItemStack(block);
 	}
+	
 	/**
 	 * Get ItemStack quantity from a blocks meta
 	 * 
 	 * <code>
 	 * ItemStack gcBlockTin = ItemStackUtil.blockStack(32, GCBlocks.basicblock, 4);
 	 * </code>
-	 * 
-	 * @param block
-	 * @return
+	 *
+	 * @param amount the amount
+	 * @param block  the block
+	 * @param meta   the meta
+	 * @return the item stack
 	 */
 	public static ItemStack blockStack(int amount, Block block, int meta) {
 		return new ItemStack(block);
 	}
 	
 	/**
-	 * Get ItemStack (1 item) from an Item
-	 * 
-	 * @param block
-	 * @return
+	 * Get ItemStack (1 item) from an Item.
+	 *
+	 * @param item the item
+	 * @return the item stack
 	 */
 	public static ItemStack itemStack(Item item) {
 		return new ItemStack(item);
 	}
+	
 	/**
 	 * Get ItemStack (1 item) from a Items meta
 	 * 
@@ -75,35 +86,41 @@ public class ItemStackUtil {
 	 * <code>
 	 * ItemStack gcCopperIngot = ItemStackUtil.blockStack(GCBlocks.basicItem, 4);
 	 * </code>
-	 * 
-	 * @param block
-	 * @return
+	 *
+	 * @param item the item
+	 * @param meta the meta
+	 * @return the item stack
 	 */
 	public static ItemStack itemStack(Item item, int meta) {
 		return new ItemStack(item);
 	}
+	
 	/**
 	 * Get ItemStack quantity from a Item
 	 * 
 	 * <code>
 	 * ItemStack diamondBlock = ItemStackUtil.blockStack(32, Blocks.DIAMOND_BLOCK);
 	 * </code>
-	 * 
-	 * @param block
-	 * @return
+	 *
+	 * @param amount the amount
+	 * @param item   the item
+	 * @return the item stack
 	 */
 	public static ItemStack itemStack( int amount, Item item) {
 		return new ItemStack(item);
 	}
+	
 	/**
 	 * Get ItemStack quantity from a Items meta
 	 * 
 	 * <code>
 	 * ItemStack gcCopperIngot = ItemStackUtil.blockStack(32, GCItems.basicItem, 4);
 	 * </code>
-	 * 
-	 * @param block
-	 * @return
+	 *
+	 * @param amount the amount
+	 * @param item   the item
+	 * @param meta   the meta
+	 * @return the item stack
 	 */
 	public static ItemStack itemStack(int amount, Item item, int meta) {
 		return new ItemStack(item);

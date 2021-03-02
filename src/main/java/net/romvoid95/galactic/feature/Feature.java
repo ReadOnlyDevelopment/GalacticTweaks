@@ -3,13 +3,13 @@ package net.romvoid95.galactic.feature;
 import java.util.*;
 
 import net.minecraftforge.fml.common.event.*;
-import net.minecraftforge.fml.common.network.simpleimpl.*;
+import net.romvoid95.api.registry.*;
 
 public abstract class Feature implements IFeature {
 
 	protected List<String> propOrder = new ArrayList<>();
 	
-	public void prePreInit() {}
+	public void registryPreInit(GCTRegistry registry) {}
 
 	public void preInit () {}
 
@@ -36,7 +36,5 @@ public abstract class Feature implements IFeature {
 	public boolean sidedProxy () {
 		return false;
 	}
-
-	public void registerPacket (SimpleNetworkWrapper network) {}
 
 }

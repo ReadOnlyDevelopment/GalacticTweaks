@@ -30,8 +30,7 @@ public class SpaceRaceFeature extends Feature {
 
 	@Override
 	public void ServerStartingEvent (FMLServerStartingEvent event) {
-		if (isEnabled())
-			event.registerServerCommand(new SpaceRaceFeature.CommandLeaveSpaceRace());
+		event.registerServerCommand(new SpaceRaceFeature.CommandLeaveSpaceRace());
 	}
 	
 

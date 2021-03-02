@@ -31,12 +31,22 @@ apply from: 'gradle/private.gradle'
 loadSecrets()
 // ==========================================
 
+def versionBuild = 0
+if (System.getenv("BUILD_NUMBER") != null)
+	versionBuild = System.getenv("BUILD_NUMBER")
 
-def versionInfo = getModVersion()
-System.out.println(versionInfo)
-def ver = "${versionInfo['version']}"
-def build_num = getBuildNumber()
-version = ver + "." + build_num
+def incrementBuild = false
+def devBuild = false
+def ver
+def short_version = "${mod_version}"
+if(devBuild) {
+	ver = "${mod_version}." + getBuildNumber() + "-dev." + versionBuild
+} else {
+	ver = "${mod_version}." + getBuildNumber()
+}
+version = ver
+System.out.println(ver)
+
 group = "${group}"
 archivesBaseName = "${name}"
 
@@ -75,7 +85,7 @@ dependencies {
 		exclude module: 'jei_1.12.2'
 		exclude module: 'industrialcraft-2'
 	}
-	compile("com.mjr.extraplanets:ExtraPlanets:1.12.2-0.7.0:dev") {
+	compile("com.mjr.extraplanets:ExtraPlanets:1.12.2-0.7.2:dev") {
 		exclude module: 'jei_1.12.2'
 	}
 	compile "mezz.jei:jei_${mc_version}:4.16.1.302:api"
@@ -110,7 +120,7 @@ processResources {
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
-    rename '(.+_at.cfg)', 'META-INF/$1'
+    rename '(.+_at.cfg)', '$1'
 }
 
 jar {

@@ -19,29 +19,29 @@ public class SeperateAddonPlanets extends Feature {
 				+ "\nTHIS FEATURE WILL NOT BE EXTENDED OR ADDED TO IN FUTURE VERSIONS\nANY CRASHES OR BUGS RESULTING FROM THIS OPTION BEING ENABLED\n"
 				+ "SHOULD BE REPORTED TO THIS MODS ISSUE TRACKER NOT THE PLANETS ADDON DEV \n\nUse at your own discretion";
 	}
-	
+
 	@Override
 	public void postInit() {
 		String modid = FeatureConfigs.modid.get();
-		if (isEnabled()) {
-			if (checkIfPresent()) {
-				BodiesRegistry.setMaxTier(10);
-				PlanetData data = new PlanetData();
-				data.create(modid);
-			}
+		if (checkIfPresent()) {
+			BodiesRegistry.setMaxTier(10);
+			PlanetData data = new PlanetData();
+			data.create(modid);
 		}
 	}
 
 	private Boolean checkIfPresent() {
 		boolean oneLoaded = true;
-		if(!CompatMods.EXTRAPLANETS.isLoaded()) {
+		if (!CompatMods.EXTRAPLANETS.isLoaded()) {
 			GalacticTweaks.LOG.error("[REQUIRED MOD NOT FOUND FOR FEATURE " + category() + "]");
-			GalacticTweaks.LOG.error("The Mod  [%s] MUST be installed to use this Feature ", CompatMods.EXTRAPLANETS.toString());
+			GalacticTweaks.LOG.error("The Mod  [%s] MUST be installed to use this Feature ",
+					CompatMods.EXTRAPLANETS.toString());
 			oneLoaded = false;
 		}
-		if(!CompatMods.GALAXYSPACE.isLoaded()) {
+		if (!CompatMods.GALAXYSPACE.isLoaded()) {
 			GalacticTweaks.LOG.error("[REQUIRED MOD NOT FOUND FOR FEATURE " + category() + "]");
-			GalacticTweaks.LOG.error("The Mod  [%s] MUST be installed to use this Feature ", CompatMods.GALAXYSPACE.toString());
+			GalacticTweaks.LOG.error("The Mod  [%s] MUST be installed to use this Feature ",
+					CompatMods.GALAXYSPACE.toString());
 			oneLoaded = false;
 		}
 		return oneLoaded;

@@ -24,7 +24,7 @@ import net.minecraft.item.*;
 import net.minecraftforge.oredict.*;
 import net.romvoid95.galactic.feature.*;
 
-public class CompressorFixes extends Feature  {
+public class CompressorFixes extends Feature {
 
 	@Override
 	public String category() {
@@ -38,32 +38,29 @@ public class CompressorFixes extends Feature  {
 
 	@Override
 	public void init() {
-		if (isEnabled()) {
-			ItemStack tplate   = new ItemStack(AsteroidsItems.basicItem, 1, 6);
-			ItemStack cplate   = new ItemStack(GCItems.basicItem, 1, 6);
-			ItemStack tinplate = new ItemStack(GCItems.basicItem, 1, 8);
-			ItemStack splate   = new ItemStack(GCItems.basicItem, 1, 9);
-			ItemStack bplate   = new ItemStack(GCItems.basicItem, 1, 10);
-			ItemStack iplate   = new ItemStack(GCItems.basicItem, 1, 11);
-			for (ItemStack t : OreDictionary.getOres("ingotTitanium")) {
-				CompressorRecipes.addShapelessRecipe(tplate, t, t);
-			}
-			for (ItemStack c : OreDictionary.getOres("ingotCopper")) {
-				CompressorRecipes.addShapelessRecipe(cplate, c, c);
-			}
-			for (ItemStack tin : OreDictionary.getOres("ingotTin")) {
-				CompressorRecipes.addShapelessRecipe(tinplate, tin, tin);
-			}
-			for (ItemStack s : OreDictionary.getOres("ingotSteel")) {
-				CompressorRecipes.addShapelessRecipe(splate, s, s);
-			}
-			for (ItemStack b : OreDictionary.getOres("ingotBronze")) {
-				CompressorRecipes.addShapelessRecipe(bplate, b, b);
-			}
-			for (ItemStack i : OreDictionary.getOres("ingotIron")) {
-				CompressorRecipes.addShapelessRecipe(iplate, i, i);
-			}
-
+		ItemStack tplate = new ItemStack(AsteroidsItems.basicItem, 1, 6);
+		ItemStack cplate = new ItemStack(GCItems.basicItem, 1, 6);
+		ItemStack tinplate = new ItemStack(GCItems.basicItem, 1, 8);
+		ItemStack splate = new ItemStack(GCItems.basicItem, 1, 9);
+		ItemStack bplate = new ItemStack(GCItems.basicItem, 1, 10);
+		ItemStack iplate = new ItemStack(GCItems.basicItem, 1, 11);
+		for (ItemStack t : OreDictionary.getOres("ingotTitanium")) {
+			CompressorRecipes.addShapelessRecipe(tplate, t, t);
+		}
+		for (ItemStack c : OreDictionary.getOres("ingotCopper")) {
+			CompressorRecipes.addShapelessRecipe(cplate, c, c);
+		}
+		for (ItemStack tin : OreDictionary.getOres("ingotTin")) {
+			CompressorRecipes.addShapelessRecipe(tinplate, tin, tin);
+		}
+		for (ItemStack s : OreDictionary.getOres("ingotSteel")) {
+			CompressorRecipes.addShapelessRecipe(splate, s, s);
+		}
+		for (ItemStack b : OreDictionary.getOres("ingotBronze")) {
+			CompressorRecipes.addShapelessRecipe(bplate, b, b);
+		}
+		for (ItemStack i : OreDictionary.getOres("ingotIron")) {
+			CompressorRecipes.addShapelessRecipe(iplate, i, i);
 		}
 	}
 

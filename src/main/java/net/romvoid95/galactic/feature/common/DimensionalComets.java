@@ -17,7 +17,7 @@ public class DimensionalComets extends Feature {
 
 	@Override
 	public String category() {
-		return  "dimensionComets";
+		return "dimensionComets";
 	}
 
 	@Override
@@ -31,10 +31,10 @@ public class DimensionalComets extends Feature {
 	public boolean usesEvents() {
 		return true;
 	}
-	
+
 	private List<DimCometData> dataEntires = new ArrayList<>();
 	private int logged = 0;
-	
+
 	@Override
 	public void postInit() {
 		for (String data : FeatureConfigs.dimID_spawnrate.get()) {
@@ -47,11 +47,9 @@ public class DimensionalComets extends Feature {
 
 	@SubscribeEvent
 	public void entityLivingEvent(LivingEvent.LivingUpdateEvent event) {
-		if (isEnabled()) {
-			final EntityLivingBase entityLiving = event.getEntityLiving();
-			if (entityLiving instanceof EntityPlayerMP) {
-				this.onPlayerUpdate((EntityPlayerMP) entityLiving);
-			}
+		final EntityLivingBase entityLiving = event.getEntityLiving();
+		if (entityLiving instanceof EntityPlayerMP) {
+			this.onPlayerUpdate((EntityPlayerMP) entityLiving);
 		}
 	}
 
@@ -66,32 +64,35 @@ public class DimensionalComets extends Feature {
 		WorldProvider provider = world.provider;
 		int dimId = provider.getDimensionType().getId();
 		int f;
-		if(world.provider.getDimensionType().getId() == -1) {
+		if (world.provider.getDimensionType().getId() == -1) {
 			return;
 		}
-		if(dimId == dimensionid) {
-			if(provider instanceof IGalacticraftWorldProvider) {
+		if (dimId == dimensionid) {
+			if (provider instanceof IGalacticraftWorldProvider) {
 				IGalacticraftWorldProvider gcprovider = (IGalacticraftWorldProvider) provider;
 				double x = gcprovider.getMeteorFrequency();
 				double spRate = 0;
-				if(x > 0 && logged < 3) {
-					GalacticTweaks.LOG.debug("Dimensional Comets: Dim {} has preset MeteorFrequency of: {}", dimensionid, x);
+				if (x > 0 && logged < 3) {
+					GalacticTweaks.LOG.debug("Dimensional Comets: Dim {} has preset MeteorFrequency of: {}",
+							dimensionid, x);
 					logged++;
-					if(spawnRate > x) {
-						GalacticTweaks.LOG.debug("Dimensional Comets: Adjusting specified SpawnRate to subtract preset MeteorFrequency");
+					if (spawnRate > x) {
+						GalacticTweaks.LOG.debug(
+								"Dimensional Comets: Adjusting specified SpawnRate to subtract preset MeteorFrequency");
 						logged++;
 						spRate = spawnRate - x;
 						GalacticTweaks.LOG.debug("Dimensional Comets: Adjusted SpawnRate to {} ", spRate);
 						logged++;
 					} else {
-						GalacticTweaks.LOG.debug("Dimensional Comets: Adjusting specified SpawnRate to add preset MeteorFrequency");
+						GalacticTweaks.LOG.debug(
+								"Dimensional Comets: Adjusting specified SpawnRate to add preset MeteorFrequency");
 						logged++;
 						spRate = spawnRate + x;
 						GalacticTweaks.LOG.debug("Dimensional Comets: Adjusted SpawnRate to {} ", spRate);
 						logged++;
 					}
 				} else {
-					if(spawnRate > x) {
+					if (spawnRate > x) {
 						spRate = spawnRate - x;
 					} else {
 						spRate = spawnRate + x;
@@ -104,7 +105,7 @@ public class DimensionalComets extends Feature {
 			this.run(world, f, player);
 		}
 	}
-	
+
 	private void run(World world, int f, EntityPlayerMP player) {
 		if (world.rand.nextInt(f) == 0) {
 			final EntityPlayer closestPlayer = world.getClosestPlayerToEntity(player, 100);
@@ -122,8 +123,8 @@ public class DimensionalComets extends Feature {
 					x = ((px >> 4) + r << 4) - 1 - px;
 				}
 
-				final EntityMeteor meteor = new EntityMeteor(world, player.posX + x, 355D, player.posZ
-						+ z, motX, 0, motZ, 1);
+				final EntityMeteor meteor = new EntityMeteor(world, player.posX + x, 355D, player.posZ + z, motX, 0,
+						motZ, 1);
 
 				if (!world.isRemote) {
 					world.spawnEntity(meteor);
@@ -147,8 +148,8 @@ public class DimensionalComets extends Feature {
 					x = ((px >> 4) + r << 4) - 1 - px;
 				}
 
-				final EntityMeteor meteor = new EntityMeteor(world, player.posX + x, 355D, player.posZ
-						+ z, motX, 0, motZ, 6);
+				final EntityMeteor meteor = new EntityMeteor(world, player.posX + x, 355D, player.posZ + z, motX, 0,
+						motZ, 6);
 
 				if (!world.isRemote) {
 					world.spawnEntity(meteor);
@@ -161,7 +162,7 @@ public class DimensionalComets extends Feature {
 	public boolean isEnabled() {
 		return FeatureConfigs.DIMENSIONAL_COMETS;
 	}
-	
+
 	public class DimCometData {
 		private int dimid;
 		private double spawnrate;

@@ -64,14 +64,12 @@ public class SpawnDimension extends Feature implements IOrdered {
 
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onPlayerJoin(PlayerLoggedInEvent event) {
-		if (isEnabled()) {
-			handleLoggingEvent(event);
-		}
+		handleLoggingEvent(event);
 	}
 
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onPlayerRespawn(PlayerRespawnEvent event) {
-		if (isEnabled() && FeatureConfigs.everyDeath.get()) {
+		if (FeatureConfigs.everyDeath.get()) {
 			handleRespawnEvent(event);
 		}
 	}

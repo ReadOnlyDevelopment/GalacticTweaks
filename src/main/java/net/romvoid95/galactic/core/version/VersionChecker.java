@@ -42,11 +42,9 @@ public final class VersionChecker {
     			player.sendMessage(StringUtil.format("galactictweaks.versions.failed"));
     		} else if(VersionChecker.notifyForUpdate) {
                 player.sendMessage(StringUtil.format("galactictweaks.versions.notify", new Style().setColor(TextFormatting.LIGHT_PURPLE)));
-                player.sendMessage(StringUtil.format("galactictweaks.versions.outdated0"));
-                player.sendMessage(StringUtil.formatFromJson("galactictweaks.versions.outdated1", currentRunningVersion
-						.toString()));
-				player.sendMessage(StringUtil.formatFromJson("galactictweaks.versions.outdated2", updateVersion
-						.toString()));
+                player.sendMessage(StringUtil.formatFromJson("galactictweaks.versions.outdated0"));
+                player.sendMessage(new TextComponentTranslation("galactictweaks.versions.outdated1", currentRunningVersion.toString()));
+				player.sendMessage(new TextComponentTranslation("galactictweaks.versions.outdated2", updateVersion.toString()));
                 player.sendMessage(StringUtil.formatFromJson("galactictweaks.versions.outdated0"));
                 player.sendMessage(StringUtil.formatFromJson("galactictweaks.versions.updateMessage"));
     		}

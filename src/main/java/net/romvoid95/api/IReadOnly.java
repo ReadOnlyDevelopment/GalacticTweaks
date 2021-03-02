@@ -10,13 +10,11 @@ public interface IReadOnly {
 
     String getVersion();
 
-    int getBuildNum();
-
     default boolean isDevBuild() {
         return (Boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
     }
 
     default GCTLogger getLog() {
-        return GCTLogger.getRegisteredLogger(getModName()).orElse(new GCTLogger(getModName(), getBuildNum()));
+        return GCTLogger.getRegisteredLogger(getModName()).orElse(new GCTLogger(getModName()));
     }
 }

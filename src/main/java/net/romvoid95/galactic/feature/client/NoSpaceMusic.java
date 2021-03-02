@@ -27,10 +27,8 @@ public class NoSpaceMusic extends Feature  {
 
 	@Override
 	public void proxyPostInit() {
-		if (isEnabled()) {
-			MusicTickerFake musicTicker = new MusicTickerFake(Minecraft.getMinecraft());
-			Reflected.setPrivateValue(Minecraft.class, Minecraft.getMinecraft(), musicTicker, "mcMusicTicker", "field_147126_aw");
-		}
+		MusicTickerFake musicTicker = new MusicTickerFake(Minecraft.getMinecraft());
+		Reflected.setPrivateValue(Minecraft.class, Minecraft.getMinecraft(), musicTicker, "mcMusicTicker", "field_147126_aw");
 	}
 
 	@SideOnly(value = Side.CLIENT)

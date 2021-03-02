@@ -4,18 +4,20 @@ import static net.romvoid95.galactic.Info.*;
 
 import java.io.*;
 
+import asmodeuscore.core.astronomy.*;
+import asmodeuscore.core.configs.*;
 import net.minecraftforge.common.*;
 import net.minecraftforge.fml.common.*;
 import net.minecraftforge.fml.common.Mod.*;
 import net.minecraftforge.fml.common.event.*;
-import net.minecraftforge.fml.common.network.*;
-import net.minecraftforge.fml.common.network.simpleimpl.*;
 import net.romvoid95.api.*;
+import net.romvoid95.api.registry.*;
 import net.romvoid95.galactic.core.*;
 import net.romvoid95.galactic.core.config.*;
 import net.romvoid95.galactic.core.gc.*;
 import net.romvoid95.galactic.core.version.*;
 import net.romvoid95.galactic.modules.*;
+import net.romvoid95.galactic.proxy.*;
 
 @Mod(
 		modid = ID,
@@ -30,15 +32,20 @@ public class GalacticTweaks implements IReadOnly{
 	@Instance(value = "GalacticTweaks", owner = ID)
 	public static GalacticTweaks instance = new GalacticTweaks();
 	
-	public static final GCTLogger LOG = new GCTLogger(ID, BUILD_NUM);
+	@SidedProxy(clientSide = "net.romvoid95.galactic.proxy.ClientProxy", serverSide = "net.romvoid95.galactic.proxy.ServerProxy")
+	public static ServerProxy proxy;
 	
+	//public static GCTNetworkManager packetmanager;
+	
+	public static final GCTLogger LOG = new GCTLogger(ID);
 	public static File modFolder = null;
 
-	@SidedProxy(clientSide = "net.romvoid95.galactic.ClientProxy", serverSide = "net.romvoid95.galactic.CommonProxy")
-	public static CommonProxy proxy;
+	public final GCTRegistry registry = new GCTRegistry();
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
+		registry.setMod(this);
+		registry.getRecipeMaker();
 		GalacticTweaks.modFolder = new File(event.getModConfigurationDirectory(), "GalacticTweaks");
 		MinecraftForge.EVENT_BUS.register(this);
 
@@ -46,29 +53,39 @@ public class GalacticTweaks implements IReadOnly{
 		new CoreConfigHandler(modFolder, CONFVERSION);
 		new VersionChecker();
 		
-		final SimpleNetworkWrapper network = NetworkRegistry.INSTANCE.newSimpleChannel(ID);
-
+		//GalacticTweaks.packetmanager = GCTNetworkManager.init();
+		
 		ModuleController.registerModules();
 		ModuleController.modules.forEach(Module::setupConfig);
-		
 		ModuleController.modules.forEach(Module::handleFeatures);
+		
+		//ModuleController.modules.forEach(module -> module.registryPreInit(registry));
 
-		ModuleController.modules.forEach(module -> module.registerPacket(network));
 		ModuleController.modules.forEach(Module::preInit);
+		
+		//NetworkRegistry.INSTANCE.registerGuiHandler(this, new GCTGuiHandler());
 
-		proxy.preInit(event);
+		proxy.preInit(registry, event);
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
+		 
+		
 
 		ModuleController.modules.forEach(Module::init);
 
-		proxy.init(event);
+		proxy.init(registry, event);
 	}
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
+		if(GalacticraftAddon.EXTRAPLANETS.isLoaded() && GalacticraftAddon.GALAXYSPACE.isLoaded()) {
+			if(AsmodeusConfig.enableNewGalaxyMap) {
+				BodiesRegistry.setMaxTier(10);
+			}
+		}
+		
 		IOWriter io = new IOWriter();
 		
 		io.handleFile("ValidDimIDs.txt");
@@ -90,7 +107,7 @@ public class GalacticTweaks implements IReadOnly{
 		
 		ModuleController.modules.forEach(Module::postInit);
 
-		proxy.postInit(event);
+		proxy.postInit(registry, event);
 	}
 
 	@EventHandler
@@ -130,10 +147,5 @@ public class GalacticTweaks implements IReadOnly{
 	@Override
 	public String getVersion() {
 		return VERSION;
-	}
-
-	@Override
-	public int getBuildNum() {
-		return BUILD_NUM;
 	}
 }
