@@ -1,10 +1,12 @@
 package net.romvoid95.galactic.feature.common;
 
-import static net.romvoid95.galactic.Info.ID;
+import static net.romvoid95.galactic.Info.*;
 
 import java.util.*;
 
 import com.google.common.collect.*;
+
+import static net.romvoid95.api.docs.Stability.*;
 
 import micdoodle8.mods.galacticraft.core.*;
 import micdoodle8.mods.galacticraft.core.entities.player.*;
@@ -22,9 +24,22 @@ import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.eventhandler.*;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.*;
 import net.romvoid95.api.config.*;
+import net.romvoid95.api.docs.*;
 import net.romvoid95.galactic.core.utils.*;
 import net.romvoid95.galactic.feature.*;
 
+@Doc(
+	value = "Spawn With Oxygen Gear",
+	comment = "Feature that allows modpack makers to have players spawn with the configured Oxygen gear when \n"
+			+ "they join a world for the first time. Every slot available in the Galacticraft tab can be \n"
+			+ "configured.  This feature also adds an Admin/OP-Only command that allows you to reset their \n"
+			+ "playerdata if needed. So the player can receive the gear again on next login \n"
+			+ "Note: This fearure registers a \"true/false\" value in the players data file. When they receive \n"
+			+ "the gear the value is set to true so the mod knows to not give that player gear again the next \n"
+			+ "time they login. If for any reason the player needs to have gear again on next login. \n"
+			+ "Use the command this feature adds to reset their data value to \"false\"",
+	stability = STABLE
+)
 public class OxygenSpawnGear extends Feature implements IOrdered {
 
 	@Override

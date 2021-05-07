@@ -4,7 +4,7 @@ import java.util.Locale;
 
 public enum ConfigCat {
 	
-	CORE("Core Mod Settings", "Non-Feature related Settings", "galactictweaks.configgui.category.core");
+	CORE("Core Mod Settings", "Non-Stability related Settings", "galactictweaks.configgui.category.core");
 
     public final String name;
     public final String comment;

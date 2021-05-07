@@ -37,8 +37,20 @@ public class FeatureConfigs extends ReadOnlyConfig {
 	public static boolean NO_SPACE_MUSIC;
 	@GTFeature(featureClass = FixAsmodeusMapIcons.class)
 	public static boolean FIX_MAP_ICONS;
-	//@GTFeature(featureClass = PublicAirlock.class)
-	//public static boolean PUBLIC_AIRLOCK;
+//	@GTFeature(featureClass = HubFeature.class)
+//	public static boolean SERVER_HUB;
+	
+	// SERVER HUB
+//	public static OptBoolean inOwnSystem;
+//	public static OptString celestialType;
+//	public static OptDouble distance;
+//	public static OptDouble size;
+//	public static OptArrayString atmosphereGases;
+//	public static OptDouble gravity;
+//	public static OptInteger daylength;
+//	public static OptString skyColor;
+//	public static OptString fogColor;
+//	public static OptBoolean hasSunset;
 	
 	// UNLOCK SCHEMATICS
 	public static OptArrayInteger schematicIDs;
@@ -48,12 +60,12 @@ public class FeatureConfigs extends ReadOnlyConfig {
 	public static OptBoolean firstJoinOnly;
 	public static OptBoolean everyDeath;
 	public static OptString SpawnDim;
-	public static DimValidValues validSPawnDims;
+	public static ValidDimIDs validSPawnDims;
 	public static OptString spawnPos;
 	
 	// SEPERATE PLANETS
 	public static OptString modid;
-
+	
 	// BREATHEABLE DIMS
 	public static OptArrayInteger breatheableDims;
 	public static OptArrayInteger nonBreatheableDims;

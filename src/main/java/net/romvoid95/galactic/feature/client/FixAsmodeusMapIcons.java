@@ -1,10 +1,18 @@
 package net.romvoid95.galactic.feature.client;
 
+import static net.romvoid95.api.docs.Stability.*;
+
 import asmodeuscore.core.configs.*;
+import net.romvoid95.api.docs.*;
 import net.romvoid95.galactic.core.*;
 import net.romvoid95.galactic.feature.*;
 
-public class FixAsmodeusMapIcons extends Feature  {
+@Doc(
+	value = "AsmodeusCore Celstial Map Tweak", 
+	comment = "A Client-Side Only feature that will fix certain celstial objects from addons that have larger than intended icons due to how AsmodeusCore render's its icons.",
+	stability = UNSTABLE
+)
+public class FixAsmodeusMapIcons extends Feature {
 
 	@Override
 	public String comment () {

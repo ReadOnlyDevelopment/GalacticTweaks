@@ -1,11 +1,20 @@
 package net.romvoid95.galactic.feature.common;
 
+import static net.romvoid95.api.docs.Stability.*;
+
 import asmodeuscore.core.astronomy.*;
+import net.romvoid95.api.docs.*;
 import net.romvoid95.galactic.*;
 import net.romvoid95.galactic.core.*;
 import net.romvoid95.galactic.core.gc.*;
 import net.romvoid95.galactic.feature.*;
 
+@Doc(
+	value = "Seperate Duplicate Planets",
+	comment = "Feature that allows you to move the duplicate planets that both ExtraPlanets and GalaxySpace add to a different Galaxy.\n" 
+			+ "The plantes that are moved are determined by the addonid that is specified in the config file.",
+	stability = STABLE
+)
 public class SeperateAddonPlanets extends Feature {
 
 	@Override
@@ -34,13 +43,13 @@ public class SeperateAddonPlanets extends Feature {
 		boolean oneLoaded = true;
 		if (!CompatMods.EXTRAPLANETS.isLoaded()) {
 			GalacticTweaks.LOG.error("[REQUIRED MOD NOT FOUND FOR FEATURE " + category() + "]");
-			GalacticTweaks.LOG.error("The Mod  [%s] MUST be installed to use this Feature ",
+			GalacticTweaks.LOG.error("The Mod  [%s] MUST be installed to use this Stability ",
 					CompatMods.EXTRAPLANETS.toString());
 			oneLoaded = false;
 		}
 		if (!CompatMods.GALAXYSPACE.isLoaded()) {
 			GalacticTweaks.LOG.error("[REQUIRED MOD NOT FOUND FOR FEATURE " + category() + "]");
-			GalacticTweaks.LOG.error("The Mod  [%s] MUST be installed to use this Feature ",
+			GalacticTweaks.LOG.error("The Mod  [%s] MUST be installed to use this Stability ",
 					CompatMods.GALAXYSPACE.toString());
 			oneLoaded = false;
 		}

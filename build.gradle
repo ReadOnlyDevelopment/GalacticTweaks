@@ -1,10 +1,6 @@
 buildscript {
 	repositories {
 		maven {
-			name = "gradle"
-			url = "https://plugins.gradle.org/m2/"
-		}
-		maven {
 			name = "forge"
 			url = "https://files.minecraftforge.net/maven"
 		}
@@ -15,19 +11,17 @@ buildscript {
 }
 
 plugins {
-	id "com.wynprice.cursemaven" version "2.1.5"
-	id 'com.matthewprenger.cursegradle' version '1.4.0'
-	id 'net.ltgt.apt' version '0.10'
+	id 'java'
 	id 'eclipse'
 }
 
-apply plugin: "java"
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 apply from: 'gradle/functions.gradle'
 apply from: 'gradle/artifact.gradle'
 apply from: 'gradle/git2md_changelog.gradle'
 apply from: 'gradle/private.gradle'
+
 loadSecrets()
 // ==========================================
 
@@ -55,11 +49,29 @@ compileJava {
 	sourceCompatibility = targetCompatibility = '1.8'
 }
 
-apply from: "https://raw.githubusercontent.com/ReadOnlyDevelopment/gradle/galacticraft/dev-latest.gradle"
+configurations {
+    extraLibs
+    implementation.extendsFrom(extraLibs)
+}
+
+String GCBuild = "261"
+String GCVersion = "1.12.2-4.0.2.${GCBuild}"
 
 repositories {
+	ivy {
+		url "https://micdoodle8.com/new-builds/"
+		layout 'pattern', {
+			artifact "[organization]/${GCBuild}/[module]-[revision].jar"
+		}
+		metadataSources {
+			artifact()
+		}
+	}
 	mavenLocal()
 	mavenCentral()
+    removeIf { it.url.host == 'files.minecraftforge.net' }
+    maven { url "https://maven.minecraftforge.net/" }
+	maven { url "https://www.cursemaven.com" }
 	maven { url "https://jitpack.io" }
 	maven { url "https://maven.mjrlegends.com/" }
 	maven { url "https://minecraft.curseforge.com/api/maven/" }
@@ -69,17 +81,16 @@ repositories {
 }
 
 dependencies {
-	
-	compile "org.reflections:reflections:0.9.12"
-	
-    compileOnly 'org.projectlombok:lombok:1.18.16'
-    annotationProcessor 'org.projectlombok:lombok:1.18.16'
-    
-    testCompileOnly 'org.projectlombok:lombok:1.18.16'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.16'
+	compile "GC-1.12-dev:GalacticraftCore-Dev:${GCVersion}"
+	compile "GC-1.12-dev:Galacticraft-API:${GCVersion}"
+	compile "GC-1.12-dev:Galacticraft-Planets-Dev:${GCVersion}"
+	compile "GC-1.12-dev:MicdoodleCore-Dev:${GCVersion}"
 
-	// LOAD GC ADDONS
-	compile fileTree(include: ['*.jar'], dir: 'lib')
+    compileOnly 'org.projectlombok:lombok:1.18.18'
+    annotationProcessor 'org.projectlombok:lombok:1.18.18'
+    
+    testCompileOnly 'org.projectlombok:lombok:1.18.18'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.18'
 
 	compile("com.mjr.planetprogression:PlanetProgression:1.12.2-0.4.5:api") {
 		exclude module: 'jei_1.12.2'
@@ -94,22 +105,24 @@ dependencies {
 	runtime "com.mjr.mjrlegendslib:MJRLegendsLib:1.12.2-1.2.0"
 	compile "industrial-craft:industrialcraft-2-2.8.99:ex112:api"
 	
-	compile "curse.maven:zollerngalaxy-2.0.23:3187752"
-	compile "curse.maven:moreplanets-2.2.1_280:3165054"
-	runtime "curse.maven:stevekunglib-1.1.9:3051420"
+	compile "curse.maven:asmodeuscore-0.0.25-303101:3231302"
+	compile "curse.maven:galaxyspace-2.0.16-238770:3235468"
+	compile "curse.maven:zollerngalaxy-2.0.23-241940:3187752"
+	compile "curse.maven:moreplanets-2.2.1_280-261990:3165054"
+	runtime "curse.maven:stevekunglib-1.1.9-296019:3051420"
 }
 
 minecraft {
 	version = "${mc_version}-${forge_version}"
 	runDir = "run"
-	coreMod = 'net.romvoid95.plugin.GalacticTweaksPlugin'
+//	coreMod = 'net.romvoid95.plugin.GalacticTweaksPlugin'
 	mappings = "${mcp}"
 	
-	def args = [
-		"-Dfml.coreMods.load=net.romvoid95.plugin.GalacticTweaksPlugin"
-	]
-	clientJvmArgs.addAll(args)
-	serverJvmArgs.addAll(args)
+//	def args = [
+//		"-Dfml.coreMods.load=net.romvoid95.plugin.GalacticTweaksPlugin"
+//	]
+//	clientJvmArgs.addAll(args)
+//	serverJvmArgs.addAll(args)
 
 	replace '@VERSION@', project.version
 	replace '@MCVERSION@', project.minecraft.version
@@ -131,6 +144,9 @@ processResources {
 }
 
 jar {
+    from(configurations.extraLibs.collect { it.isDirectory() ? it : zipTree(it) }) {
+        exclude "LICENSE.txt", "META-INF/*", "META-INF/versions/9/module-info.*"
+    }
 	manifest {
 		mainAttributes(
 				'Maven-Artifact': "${project.group}:${project.archivesBaseName}:${project.version}",
@@ -141,9 +157,9 @@ jar {
 				'Built-On': "${project.mc_version}-${project.forge_version}"
 		)
 		attributes( 
-				"FMLCorePluginContainsFMLMod": "true",
-				"FMLCorePlugin": "net.romvoid95.plugin.GalacticTweaksPlugin",
-				"ForceLoadAsMod": "true",
+//				"FMLCorePluginContainsFMLMod": "true",
+//				"FMLCorePlugin": "net.romvoid95.plugin.GalacticTweaksPlugin",
+//				"ForceLoadAsMod": "true",
 				"FMLAT": "galactictweaks_at.cfg"
 		)
 	}
@@ -163,22 +179,12 @@ task signJar(type: SignJar, dependsOn: reobfJar) {
 	keyPass = findProperty('keyStoreKeyPass')
 }
 
-curseforge {
-	if (secret.containsKey('curseapi')) {
-		apiKey = secret.curseapi
-        project {
-            id = "359766"
-            changelog = file("CHANGELOG.md")
-            changelogType = "markdown"
-            releaseType = "release"
-            addGameVersion mc_version
-
-            mainArtifact(jar) {
-                displayName = "GalacticTweaks-" + mc_version + "-" + version
-            }
-        }
+if (JavaVersion.current().isJava8Compatible()) {
+	allprojects {
+		tasks.withType(Javadoc) {
+			options.addStringOption('Xdoclint:none', '-quiet')
+		}
 	}
 }
 
 build.dependsOn signJar
-tasks.curseforge.dependsOn(build)

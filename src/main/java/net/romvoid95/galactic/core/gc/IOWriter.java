@@ -42,7 +42,7 @@ public class IOWriter {
 			all.add(m.getName().replace(" ", "_"));
 		});
 
-		FeatureConfigs.validSPawnDims = new DimValidValues(all);
+		FeatureConfigs.validSPawnDims = new ValidDimIDs(all);
 	}
 
 	public void handleFile(String name) {

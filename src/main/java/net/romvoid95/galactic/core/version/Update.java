@@ -21,7 +21,7 @@ public class Update {
 
 	public static boolean startedDownload = false;
 	public static boolean downloadedFile = false;
-	
+
 	private static final EntityPlayer player = Minecraft.getMinecraft().player;
 
 	public static void download() {
@@ -41,7 +41,7 @@ public class Update {
 
 			jMsg("galactictweaks.versions.startingDownload", fileName);
 			jMsg("galactictweaks.versions.startingDownload2", null);
-			
+
 			startedDownload = true;
 
 			try {
@@ -63,11 +63,11 @@ public class Update {
 			downloadedFile = true;
 		}
 	}
-	
+
 	private static void msg(String key, String text, Style style) {
 		player.sendMessage(StringUtil.format(key, text, style));
 	}
-	
+
 	private static void jMsg(String key, @Nullable String text) {
 		player.sendMessage(StringUtil.formatFromJson(key, text));
 	}

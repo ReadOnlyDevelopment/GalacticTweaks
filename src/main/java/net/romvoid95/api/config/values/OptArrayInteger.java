@@ -6,18 +6,18 @@ import net.romvoid95.api.config.def.*;
 public class OptArrayInteger extends OptValue {
 	
 	private int[] defaultValues;
-	private RangePair<Integer> range;
+	private Range<Integer> range;
     private boolean hasRange;
 
-	public OptArrayInteger(ConfigKey key, ConfigCat category, ConfigComment comment, int... values) {
+	public OptArrayInteger(Key key, Category category, Comment comment, int... values) {
 		super(Type.INTEGER_ARRAY, key, category, comment);
 		this.defaultValues = values;
 		this.hasRange = false;
 	}
 	
-	public OptArrayInteger(ConfigKey key, ConfigCat category, ConfigComment comment, int minValueInt, int maxValueInt, int[] values) {
+	public OptArrayInteger(Key key, Category category, Comment comment, int minValueInt, int maxValueInt, int[] values) {
 		this(key, category, comment, values);
-		this.range = RangePair.of(minValueInt, maxValueInt);
+		this.range = Range.of(minValueInt, maxValueInt);
 		this.hasRange = true;
 	}
 	

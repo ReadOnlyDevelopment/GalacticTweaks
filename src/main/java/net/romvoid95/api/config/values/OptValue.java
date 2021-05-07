@@ -1,15 +1,22 @@
 package net.romvoid95.api.config.values;
 
+import net.minecraftforge.common.config.*;
 import net.romvoid95.api.config.def.*;
 
 public abstract class OptValue {
 
 	private Type type;
-	private ConfigKey key;
-	private ConfigCat category;
-	private ConfigComment comment;
+	private Key key;
+	private Category category;
+	private Comment comment;
 
-	public OptValue(Type type, ConfigKey key, ConfigCat category, ConfigComment comment) {
+	public OptValue(Type type, Key key, Category category) {
+		this.type = type;
+		this.key = key;
+		this.category = category;
+	}
+
+	public OptValue(Type type, Key key, Category category, Comment comment) {
 		this.type = type;
 		this.key = key;
 		this.category = category;
@@ -17,9 +24,13 @@ public abstract class OptValue {
 	}
 
 	void formatDescription(String defualtVal) {
-		this.comment.get();
+		this.comment.add(Configuration.NEW_LINE + defualtVal);
 	}
-	
+
+	void setComment(Comment comment) {
+		this.comment = comment;
+	}
+
 	public Type getType() {
 		return this.type;
 	}
@@ -27,7 +38,7 @@ public abstract class OptValue {
 	public String key() {
 		return this.key.get();
 	}
-	
+
 	public String langKey() {
 		return this.key.getLangKey();
 	}
@@ -35,8 +46,8 @@ public abstract class OptValue {
 	public String category() {
 		return this.category.get();
 	}
-	
-	public ConfigCat getConfigCat() {
+
+	public Category getConfigCat() {
 		return this.category;
 	}
 

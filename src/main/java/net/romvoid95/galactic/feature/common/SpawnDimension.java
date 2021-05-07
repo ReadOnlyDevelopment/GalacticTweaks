@@ -1,8 +1,10 @@
 package net.romvoid95.galactic.feature.common;
 
-import static net.romvoid95.galactic.Info.ID;
+import static net.romvoid95.galactic.Info.*;
 
 import java.util.*;
+
+import static net.romvoid95.api.docs.Stability.*;
 
 import micdoodle8.mods.galacticraft.api.galaxies.*;
 import micdoodle8.mods.galacticraft.api.vector.*;
@@ -15,10 +17,17 @@ import net.minecraft.world.*;
 import net.minecraftforge.fml.common.eventhandler.*;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.*;
 import net.romvoid95.api.config.*;
+import net.romvoid95.api.docs.*;
 import net.romvoid95.galactic.*;
 import net.romvoid95.galactic.core.gc.*;
 import net.romvoid95.galactic.feature.*;
 
+@Doc(
+	value = "Spawn Dimension",
+	comment = "Feature that allows you to set a certian planet/moon as your spawn world, as well as specify a certian coordinate.\n"
+			+ "Also allows you to set whether players spawn every time they join and/or every respawn.",
+	stability = STABLE
+	)
 public class SpawnDimension extends Feature implements IOrdered {
 
 	@Override

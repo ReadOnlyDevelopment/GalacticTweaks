@@ -1,13 +1,21 @@
 package net.romvoid95.galactic.feature.client;
 
+import static net.romvoid95.api.docs.Stability.*;
+
 import micdoodle8.mods.galacticraft.api.world.*;
 import net.minecraft.client.*;
 import net.minecraft.client.audio.*;
 import net.minecraftforge.fml.client.*;
 import net.minecraftforge.fml.relauncher.*;
+import net.romvoid95.api.docs.*;
 import net.romvoid95.galactic.core.utils.*;
 import net.romvoid95.galactic.feature.*;
 
+@Doc(
+	value = "No More Space Music", 
+	comment = "A Client-Side Only feature that will stop all custom music from Galacticraft from playing on other planets.",
+	stability = STABLE
+)
 public class NoSpaceMusic extends Feature  {
 
 	@Override

@@ -45,6 +45,7 @@ public class GalacticTweaks implements IReadOnly{
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
+		//DocTool.runTool();
 		GalacticTweaks.modFolder = new File(event.getModConfigurationDirectory(), "GalacticTweaks");
 		MinecraftForge.EVENT_BUS.register(this);
 
@@ -56,6 +57,9 @@ public class GalacticTweaks implements IReadOnly{
 		ModuleController.modules.forEach(Module::setupConfig);
 		ModuleController.modules.forEach(Module::handleFeatures);
 		ModuleController.modules.forEach(Module::preInit);
+		
+
+		
 		proxy.preInit(event);
 	}
 
@@ -78,7 +82,7 @@ public class GalacticTweaks implements IReadOnly{
 		io.handleFile("ValidDimIDs.txt");
 		if(CompatMods.EXTRAPLANETS.isLoaded()) {
 			io.NOTICE();
-			io.write(("Planets & Moons that end with \"ep\" are added by ExtraPlanets."));
+			io.write("Planets & Moons that end with \"ep\" are added by ExtraPlanets.");
 			io.write("Please keep this in mind if choosing a planet that is added by both ExtraPlanets & GalaxySpace");
 			io.nl();
 			io.write("This file is regenerated every time minecraft is ran to handle any addons added or removed");
@@ -102,17 +106,20 @@ public class GalacticTweaks implements IReadOnly{
 
 		ModuleController.modules.forEach(module -> module.serverStartingEvent(event));
 
-		if (CoreBooleanValues.DO_UPDATE_CHECK.isEnabled())
+		if (CoreBooleanValues.DO_UPDATE_CHECK.isEnabled()) {
 			event.registerServerCommand(new DownloadCommand());
+		}
 
 	}
 
 	@EventHandler
 	public void onFingerprintViolation(FMLFingerprintViolationEvent event) {
-		if(isDevBuild() == false)
+		if(isDevBuild() == false) {
 			GalacticTweaks.LOG.warn("Invalid fingerprint detected! The file " + event.getSource().getName() + " may have been tampered with. This version will NOT be supported by the developer!");
-		if(isDevBuild())
+		}
+		if(isDevBuild()) {
 			GalacticTweaks.LOG.info("Ignoring fingerprint signing since we are in a Development Environment");
+		}
 	}
 
 	@Override

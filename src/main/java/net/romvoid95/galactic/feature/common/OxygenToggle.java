@@ -1,5 +1,7 @@
 package net.romvoid95.galactic.feature.common;
 
+import static net.romvoid95.api.docs.Stability.*;
+
 import micdoodle8.mods.galacticraft.api.event.oxygen.*;
 import micdoodle8.mods.galacticraft.core.util.*;
 import net.minecraft.entity.*;
@@ -8,8 +10,14 @@ import net.minecraftforge.common.*;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.fml.common.eventhandler.*;
 import net.romvoid95.api.config.*;
+import net.romvoid95.api.docs.*;
 import net.romvoid95.galactic.feature.*;
 
+@Doc(
+	value = "Dynamic Oxygen Tweak",
+	comment = "Feature that allows you to set any celestial body to have Oxygen or not have oxygen",
+	stability = UNSTABLE
+)
 public class OxygenToggle extends Feature implements IOrdered {
 
 	@Override

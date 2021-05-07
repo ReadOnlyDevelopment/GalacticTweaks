@@ -6,7 +6,7 @@ public class OptBoolean extends OptValue {
 
     public boolean valueBoolean;
 
-    public OptBoolean(ConfigKey key, ConfigCat category, ConfigComment comment, boolean defaultValue) {
+    public OptBoolean(Key key, Category category, Comment comment, boolean defaultValue) {
     	super(Type.BOOLEAN, key, category, comment);
         this.valueBoolean = defaultValue;
         this.formatDescription(String.valueOf(defaultValue));

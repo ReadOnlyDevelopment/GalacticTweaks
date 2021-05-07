@@ -20,22 +20,22 @@ public class PlanetGroups {
 	public static CelestialGroup<Planet> zollernPlanets() {
 		if (zollernGroup == null) {
 			GalacticTweaks.LOG.info("Building ZollernGalaxy Planet List");
-			CelestialGroup<Planet> p = new CelestialGroup<Planet>();
-				p.addAll(
-						ZGPlanets.planetEden, 
-						ZGPlanets.planetZollus,
-						ZGPlanets.planetKriffon, 
-						ZGPlanets.planetPurgot, 
-						ZGPlanets.planetXathius, 
-						ZGPlanets.planetOasis,
-						ZGPlanets.planetXantheon, 
-						ZGPlanets.planetCandora,
-						ZGPlanets.planetAtheon, 
-						ZGPlanets.planetPerdita,
-						ZGPlanets.planetAltum, 
-						ZGPlanets.planetCaligro, 
-						ZGPlanets.planetExodus
-				);
+			CelestialGroup<Planet> p = new CelestialGroup<>();
+			p.addAll(
+					ZGPlanets.planetEden,
+					ZGPlanets.planetZollus,
+					ZGPlanets.planetKriffon,
+					ZGPlanets.planetPurgot,
+					ZGPlanets.planetXathius,
+					ZGPlanets.planetOasis,
+					ZGPlanets.planetXantheon,
+					ZGPlanets.planetCandora,
+					ZGPlanets.planetAtheon,
+					ZGPlanets.planetPerdita,
+					ZGPlanets.planetAltum,
+					ZGPlanets.planetCaligro,
+					ZGPlanets.planetExodus
+					);
 			zollernGroup = p;
 		}
 		return zollernGroup;
@@ -44,13 +44,13 @@ public class PlanetGroups {
 	public static CelestialGroup<Star> zollernStarGroup() {
 		if (zollernStarGroup == null) {
 			GalacticTweaks.LOG.info("Building ZollernGalaxy Star List");
-			CelestialGroup<Star> p = new CelestialGroup<Star>();
-				p.addAll(
-						ZGPlanets.starPraedyth, 
-						ZGPlanets.starSol2,
-						ZGPlanets.starPsios
+			CelestialGroup<Star> p = new CelestialGroup<>();
+			p.addAll(
+					ZGPlanets.starPraedyth,
+					ZGPlanets.starSol2,
+					ZGPlanets.starPsios
 					);
-				zollernStarGroup = p;
+			zollernStarGroup = p;
 		}
 		return zollernStarGroup;
 	}
@@ -58,14 +58,14 @@ public class PlanetGroups {
 	public static CelestialGroup<Planet> morePlanetsGroup() {
 		if (morePlanetsGroup == null) {
 			GalacticTweaks.LOG.info("Building MorePlanets Planet List");
-			CelestialGroup<Planet> p = new CelestialGroup<Planet>();
-				p.addAll(
-						MPPlanets.CHALOS, 
-						MPPlanets.DIONA, 
-						MPPlanets.NIBIRU,
-						MPPlanets.FRONOS
+			CelestialGroup<Planet> p = new CelestialGroup<>();
+			p.addAll(
+					MPPlanets.CHALOS,
+					MPPlanets.DIONA,
+					MPPlanets.NIBIRU,
+					MPPlanets.FRONOS
 					);
-				morePlanetsGroup = p;
+			morePlanetsGroup = p;
 		}
 		return morePlanetsGroup;
 	}
@@ -73,18 +73,18 @@ public class PlanetGroups {
 	public static CelestialGroup<Planet> extraPlanetsGroup() {
 		if (extraPlanetsGroup == null) {
 			GalacticTweaks.LOG.info("Building ExtraPlanets Planet List");
-			CelestialGroup<Planet> p = new CelestialGroup<Planet>();
-				p.addAll(
-						ExtraPlanets_Planets.MERCURY,
-						ExtraPlanets_Planets.CERES, 
-						ExtraPlanets_Planets.JUPITER, 
-						ExtraPlanets_Planets.SATURN,
-						ExtraPlanets_Planets.URANUS, 
-						ExtraPlanets_Planets.NEPTUNE, 
-						ExtraPlanets_Planets.PLUTO,
-						ExtraPlanets_Planets.ERIS
+			CelestialGroup<Planet> p = new CelestialGroup<>();
+			p.addAll(
+					ExtraPlanets_Planets.MERCURY,
+					ExtraPlanets_Planets.CERES,
+					ExtraPlanets_Planets.JUPITER,
+					ExtraPlanets_Planets.SATURN,
+					ExtraPlanets_Planets.URANUS,
+					ExtraPlanets_Planets.NEPTUNE,
+					ExtraPlanets_Planets.PLUTO,
+					ExtraPlanets_Planets.ERIS
 					);
-				extraPlanetsGroup = p;
+			extraPlanetsGroup = p;
 		}
 		return extraPlanetsGroup;
 	}
@@ -92,20 +92,20 @@ public class PlanetGroups {
 	public static CelestialGroup<Planet> galaxySpaceGroup() {
 		if (galaxySpaceGroup == null) {
 			GalacticTweaks.LOG.info("Building GalaxySpace Planet List");
-			CelestialGroup<Planet> p = new CelestialGroup<Planet>();
-				p.addAll(
-						SolarSystemBodies.planetMercury,
-						SolarSystemBodies.planetCeres,
-						SolarSystemBodies.planetJupiter,
-						SolarSystemBodies.planetSaturn,
-						SolarSystemBodies.planetUranus,
-						SolarSystemBodies.planetNeptune,
-						SolarSystemBodies.planetPluto,
-						SolarSystemBodies.planetKuiperBelt,
-						SolarSystemBodies.planetHaumea,
-						SolarSystemBodies.planetMakemake,
-						SolarSystemBodies.planetEris,
-						SolarSystemBodies.planetDeeDee
+			CelestialGroup<Planet> p = new CelestialGroup<>();
+			p.addAll(
+					SolarSystemBodies.planetMercury,
+					SolarSystemBodies.planetCeres,
+					SolarSystemBodies.planetJupiter,
+					SolarSystemBodies.planetSaturn,
+					SolarSystemBodies.planetUranus,
+					SolarSystemBodies.planetNeptune,
+					SolarSystemBodies.planetPluto,
+					SolarSystemBodies.planetKuiperBelt,
+					SolarSystemBodies.planetHaumea,
+					SolarSystemBodies.planetMakemake,
+					SolarSystemBodies.planetEris,
+					SolarSystemBodies.planetDeeDee
 					);
 			galaxySpaceGroup = p;
 		}

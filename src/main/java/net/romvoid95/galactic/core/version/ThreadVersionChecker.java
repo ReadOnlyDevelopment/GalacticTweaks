@@ -1,6 +1,6 @@
 package net.romvoid95.galactic.core.version;
 
-import static net.romvoid95.galactic.Info.NAME;
+import static net.romvoid95.galactic.Info.*;
 
 import java.io.*;
 import java.net.*;
@@ -22,7 +22,7 @@ public class ThreadVersionChecker extends Thread {
 	public void run() {
 		try {
 			GalacticTweaks.LOG.info("Starting GalacticTweaks Version Check Thread");
-			
+
 			VersionChecker.updateVersion = getLatestVersion();
 
 			if(VersionChecker.updateVersion.isGreaterThan(VersionChecker.currentRunningVersion)) {
@@ -33,7 +33,7 @@ public class ThreadVersionChecker extends Thread {
 			GalacticTweaks.LOG.error("GalacticTweaks Version Check Failed", e);
 			VersionChecker.checkThreadFailed  = true;
 		}
-		
+
 		if(!VersionChecker.checkThreadFailed) {
 			if(VersionChecker.notifyForUpdate) {
 				GalacticTweaks.LOG.info("GalacticTweaks Update Found!");
@@ -43,7 +43,7 @@ public class ThreadVersionChecker extends Thread {
 		}
 		VersionChecker.checkThreadDone = true;
 	}
-	
+
 	private Version getLatestVersion() {
 		try {
 			URL getRequestURL = new URL("https://addons-ecs.forgesvc.net/api/v2/addon/359766");

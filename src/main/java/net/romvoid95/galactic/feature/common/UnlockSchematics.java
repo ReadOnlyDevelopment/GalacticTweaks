@@ -1,13 +1,22 @@
 package net.romvoid95.galactic.feature.common;
 
+import static net.romvoid95.api.docs.Stability.*;
+
 import micdoodle8.mods.galacticraft.api.recipe.*;
 import net.minecraft.entity.player.*;
 import net.minecraft.item.*;
 import net.minecraftforge.fml.common.eventhandler.*;
 import net.minecraftforge.fml.common.gameevent.*;
+import net.romvoid95.api.docs.*;
 import net.romvoid95.galactic.*;
 import net.romvoid95.galactic.feature.*;
 
+@Doc(
+	value = "Schematic Unlocker",
+	comment = "Feature that allows you to have certain Schematics unlocked from the very start.\n"
+			+ "Note: This feature is still in it's beta version and will be built upon as newer versions are released",
+	stability = UNSTABLE
+)
 public class UnlockSchematics extends Feature {
 
 	@Override

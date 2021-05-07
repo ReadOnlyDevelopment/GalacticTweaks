@@ -36,7 +36,7 @@ public abstract class Module {
 	
 	public void handleFeatures() {
 		features.stream().filter(Feature::isEnabled).forEach(feature -> {
-			GalacticTweaks.LOG.debug("Feature Enabled: {}", feature.getClass().getSimpleName());
+			GalacticTweaks.LOG.debug("Stability Enabled: {}", feature.getClass().getSimpleName());
 			enabledFeatures.add(feature);
 		});
 	}

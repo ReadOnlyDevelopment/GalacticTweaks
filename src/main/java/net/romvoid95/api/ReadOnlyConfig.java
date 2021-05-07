@@ -25,7 +25,7 @@ public abstract class ReadOnlyConfig {
 	protected List<OptValue> properties = new ArrayList<>();
 	protected List<Field> features = new ArrayList<>();
 	private List<String> propOrder = new ArrayList<>();
-	private List<ConfigCat> configCats = new ArrayList<>();
+	private List<Category> configCats = new ArrayList<>();
 
 	private Configuration config;
 
@@ -50,7 +50,7 @@ public abstract class ReadOnlyConfig {
 		Configversion = configversion;
 	}
 	
-	public void addConfigCat(ConfigCat configCat) {
+	public void addConfigCat(Category configCat) {
 		this.configCats.add(configCat);
 	}
 
@@ -373,7 +373,7 @@ public abstract class ReadOnlyConfig {
 		return config;
 	}
 	
-    public ConfigCategory getCategory(ConfigCat category) {
+    public ConfigCategory getCategory(Category category) {
         return config.getCategory(category.get());
     }
 

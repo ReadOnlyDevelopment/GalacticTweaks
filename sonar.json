@@ -1,4 +1,0 @@
-{
-  "sonarHost": "http://provider.readonly.ml:9000/",
-  "sonarProjectKey": "net.rom:GalacticTweaks"
-}

@@ -6,6 +6,8 @@ import javax.annotation.*;
 
 import com.google.common.collect.*;
 
+import static net.romvoid95.api.docs.Stability.*;
+
 import micdoodle8.mods.galacticraft.core.dimension.*;
 import micdoodle8.mods.galacticraft.core.util.*;
 import net.minecraft.command.*;
@@ -14,8 +16,16 @@ import net.minecraft.server.*;
 import net.minecraft.util.math.*;
 import net.minecraft.util.text.*;
 import net.minecraftforge.fml.common.event.*;
+import net.romvoid95.api.docs.*;
 import net.romvoid95.galactic.feature.*;
 
+@Doc(
+	value = "SpaceRace Tweak",
+	comment = "Feature that adds a command that allows players that are currently in a SpaceRace team to leave that team. In the base Galacticraft\n" 
+			+ " mod only the Team leader can remove players from the team. Which could be problematic for players if that owner no longer plays on\n" 
+			+ " the server. Also takes the burden off admins so they don't have to remove players manually in data files.",
+	stability = STABLE
+)
 public class SpaceRaceFeature extends Feature {
 
 	@Override
