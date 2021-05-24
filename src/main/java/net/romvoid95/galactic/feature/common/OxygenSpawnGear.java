@@ -23,24 +23,29 @@ import net.minecraft.util.text.*;
 import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.eventhandler.*;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.*;
+import net.romvoid95.api.*;
 import net.romvoid95.api.config.*;
 import net.romvoid95.api.docs.*;
 import net.romvoid95.galactic.core.utils.*;
 import net.romvoid95.galactic.feature.*;
 
 @Doc(
-	value = "Spawn With Oxygen Gear",
-	comment = "Feature that allows modpack makers to have players spawn with the configured Oxygen gear when \n"
-			+ "they join a world for the first time. Every slot available in the Galacticraft tab can be \n"
-			+ "configured.  This feature also adds an Admin/OP-Only command that allows you to reset their \n"
-			+ "playerdata if needed. So the player can receive the gear again on next login \n"
-			+ "Note: This fearure registers a \"true/false\" value in the players data file. When they receive \n"
-			+ "the gear the value is set to true so the mod knows to not give that player gear again the next \n"
-			+ "time they login. If for any reason the player needs to have gear again on next login. \n"
-			+ "Use the command this feature adds to reset their data value to \"false\"",
-	stability = STABLE
-)
+		value = "Spawn With Oxygen Gear",
+		comment = "Feature that allows modpack makers to have players spawn with the configured Oxygen gear when \n"
+				+ "they join a world for the first time. Every slot available in the Galacticraft tab can be \n"
+				+ "configured.  This feature also adds an Admin/OP-Only command that allows you to reset their \n"
+				+ "playerdata if needed. So the player can receive the gear again on next login \n"
+				+ "Note: This fearure registers a \"true/false\" value in the players data file. When they receive \n"
+				+ "the gear the value is set to true so the mod knows to not give that player gear again the next \n"
+				+ "time they login. If for any reason the player needs to have gear again on next login. \n"
+				+ "Use the command this feature adds to reset their data value to \"false\"",
+				stability = STABLE
+		)
 public class OxygenSpawnGear extends Feature implements IOrdered {
+
+	public OxygenSpawnGear() {
+		super(OxygenSpawnGear::new, EnumSide.COMMON);
+	}
 
 	@Override
 	public String category() {
@@ -113,16 +118,16 @@ public class OxygenSpawnGear extends Feature implements IOrdered {
 		String val = FeatureConfigs.tanksValue.get();
 		ItemStack tank = null;
 		switch (val) {
-		case "heavy":
-			tank = ItemStackUtil.itemStack(GCItems.oxTankHeavy);
-			break;
-		case "medium":
-			tank = ItemStackUtil.itemStack(GCItems.oxTankMedium);
-			break;
-		case "light":
-			tank = ItemStackUtil.itemStack(GCItems.oxTankLight);
-		default:
-			break;
+			case "heavy":
+				tank = ItemStackUtil.itemStack(GCItems.oxTankHeavy);
+				break;
+			case "medium":
+				tank = ItemStackUtil.itemStack(GCItems.oxTankMedium);
+				break;
+			case "light":
+				tank = ItemStackUtil.itemStack(GCItems.oxTankLight);
+			default:
+				break;
 		}
 		return tank;
 	}
@@ -131,22 +136,23 @@ public class OxygenSpawnGear extends Feature implements IOrdered {
 		String val = FeatureConfigs.thermalArmor.get();
 		ItemStack thermal = null;
 		switch (val) {
-		case "isothermal":
-			thermal = ItemStackUtil.itemStack(VenusItems.thermalPaddingTier2, meta);
-			break;
-		case "thermal":
-			thermal = ItemStackUtil.itemStack(AsteroidsItems.thermalPadding, meta);
-			break;
-		default:
-			break;
+			case "isothermal":
+				thermal = ItemStackUtil.itemStack(VenusItems.thermalPaddingTier2, meta);
+				break;
+			case "thermal":
+				thermal = ItemStackUtil.itemStack(AsteroidsItems.thermalPadding, meta);
+				break;
+			default:
+				break;
 		}
 		return thermal;
 	}
 
 	@Override
 	public void ServerStartingEvent(FMLServerStartingEvent event) {
-		if (isEnabled())
+		if (isEnabled()) {
 			event.registerServerCommand(new OxygenSpawnGear.CommandOxygenReset());
+		}
 	}
 
 	@Override

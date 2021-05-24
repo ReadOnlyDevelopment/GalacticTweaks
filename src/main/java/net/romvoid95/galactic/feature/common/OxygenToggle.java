@@ -9,16 +9,21 @@ import net.minecraft.entity.player.*;
 import net.minecraftforge.common.*;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.fml.common.eventhandler.*;
+import net.romvoid95.api.*;
 import net.romvoid95.api.config.*;
 import net.romvoid95.api.docs.*;
 import net.romvoid95.galactic.feature.*;
 
 @Doc(
-	value = "Dynamic Oxygen Tweak",
-	comment = "Feature that allows you to set any celestial body to have Oxygen or not have oxygen",
-	stability = UNSTABLE
-)
+		value = "Dynamic Oxygen Tweak",
+		comment = "Feature that allows you to set any celestial body to have Oxygen or not have oxygen",
+		stability = UNSTABLE
+		)
 public class OxygenToggle extends Feature implements IOrdered {
+
+	public OxygenToggle() {
+		super(OxygenToggle::new, EnumSide.COMMON);
+	}
 
 	@Override
 	public String comment() {
@@ -29,7 +34,7 @@ public class OxygenToggle extends Feature implements IOrdered {
 	public String category() {
 		return "BreatheableDimensions";
 	}
-	
+
 	@Override
 	public void addProp() {
 		this.propOrder.add(FeatureConfigs.breatheableDims.key());

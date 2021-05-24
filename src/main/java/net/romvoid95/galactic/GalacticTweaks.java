@@ -3,6 +3,7 @@ package net.romvoid95.galactic;
 import static net.romvoid95.galactic.Info.*;
 
 import java.io.*;
+import java.util.*;
 
 import javax.annotation.*;
 
@@ -14,6 +15,7 @@ import net.minecraftforge.fml.common.*;
 import net.minecraftforge.fml.common.Mod.*;
 import net.minecraftforge.fml.common.event.*;
 import net.romvoid95.api.*;
+import net.romvoid95.api.event.*;
 import net.romvoid95.galactic.core.*;
 import net.romvoid95.galactic.core.config.*;
 import net.romvoid95.galactic.core.gc.*;
@@ -28,20 +30,21 @@ import net.romvoid95.galactic.proxy.*;
 		acceptableRemoteVersions = "*",
 		certificateFingerprint = FINGERPRINT,
 		guiFactory = "net.romvoid95.galactic.core.gui.GCTGuiFactory"
-)
+		)
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class GalacticTweaks implements IReadOnly{
+public class GalacticTweaks implements IReadOnly {
 
 	@Instance(ID)
 	public static GalacticTweaks instance;
-	
+
 	@SidedProxy(clientSide = "net.romvoid95.galactic.proxy.ClientProxy", serverSide = "net.romvoid95.galactic.proxy.ServerProxy")
 	public static ServerProxy proxy;
 
 	public static final GCTLogger LOG = new GCTLogger(ID);
 	public static File modFolder = null;
 
+	private final List<IEventProcessor> eventProcessors = new ArrayList<>();
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
@@ -53,32 +56,34 @@ public class GalacticTweaks implements IReadOnly{
 		new CoreConfigHandler(modFolder, CONFVERSION);
 		new VersionChecker();
 
+		this.eventProcessors.forEach(i -> i.preInit(event));
+
 		ModuleController.registerModules();
 		ModuleController.modules.forEach(Module::setupConfig);
 		ModuleController.modules.forEach(Module::handleFeatures);
 		ModuleController.modules.forEach(Module::preInit);
-		
 
-		
 		proxy.preInit(event);
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
+		this.eventProcessors.forEach(i -> i.init(event));
 		ModuleController.modules.forEach(Module::init);
 		proxy.init(event);
 	}
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
+		this.eventProcessors.forEach(i -> i.postInit(event));
 		if(GalacticraftAddon.EXTRAPLANETS.isLoaded() && GalacticraftAddon.GALAXYSPACE.isLoaded()) {
 			if(AsmodeusConfig.enableNewGalaxyMap) {
 				BodiesRegistry.setMaxTier(10);
 			}
 		}
-		
+
 		IOWriter io = new IOWriter();
-		
+
 		io.handleFile("ValidDimIDs.txt");
 		if(CompatMods.EXTRAPLANETS.isLoaded()) {
 			io.NOTICE();
@@ -92,10 +97,10 @@ public class GalacticTweaks implements IReadOnly{
 			io.writeMoons();
 			io.finalize();
 		}
-		
+
 		Module.config.addValidDims();
 		Module.config.loadConfig();
-		
+
 		ModuleController.modules.forEach(Module::postInit);
 
 		proxy.postInit(event);
@@ -120,6 +125,10 @@ public class GalacticTweaks implements IReadOnly{
 		if(isDevBuild()) {
 			GalacticTweaks.LOG.info("Ignoring fingerprint signing since we are in a Development Environment");
 		}
+	}
+
+	public void addEventProcessor(IEventProcessor instance) {
+		this.eventProcessors.add(instance);
 	}
 
 	@Override

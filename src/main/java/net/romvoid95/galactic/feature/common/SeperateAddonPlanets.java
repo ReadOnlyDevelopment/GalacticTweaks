@@ -3,6 +3,7 @@ package net.romvoid95.galactic.feature.common;
 import static net.romvoid95.api.docs.Stability.*;
 
 import asmodeuscore.core.astronomy.*;
+import net.romvoid95.api.*;
 import net.romvoid95.api.docs.*;
 import net.romvoid95.galactic.*;
 import net.romvoid95.galactic.core.*;
@@ -10,12 +11,16 @@ import net.romvoid95.galactic.core.gc.*;
 import net.romvoid95.galactic.feature.*;
 
 @Doc(
-	value = "Seperate Duplicate Planets",
-	comment = "Feature that allows you to move the duplicate planets that both ExtraPlanets and GalaxySpace add to a different Galaxy.\n" 
-			+ "The plantes that are moved are determined by the addonid that is specified in the config file.",
-	stability = STABLE
-)
+		value = "Seperate Duplicate Planets",
+		comment = "Feature that allows you to move the duplicate planets that both ExtraPlanets and GalaxySpace add to a different Galaxy.\n"
+				+ "The plantes that are moved are determined by the addonid that is specified in the config file.",
+				stability = STABLE
+		)
 public class SeperateAddonPlanets extends Feature {
+
+	public SeperateAddonPlanets() {
+		super(SeperateAddonPlanets::new, EnumSide.COMMON);
+	}
 
 	@Override
 	public String category() {

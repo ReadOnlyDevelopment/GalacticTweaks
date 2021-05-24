@@ -17,7 +17,6 @@ plugins {
 
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-apply from: 'gradle/functions.gradle'
 apply from: 'gradle/artifact.gradle'
 apply from: 'gradle/git2md_changelog.gradle'
 apply from: 'gradle/private.gradle'
@@ -25,21 +24,8 @@ apply from: 'gradle/private.gradle'
 loadSecrets()
 // ==========================================
 
-def versionBuild = 0
-if (System.getenv("BUILD_NUMBER") != null)
-	versionBuild = System.getenv("BUILD_NUMBER")
-
-def incrementBuild = false
-def devBuild = false
-def ver
-def short_version = "${mod_version}"
-if(devBuild) {
-	ver = "${mod_version}." + getBuildNumber() + "-dev." + versionBuild
-} else {
-	ver = "${mod_version}." + getBuildNumber()
-}
-version = ver
-System.out.println(ver)
+version = "${mod_version}"
+System.out.println(version)
 
 group = "${group}"
 archivesBaseName = "${name}"
@@ -47,11 +33,6 @@ archivesBaseName = "${name}"
 sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 compileJava {
 	sourceCompatibility = targetCompatibility = '1.8'
-}
-
-configurations {
-    extraLibs
-    implementation.extendsFrom(extraLibs)
 }
 
 String GCBuild = "261"
@@ -67,17 +48,14 @@ repositories {
 			artifact()
 		}
 	}
-	mavenLocal()
 	mavenCentral()
     removeIf { it.url.host == 'files.minecraftforge.net' }
     maven { url "https://maven.minecraftforge.net/" }
 	maven { url "https://www.cursemaven.com" }
-	maven { url "https://jitpack.io" }
 	maven { url "https://maven.mjrlegends.com/" }
-	maven { url "https://minecraft.curseforge.com/api/maven/" }
 	maven { url "http://dvs1.progwml6.com/files/maven" }
 	maven { url "http://maven.ic2.player.to" }
-	maven { url 'https://squiddev.cc/maven/' }
+	maven { url "https://blamejared.com/maven" }
 }
 
 dependencies {
@@ -92,38 +70,30 @@ dependencies {
     testCompileOnly 'org.projectlombok:lombok:1.18.18'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.18'
 
-	compile("com.mjr.planetprogression:PlanetProgression:1.12.2-0.4.5:api") {
-		exclude module: 'jei_1.12.2'
-		exclude module: 'industrialcraft-2'
-	}
 	compile("com.mjr.extraplanets:ExtraPlanets:1.12.2-0.7.2:dev") {
 		exclude module: 'jei_1.12.2'
 	}
+	
 	compile "mezz.jei:jei_${mc_version}:4.16.1.302:api"
 	runtime "mezz.jei:jei_${mc_version}:4.16.1.302"
 	
 	runtime "com.mjr.mjrlegendslib:MJRLegendsLib:1.12.2-1.2.0"
-	compile "industrial-craft:industrialcraft-2-2.8.99:ex112:api"
+	runtime "industrial-craft:industrialcraft-2-2.8.99:ex112:api"
 	
 	compile "curse.maven:asmodeuscore-0.0.25-303101:3231302"
 	compile "curse.maven:galaxyspace-2.0.16-238770:3235468"
 	compile "curse.maven:zollerngalaxy-2.0.23-241940:3187752"
 	compile "curse.maven:moreplanets-2.2.1_280-261990:3165054"
 	runtime "curse.maven:stevekunglib-1.1.9-296019:3051420"
+	
+	deobfCompile "vazkii.patchouli:Patchouli:${patchouli_version}"
 }
 
 minecraft {
 	version = "${mc_version}-${forge_version}"
 	runDir = "run"
-//	coreMod = 'net.romvoid95.plugin.GalacticTweaksPlugin'
 	mappings = "${mcp}"
-	
-//	def args = [
-//		"-Dfml.coreMods.load=net.romvoid95.plugin.GalacticTweaksPlugin"
-//	]
-//	clientJvmArgs.addAll(args)
-//	serverJvmArgs.addAll(args)
-
+	useDepAts = true
 	replace '@VERSION@', project.version
 	replace '@MCVERSION@', project.minecraft.version
 	replace '@FINGERPRINT@', project.findProperty('signSHA1')
@@ -135,18 +105,21 @@ processResources {
     inputs.property "mcversion", project.minecraft.version
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
+        include 'assets/gctweaks/patchouli_books/guide/book.json'
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
+        exclude 'assets/gctweaks/patchouli_books/guide/book.json'
     }
     rename '(.+_at.cfg)', '$1'
 }
 
+compileJava {
+    options.encoding = 'UTF-8'
+}
+
 jar {
-    from(configurations.extraLibs.collect { it.isDirectory() ? it : zipTree(it) }) {
-        exclude "LICENSE.txt", "META-INF/*", "META-INF/versions/9/module-info.*"
-    }
 	manifest {
 		mainAttributes(
 				'Maven-Artifact': "${project.group}:${project.archivesBaseName}:${project.version}",
@@ -157,9 +130,6 @@ jar {
 				'Built-On': "${project.mc_version}-${project.forge_version}"
 		)
 		attributes( 
-//				"FMLCorePluginContainsFMLMod": "true",
-//				"FMLCorePlugin": "net.romvoid95.plugin.GalacticTweaksPlugin",
-//				"ForceLoadAsMod": "true",
 				"FMLAT": "galactictweaks_at.cfg"
 		)
 	}

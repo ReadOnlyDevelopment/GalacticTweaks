@@ -24,20 +24,23 @@ import micdoodle8.mods.galacticraft.core.*;
 import micdoodle8.mods.galacticraft.planets.asteroids.items.*;
 import net.minecraft.item.*;
 import net.minecraftforge.oredict.*;
+import net.romvoid95.api.*;
 import net.romvoid95.api.docs.*;
 import net.romvoid95.galactic.feature.*;
 
 @Doc(
-	value = "Compressor Tweaks", 
-	comment = "Feature that adds support for metal ingots that have registered OreDictionary entries "
-			+ "that match the Compressed Plate of that metal (if that plate exists) and registeres "
-			+ "them to Galacticraft Compressor's accepted recipes",
-	stability = STABLE
-)
+		value = "Compressor Tweaks",
+		comment = "Feature that adds support for metal ingots that have registered OreDictionary entries "
+				+ "that match the Compressed Plate of that metal (if that plate exists) and registeres "
+				+ "them to Galacticraft Compressor's accepted recipes",
+				stability = STABLE
+		)
 public class CompressorFixes extends Feature {
 
-	//TODO: Make this more robust and allow for on the fly registry
-	
+	public CompressorFixes() {
+		super(CompressorFixes::new, EnumSide.COMMON);
+	}
+
 	@Override
 	public String category() {
 		return "CompressorFixes";
@@ -56,6 +59,7 @@ public class CompressorFixes extends Feature {
 		ItemStack splate = new ItemStack(GCItems.basicItem, 1, 9);
 		ItemStack bplate = new ItemStack(GCItems.basicItem, 1, 10);
 		ItemStack iplate = new ItemStack(GCItems.basicItem, 1, 11);
+
 		for (ItemStack t : OreDictionary.getOres("ingotTitanium")) {
 			CompressorRecipes.addShapelessRecipe(tplate, t, t);
 		}

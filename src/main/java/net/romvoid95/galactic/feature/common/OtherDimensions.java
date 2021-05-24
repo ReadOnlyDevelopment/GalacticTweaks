@@ -1,14 +1,12 @@
-package net.romvoid95.galactic.feature.common.stationmngr;
-
-import java.util.function.*;
+package net.romvoid95.galactic.feature.common;
 
 import net.romvoid95.api.*;
 import net.romvoid95.galactic.feature.*;
 
-public class SpaceStationManager extends Feature {
+public class OtherDimensions extends Feature {
 
-	public SpaceStationManager(Supplier<Feature> feature, EnumSide side) {
-		super(feature, side);
+	public OtherDimensions() {
+		super(OtherDimensions::new, EnumSide.COMMON);
 	}
 
 	@Override

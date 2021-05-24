@@ -1,5 +1,6 @@
 package net.romvoid95.galactic.core;
 
+import com.mjr.extraplanets.moons.*;
 import com.mjr.extraplanets.planets.*;
 
 import galaxyspace.systems.SolarSystem.*;
@@ -16,6 +17,9 @@ public class PlanetGroups {
 	private static CelestialGroup<Planet> morePlanetsGroup; // More Planets
 	private static CelestialGroup<Planet> extraPlanetsGroup; // Extra Planets
 	private static CelestialGroup<Planet> galaxySpaceGroup; // GalaxySpace
+
+	private static CelestialGroup<Moon> galaxySpaceMoonGroup;
+	private static CelestialGroup<Moon> extraPlanetsMoonGroup;
 
 	public static CelestialGroup<Planet> zollernPlanets() {
 		if (zollernGroup == null) {
@@ -110,5 +114,64 @@ public class PlanetGroups {
 			galaxySpaceGroup = p;
 		}
 		return galaxySpaceGroup;
+	}
+
+	public static CelestialGroup<Moon> galaxySpaceMoonGroup() {
+		if (galaxySpaceMoonGroup == null) {
+			GalacticTweaks.LOG.info("Building GalaxySpace Moon List");
+			CelestialGroup<Moon> m = new CelestialGroup<>();
+			m.addAll(
+					SolarSystemBodies.phobosMars,
+					SolarSystemBodies.deimosMars,
+					SolarSystemBodies.ioJupiter,
+					SolarSystemBodies.europaJupiter,
+					SolarSystemBodies.ganymedeJupiter,
+					SolarSystemBodies.callistoJupiter,
+					SolarSystemBodies.mimasSaturn,
+					SolarSystemBodies.enceladusSaturn,
+					SolarSystemBodies.tethysSaturn,
+					SolarSystemBodies.dioneSaturn,
+					SolarSystemBodies.rheyaSaturn,
+					SolarSystemBodies.titanSaturn,
+					SolarSystemBodies.iapetusSaturn,
+					SolarSystemBodies.mirandaUranus,
+					SolarSystemBodies.arielUranus,
+					SolarSystemBodies.umbrielUranus,
+					SolarSystemBodies.titaniaUranus,
+					SolarSystemBodies.oberonUranus,
+					SolarSystemBodies.proteusNeptune,
+					SolarSystemBodies.tritonNeptune,
+					SolarSystemBodies.charonPluto
+					);
+			galaxySpaceMoonGroup = m;
+		}
+		return galaxySpaceMoonGroup;
+	}
+
+	public static CelestialGroup<Moon> extraPlanetsMoonGroup() {
+		if (extraPlanetsMoonGroup == null) {
+			GalacticTweaks.LOG.info("Building ExtraPlanets Moon List");
+			CelestialGroup<Moon> m = new CelestialGroup<>();
+			m.addAll(
+					ExtraPlanets_Moons.TRITON,
+					ExtraPlanets_Moons.CALLISTO,
+					ExtraPlanets_Moons.EUROPA,
+					ExtraPlanets_Moons.GANYMEDE,
+					ExtraPlanets_Moons.IO,
+					ExtraPlanets_Moons.DEIMOS,
+					ExtraPlanets_Moons.PHOBOS,
+					ExtraPlanets_Moons.IAPETUS,
+					ExtraPlanets_Moons.RHEA,
+					ExtraPlanets_Moons.TITAN,
+					ExtraPlanets_Moons.OBERON,
+					ExtraPlanets_Moons.TITANIA,
+					ExtraPlanets_Moons.CHARON,
+					ExtraPlanets_Moons.NIX,
+					ExtraPlanets_Moons.HYDRA,
+					ExtraPlanets_Moons.DYSNOMIA
+					);
+			extraPlanetsMoonGroup = m;
+		}
+		return extraPlanetsMoonGroup;
 	}
 }

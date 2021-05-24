@@ -27,6 +27,18 @@ public class Reflected {
 	}
 
 	@SuppressWarnings("unchecked")
+	public static <T, E> T setPrivateAsAccessible(Class<? super E> classToAccess, @Nullable E instance, String fieldName) {
+		try {
+			Field f = classToAccess.getDeclaredField(fieldName);
+			f.setAccessible(true);
+			return (T) f.get(instance);
+		} catch (Exception e) {
+			e.getStackTrace();
+		}
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
 	public static <T, E> T getPrivateValue(Class<? super E> classToAccess, @Nullable E instance, String fieldName) {
 		try {
 			return (T) findField(classToAccess, fieldName, null).get(instance);
@@ -46,7 +58,7 @@ public class Reflected {
 		}
 		return null;
 	}
-	
+
 	public static <T, E> void setPrivateValue(Class<? super T> classToAccess, @Nullable T instance, @Nullable E value,
 			String fieldName) {
 		try {

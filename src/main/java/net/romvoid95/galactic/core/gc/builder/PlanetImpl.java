@@ -12,14 +12,12 @@ public class PlanetImpl extends Planet {
 	float relativeSize;
 	ResourceLocation bodyIcon;
 	int tierRequired;
-	
+
 
 	PlanetImpl(String planetName) {
 		super(planetName);
-		
+
 	}
-	
-	
 
 	public static class Builder {
 		private String name;
@@ -30,7 +28,7 @@ public class PlanetImpl extends Planet {
 		private ResourceLocation bodyIcon;
 		private int tierRequired;
 		private RingColor ring;
-		
+
 		public Builder name(String name) {
 			this.name = name;
 			return this;
@@ -65,7 +63,7 @@ public class PlanetImpl extends Planet {
 			this.tierRequired = tierRequired;
 			return this;
 		}
-		
+
 		public Builder ringColor(float red, float green, float blue) {
 			this.ring = new RingColor.Builder().red(red).green(green).blue(blue).build();
 			return this;

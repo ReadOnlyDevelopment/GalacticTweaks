@@ -3,6 +3,7 @@ package net.romvoid95.api;
 import java.io.*;
 import java.lang.reflect.*;
 import java.util.*;
+import java.util.stream.*;
 
 import net.minecraftforge.common.*;
 import net.minecraftforge.common.config.*;
@@ -24,17 +25,20 @@ public abstract class ReadOnlyConfig {
 	private final Class<?> clazz;
 	protected List<OptValue> properties = new ArrayList<>();
 	protected List<Field> features = new ArrayList<>();
-	private List<String> propOrder = new ArrayList<>();
-	private List<Category> configCats = new ArrayList<>();
+	protected List<String> propOrder = new ArrayList<>();
+	protected List<Category> configCats = new ArrayList<>();
 
 	private Configuration config;
 
 	protected ReadOnlyConfig(Class<?> clazz) {
 		this.clazz = clazz;
 		MinecraftForge.EVENT_BUS.register(this);
+
+		List<Field> subClazzFields = setFeatureFields(clazz.getDeclaredFields());
+		subClazzFields.forEach(f -> addFeatOpt(f));
 	}
 
-	public File getConfigFile() {
+	protected File getConfigFile() {
 		return configFile;
 	}
 
@@ -42,134 +46,54 @@ public abstract class ReadOnlyConfig {
 		return Configversion;
 	}
 
-	public void setConfigFile(File configFile) {
+	protected void setConfigFile(File configFile) {
 		this.configFile = configFile;
 	}
 
 	protected void setConfigversion(ConfigVersion configversion) {
 		Configversion = configversion;
 	}
-	
-	public void addConfigCat(Category configCat) {
+
+	protected void addConfigCat(Category configCat) {
 		this.configCats.add(configCat);
 	}
 
-	private void addFeatOpt(Field feature) {
-		for (Field feat : this.features) {
-
-			if (featureName(feat).contentEquals(featureName(feature))) {
-				removeFeatureOpt(featureName(feature));
-				break;
-			}
-		}
-
-		this.features.add(feature);
-	}
-
-	private void removeFeatureOpt(String featureName) {
-
-		for (int i = 0; i < this.features.size(); i++) {
-
-			if (featureName(this.features.get(i)).contentEquals(featureName)) {
-				this.features.remove(i);
-				return;
-			}
-		}
-	}
-
-	private String featureName(Field feature) {
-		return feature.getName();
-	}
-
-	public final Field addFeatureOpt(Field feature) {
-		this.addFeatOpt(feature);
-		return feature;
-	}
-	
-	private void addPropToList(String propName) {
-
-		for (String name : this.propOrder) {
-
-			if (name.contentEquals(propName)) {
-				removePropFromList(propName);
-				break;
-			}
-		}
-
-		this.propOrder.add(propName);
-	}
-
-	private void removePropFromList(String name) {
-
-		for (int i = 0; i < this.propOrder.size(); i++) {
-
-			if (this.propOrder.get(i).contentEquals(name)) {
-				this.propOrder.remove(i);
-				return;
-			}
-		}
-	}
-
-	private void addProp(OptValue property) {
-
-		for (OptValue prop : this.properties) {
-
-			if (prop.key().contentEquals(property.key())) {
-				removeProp(property.key());
-				break;
-			}
-		}
-
-		this.properties.add(property);
-	}
-
-	private void removeProp(String name) {
-
-		for (int i = 0; i < this.properties.size(); i++) {
-
-			if (this.properties.get(i).key().contentEquals(name)) {
-				this.properties.remove(i);
-				return;
-			}
-		}
-	}
-
-	public boolean hasProperty(OptValue prop) {
+	protected boolean hasProperty(OptValue prop) {
 		return this.properties.stream().anyMatch(property -> property.category().contentEquals(prop.category())
 				&& property.key().contentEquals(prop.key()));
 	}
 
-	public final OptBoolean addProperty(OptBoolean property) {
+	protected final OptBoolean addProperty(OptBoolean property) {
 		this.addPropToList(property.key());
 		this.addProp(property);
 		return property;
 	}
 
-	public final OptInteger addProperty(OptInteger property) {
+	protected final OptInteger addProperty(OptInteger property) {
 		this.addPropToList(property.key());
 		this.addProp(property);
 		return property;
 	}
 
-	public final OptString addProperty(OptString property) {
+	protected final OptString addProperty(OptString property) {
 		this.addPropToList(property.key());
 		this.addProp(property);
 		return property;
 	}
 
-	public final OptArrayInteger addProperty(OptArrayInteger property) {
+	protected final OptArrayInteger addProperty(OptArrayInteger property) {
 		this.addPropToList(property.key());
 		this.addProp(property);
 		return property;
 	}
 
-	public final OptArrayDouble addProperty(OptArrayDouble property) {
+	protected final OptArrayDouble addProperty(OptArrayDouble property) {
 		this.addPropToList(property.key());
 		this.addProp(property);
 		return property;
 	}
 
-	public final OptArrayString addProperty(OptArrayString property) {
+	protected final OptArrayString addProperty(OptArrayString property) {
 		this.addPropToList(property.key());
 		this.addProp(property);
 		return property;
@@ -195,154 +119,154 @@ public abstract class ReadOnlyConfig {
 			}
 
 			for (OptValue prop : this.properties) {
-				
+
 				try {
 					switch (prop.getType()) {
-					case INTEGER:
-						OptInteger propInt = (OptInteger) prop;
-						int intVal;
-						if(propInt.hasRange()) {
-							intVal = config.get(
-								propInt.category(),
-								propInt.key(),
-								propInt.get(),
-								propInt.comment(),
-								propInt.min(),
-								propInt.max()
-							).setLanguageKey(propInt.langKey()).getInt();
-						}
-						else {
-							intVal = config.get(
-								propInt.category(),
-								propInt.key(),
-								propInt.get(),
-								propInt.comment()
-							).setLanguageKey(propInt.langKey()).getInt();
-						}
-						propInt.set(intVal);
-						break;
+						case INTEGER:
+							OptInteger propInt = (OptInteger) prop;
+							int intVal;
+							if(propInt.hasRange()) {
+								intVal = config.get(
+										propInt.category(),
+										propInt.key(),
+										propInt.get(),
+										propInt.comment(),
+										propInt.min(),
+										propInt.max()
+										).setLanguageKey(propInt.langKey()).getInt();
+							}
+							else {
+								intVal = config.get(
+										propInt.category(),
+										propInt.key(),
+										propInt.get(),
+										propInt.comment()
+										).setLanguageKey(propInt.langKey()).getInt();
+							}
+							propInt.set(intVal);
+							break;
 
-					case INTEGER_ARRAY:
-						OptArrayInteger propIntArray = (OptArrayInteger) prop;
-						int[] intArray;
-						if(propIntArray.hasRange()) {
-							intArray = config.get(
-									propIntArray.category(),
-									propIntArray.key(),
-									propIntArray.get(),
-									propIntArray.comment(),
-									propIntArray.min(),
-									propIntArray.max()
-							).setLanguageKey(propIntArray.langKey()).getIntList();
-						}
-						else {
-							intArray = config.get(
-									propIntArray.category(),
-									propIntArray.key(),
-									propIntArray.get(),
-									propIntArray.comment()
-							).setLanguageKey(propIntArray.langKey()).getIntList();
-						}
-						propIntArray.set(intArray);
-						break;
+						case INTEGER_ARRAY:
+							OptArrayInteger propIntArray = (OptArrayInteger) prop;
+							int[] intArray;
+							if(propIntArray.hasRange()) {
+								intArray = config.get(
+										propIntArray.category(),
+										propIntArray.key(),
+										propIntArray.get(),
+										propIntArray.comment(),
+										propIntArray.min(),
+										propIntArray.max()
+										).setLanguageKey(propIntArray.langKey()).getIntList();
+							}
+							else {
+								intArray = config.get(
+										propIntArray.category(),
+										propIntArray.key(),
+										propIntArray.get(),
+										propIntArray.comment()
+										).setLanguageKey(propIntArray.langKey()).getIntList();
+							}
+							propIntArray.set(intArray);
+							break;
 
-					case DOUBLE:
-						OptDouble propDouble = (OptDouble) prop;
-						double doubleVal;
-						if(propDouble.hasRange()) {
-							doubleVal = config.get(
-								propDouble.category(),
-								propDouble.key(),
-								propDouble.get(),
-								propDouble.comment(),
-								propDouble.min(),
-								propDouble.max()
-							).setLanguageKey(propDouble.langKey()).getDouble();
-						}
-						else {
-							doubleVal = config.get(
-								propDouble.category(),
-								propDouble.key(),
-								propDouble.get(),
-								propDouble.comment()
-							).setLanguageKey(propDouble.langKey()).getDouble();
-						}
-						propDouble.set(doubleVal);
-						break;
+						case DOUBLE:
+							OptDouble propDouble = (OptDouble) prop;
+							double doubleVal;
+							if(propDouble.hasRange()) {
+								doubleVal = config.get(
+										propDouble.category(),
+										propDouble.key(),
+										propDouble.get(),
+										propDouble.comment(),
+										propDouble.min(),
+										propDouble.max()
+										).setLanguageKey(propDouble.langKey()).getDouble();
+							}
+							else {
+								doubleVal = config.get(
+										propDouble.category(),
+										propDouble.key(),
+										propDouble.get(),
+										propDouble.comment()
+										).setLanguageKey(propDouble.langKey()).getDouble();
+							}
+							propDouble.set(doubleVal);
+							break;
 
-					case DOUBLE_ARRAY:
-						OptArrayDouble propDoubleArray = (OptArrayDouble) prop;
-						double[] doubleArrayVal;
-						if(propDoubleArray.hasRange()) {
-							doubleArrayVal = config.get(
-								propDoubleArray.category(),
-								propDoubleArray.key(),
-								propDoubleArray.get(),
-								propDoubleArray.comment(),
-								propDoubleArray.min(),
-								propDoubleArray.max()
-							).setLanguageKey(propDoubleArray.langKey()).getDoubleList();
-						}
-						else {
-							doubleArrayVal = config.get(
-								propDoubleArray.category(),
-								propDoubleArray.key(),
-								propDoubleArray.get(),
-								propDoubleArray.comment()
-							).setLanguageKey(propDoubleArray.langKey()).getDoubleList();
-						}
-						propDoubleArray.set(doubleArrayVal);
-						break;
+						case DOUBLE_ARRAY:
+							OptArrayDouble propDoubleArray = (OptArrayDouble) prop;
+							double[] doubleArrayVal;
+							if(propDoubleArray.hasRange()) {
+								doubleArrayVal = config.get(
+										propDoubleArray.category(),
+										propDoubleArray.key(),
+										propDoubleArray.get(),
+										propDoubleArray.comment(),
+										propDoubleArray.min(),
+										propDoubleArray.max()
+										).setLanguageKey(propDoubleArray.langKey()).getDoubleList();
+							}
+							else {
+								doubleArrayVal = config.get(
+										propDoubleArray.category(),
+										propDoubleArray.key(),
+										propDoubleArray.get(),
+										propDoubleArray.comment()
+										).setLanguageKey(propDoubleArray.langKey()).getDoubleList();
+							}
+							propDoubleArray.set(doubleArrayVal);
+							break;
 
-					case BOOLEAN:
-						OptBoolean propBool = (OptBoolean) prop;
-						propBool.set(
-							config.getBoolean(
-								propBool.key(),
-								propBool.category(),
-								propBool.get(),
-								propBool.comment(),
-								propBool.langKey()
-							));
-						break;
+						case BOOLEAN:
+							OptBoolean propBool = (OptBoolean) prop;
+							propBool.set(
+									config.getBoolean(
+											propBool.key(),
+											propBool.category(),
+											propBool.get(),
+											propBool.comment(),
+											propBool.langKey()
+											));
+							break;
 
-					case STRING:
-						OptString propString = (OptString) prop;
-						String Stringvalue;
-						if (propString.needsValidation()) {
-							Stringvalue = 
-								config.getString(
-									propString.key(),
-									propString.category(),
-									propString.get(),
-									propString.comment(),
-									propString.getValidValues(),
-									propString.getValidValuesDisplay(),
-									propString.langKey()
-								);
-						}
-						else {
-							Stringvalue = 
-								config.getString(
-										propString.key(),
-										propString.category(),
-										propString.get(),
-										propString.comment(),
-										propString.langKey()
-									);
-						}
-						propString.set(Stringvalue);
-						break;
-					case STRING_ARRAY:
-						OptArrayString propStringArray = (OptArrayString) prop;
-						propStringArray.set(
-							config.get(
-								propStringArray.category(),
-								propStringArray.key(),
-								propStringArray.get(),
-								propStringArray.comment()
-							).setLanguageKey(propStringArray.langKey()).getStringList());
-						break;
+						case STRING:
+							OptString propString = (OptString) prop;
+							String Stringvalue;
+							if (propString.needsValidation()) {
+								Stringvalue =
+										config.getString(
+												propString.key(),
+												propString.category(),
+												propString.get(),
+												propString.comment(),
+												propString.getValidValues(),
+												propString.getValidValuesDisplay(),
+												propString.langKey()
+												);
+							}
+							else {
+								Stringvalue =
+										config.getString(
+												propString.key(),
+												propString.category(),
+												propString.get(),
+												propString.comment(),
+												propString.langKey()
+												);
+							}
+							propString.set(Stringvalue);
+							break;
+						case STRING_ARRAY:
+							OptArrayString propStringArray = (OptArrayString) prop;
+							propStringArray.set(
+									config.get(
+											propStringArray.category(),
+											propStringArray.key(),
+											propStringArray.get(),
+											propStringArray.comment()
+											).setLanguageKey(propStringArray.langKey()).getStringList());
+							break;
 					}
 				} catch (Exception e) {
 					GalacticTweaks.LOG.error("Issue with Prop: {} of type {}", prop.key(), prop.getType().name());
@@ -360,24 +284,25 @@ public abstract class ReadOnlyConfig {
 		saveConfig();
 	}
 
-	public Configuration initConfig() {
+	protected Configuration initConfig() {
 		return new Configuration(this.configFile, this.Configversion.toString());
 	}
 
-	public void saveConfig() {
-		if (config.hasChanged())
+	protected void saveConfig() {
+		if (config.hasChanged()) {
 			config.save();
+		}
 	}
 
-	public Configuration getConfig() {
+	protected Configuration getConfig() {
 		return config;
 	}
-	
-    public ConfigCategory getCategory(Category category) {
-        return config.getCategory(category.get());
-    }
 
-	public List<IConfigElement> getElements() {
+	protected ConfigCategory getCategory(Category category) {
+		return config.getCategory(category.get());
+	}
+
+	protected List<IConfigElement> getElements() {
 		List<IConfigElement> list = new ArrayList<>();
 		ConfigCategory allFeatures = getCategory(Values.Categories.FEATURES).setLanguageKey("galactictweaks.config.gui.cat.allfeatures");
 		ConfigCategory featureOpts = getCategory(Values.Categories.FEATURE_OPTS).setLanguageKey("galactictweaks.config.gui.cat.featureopts");
@@ -385,14 +310,14 @@ public abstract class ReadOnlyConfig {
 		list.add(new ConfigElement(featureOpts));
 		return list;
 	}
-	
-    @SubscribeEvent
-    public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
-        if (event.getModID().equalsIgnoreCase(Info.ID)) {
-        	saveConfig();
-            loadConfig();
-        }
-    }
+
+	@SubscribeEvent
+	public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
+		if (event.getModID().equalsIgnoreCase(Info.ID)) {
+			saveConfig();
+			loadConfig();
+		}
+	}
 
 	public static class ConfigVersion extends Version {
 		public static final ConfigVersion NULL_VERSION = new ConfigVersion("0.0.0");
@@ -418,5 +343,44 @@ public abstract class ReadOnlyConfig {
 			Version c2 = new Version(comparate2.toString());
 			return c1.isEqualTo(c2);
 		}
+	}
+
+	// PRIVATE UTILTITY METHODS //
+
+	private List<Field> setFeatureFields(Field[] fields)  {
+		return Arrays.stream(fields)
+				.filter((f) -> f.isAnnotationPresent(GTFeature.class))
+				.sorted()
+				.collect(Collectors.toList());
+	}
+
+	private void addPropToList(String propName) {
+		for (String name : this.propOrder) {
+			if (name.contentEquals(propName)) {
+				this.propOrder.remove(name);
+				break;
+			}
+		}
+		this.propOrder.add(propName);
+	}
+
+	private void addProp(OptValue property) {
+		for (OptValue prop : this.properties) {
+			if (prop.key().contentEquals(property.key())) {
+				this.properties.remove(prop);
+				break;
+			}
+		}
+		this.properties.add(property);
+	}
+
+	private void addFeatOpt(Field feature) {
+		for (Field feat : this.features) {
+			if (feat.getName().contentEquals(feature.getName())) {
+				this.features.remove(feat);
+				break;
+			}
+		}
+		this.features.add(feature);
 	}
 }
