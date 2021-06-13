@@ -2,34 +2,54 @@ package net.romvoid95.galactic;
 
 import static net.romvoid95.galactic.Info.*;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.util.Set;
 
-import javax.annotation.*;
+import javax.annotation.ParametersAreNonnullByDefault;
 
-import asmodeuscore.core.astronomy.*;
-import asmodeuscore.core.configs.*;
-import mcp.*;
-import net.minecraftforge.common.*;
-import net.minecraftforge.fml.common.*;
-import net.minecraftforge.fml.common.Mod.*;
-import net.minecraftforge.fml.common.event.*;
-import net.romvoid95.api.*;
-import net.romvoid95.api.event.*;
-import net.romvoid95.galactic.core.*;
-import net.romvoid95.galactic.core.config.*;
-import net.romvoid95.galactic.core.gc.*;
-import net.romvoid95.galactic.core.version.*;
-import net.romvoid95.galactic.modules.*;
-import net.romvoid95.galactic.proxy.*;
+import com.google.common.collect.ImmutableSortedSet;
+import com.google.common.collect.Ordering;
+
+import asmodeuscore.core.astronomy.BodiesRegistry;
+import asmodeuscore.core.configs.AsmodeusConfig;
+import mcp.MethodsReturnNonnullByDefault;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.discovery.ASMDataTable;
+import net.minecraftforge.fml.common.discovery.ASMDataTable.ASMData;
+import net.minecraftforge.fml.common.discovery.asm.ModAnnotation;
+import net.minecraftforge.fml.common.event.FMLFingerprintViolationEvent;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import net.romvoid95.api.GalacticraftAddon;
+import net.romvoid95.api.IReadOnly;
+import net.romvoid95.galactic.core.PackCrashEnhancement;
+import net.romvoid95.galactic.core.config.CoreBooleanValues;
+import net.romvoid95.galactic.core.config.CoreConfigHandler;
+import net.romvoid95.galactic.core.gc.IOWriter;
+import net.romvoid95.galactic.core.permission.GCTPermissions;
+import net.romvoid95.galactic.core.version.DownloadCommand;
+import net.romvoid95.galactic.core.version.VersionChecker;
+import net.romvoid95.galactic.feature.Auto;
+import net.romvoid95.galactic.modules.Module;
+import net.romvoid95.galactic.modules.ModuleController;
+import net.romvoid95.galactic.proxy.ServerProxy;
 
 @Mod(
 		modid = ID,
+		name = NAME,
 		dependencies = DEPS,
 		acceptedMinecraftVersions = "[1.12]",
 		acceptableRemoteVersions = "*",
-		certificateFingerprint = FINGERPRINT,
-		guiFactory = "net.romvoid95.galactic.core.gui.GCTGuiFactory"
+		certificateFingerprint = FINGERPRINT
+		//guiFactory = "net.romvoid95.galactic.core.gui.GCTGuiFactory"
 		)
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -43,20 +63,55 @@ public class GalacticTweaks implements IReadOnly {
 
 	public static final GCTLogger LOG = new GCTLogger(ID);
 	public static File modFolder = null;
+	
+	public static ASMDataTable asmDataTable;
+	
+	private void autoLoadClasses() {
+		Set<ASMData> classes = ImmutableSortedSet.copyOf(Ordering.natural().onResultOf(ASMData::getClassName), asmDataTable.getAll(Auto.class.getName()));
 
-	private final List<IEventProcessor> eventProcessors = new ArrayList<>();
+		Set<ASMData> clientClasses = asmDataTable.getAll(SideOnly.class.getName());
+
+		for (ASMData data : classes) {
+			try {
+				// don't load client classes on server.
+				if (!isClient() && isClientClass(data.getClassName(), clientClasses)) {
+					continue;
+				}
+
+				Class<?> clazz = Class.forName(data.getClassName());
+				Auto anno = clazz.getAnnotation(Auto.class);
+				if (anno.value()) {
+					clazz.newInstance();
+				}
+			} catch (Exception e) {
+				LOG.error("Could not autoload {}.", data.getClassName(), e);
+			}
+		}
+	}
+
+	public static boolean isClient() {
+		return FMLCommonHandler.instance().getSide().isClient();
+	}
+
+	private boolean isClientClass(String className, Set<ASMData> clientClasses) {
+		for (ASMData data : clientClasses) {
+			if (data.getClassName().equals(className) && data.getObjectName().equals(data.getClassName()) && ((ModAnnotation.EnumHolder) data.getAnnotationInfo().get("value")).getValue().equals("CLIENT")) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		//DocTool.runTool();
+		asmDataTable = event.getAsmData();
+		autoLoadClasses();
 		GalacticTweaks.modFolder = new File(event.getModConfigurationDirectory(), "GalacticTweaks");
 		MinecraftForge.EVENT_BUS.register(this);
 
 		FMLCommonHandler.instance().registerCrashCallable(new PackCrashEnhancement());
 		new CoreConfigHandler(modFolder, CONFVERSION);
 		new VersionChecker();
-
-		this.eventProcessors.forEach(i -> i.preInit(event));
 
 		ModuleController.registerModules();
 		ModuleController.modules.forEach(Module::setupConfig);
@@ -68,14 +123,12 @@ public class GalacticTweaks implements IReadOnly {
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		this.eventProcessors.forEach(i -> i.init(event));
 		ModuleController.modules.forEach(Module::init);
 		proxy.init(event);
 	}
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		this.eventProcessors.forEach(i -> i.postInit(event));
 		if(GalacticraftAddon.EXTRAPLANETS.isLoaded() && GalacticraftAddon.GALAXYSPACE.isLoaded()) {
 			if(AsmodeusConfig.enableNewGalaxyMap) {
 				BodiesRegistry.setMaxTier(10);
@@ -85,7 +138,7 @@ public class GalacticTweaks implements IReadOnly {
 		IOWriter io = new IOWriter();
 
 		io.handleFile("ValidDimIDs.txt");
-		if(CompatMods.EXTRAPLANETS.isLoaded()) {
+		if(GalacticraftAddon.EXTRAPLANETS.isLoaded()) {
 			io.NOTICE();
 			io.write("Planets & Moons that end with \"ep\" are added by ExtraPlanets.");
 			io.write("Please keep this in mind if choosing a planet that is added by both ExtraPlanets & GalaxySpace");
@@ -102,6 +155,8 @@ public class GalacticTweaks implements IReadOnly {
 		Module.config.loadConfig();
 
 		ModuleController.modules.forEach(Module::postInit);
+		
+		GCTPermissions.registerNodes();
 
 		proxy.postInit(event);
 	}
@@ -125,10 +180,6 @@ public class GalacticTweaks implements IReadOnly {
 		if(isDevBuild()) {
 			GalacticTweaks.LOG.info("Ignoring fingerprint signing since we are in a Development Environment");
 		}
-	}
-
-	public void addEventProcessor(IEventProcessor instance) {
-		this.eventProcessors.add(instance);
 	}
 
 	@Override

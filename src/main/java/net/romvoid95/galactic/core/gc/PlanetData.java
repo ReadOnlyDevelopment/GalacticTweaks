@@ -3,16 +3,20 @@ package net.romvoid95.galactic.core.gc;
 import static micdoodle8.mods.galacticraft.api.world.EnumAtmosphericGas.*;
 import static net.romvoid95.galactic.Info.ID;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
-import asmodeuscore.core.astronomy.*;
-import asmodeuscore.core.astronomy.BodiesRegistry.*;
-import micdoodle8.mods.galacticraft.api.galaxies.*;
-import micdoodle8.mods.galacticraft.api.vector.*;
-import micdoodle8.mods.galacticraft.core.*;
-import micdoodle8.mods.galacticraft.planets.asteroids.*;
-import net.minecraft.util.*;
-import net.romvoid95.galactic.core.*;
+import asmodeuscore.core.astronomy.BodiesRegistry;
+import asmodeuscore.core.astronomy.BodiesRegistry.Galaxies;
+import micdoodle8.mods.galacticraft.api.galaxies.GalaxyRegistry;
+import micdoodle8.mods.galacticraft.api.galaxies.Planet;
+import micdoodle8.mods.galacticraft.api.galaxies.SolarSystem;
+import micdoodle8.mods.galacticraft.api.galaxies.Star;
+import micdoodle8.mods.galacticraft.api.vector.Vector3;
+import micdoodle8.mods.galacticraft.core.Constants;
+import micdoodle8.mods.galacticraft.core.GalacticraftCore;
+import micdoodle8.mods.galacticraft.planets.asteroids.AsteroidsModule;
+import net.minecraft.util.ResourceLocation;
 
 public class PlanetData {
 	

@@ -1,7 +1,7 @@
 package net.romvoid95.galactic.core.config;
 
-import net.minecraftforge.common.config.*;
-import net.romvoid95.galactic.*;
+import net.minecraftforge.common.config.Configuration;
+import net.romvoid95.galactic.GalacticTweaks;
 
 public class CValues {
 

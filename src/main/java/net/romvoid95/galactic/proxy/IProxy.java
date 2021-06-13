@@ -1,16 +1,18 @@
 package net.romvoid95.galactic.proxy;
 
-import javax.annotation.*;
+import javax.annotation.Nullable;
 
-import net.minecraft.entity.player.*;
-import net.minecraftforge.fml.common.event.*;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public interface IProxy {
-    void preInit(FMLPreInitializationEvent event);
+	void preInit(FMLPreInitializationEvent event);
 
-    void init(FMLInitializationEvent event);
+	void init(FMLInitializationEvent event);
 
-    void postInit(FMLPostInitializationEvent event);
-
-    @Nullable EntityPlayer getClientPlayer();
+	void postInit(FMLPostInitializationEvent event);
+	
+	@Nullable EntityPlayer getClientPlayer();
 }

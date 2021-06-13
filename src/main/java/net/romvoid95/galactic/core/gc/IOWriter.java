@@ -1,13 +1,21 @@
 package net.romvoid95.galactic.core.gc;
 
-import java.io.*;
-import java.util.*;
-import java.util.stream.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
-import micdoodle8.mods.galacticraft.api.galaxies.*;
-import net.romvoid95.api.config.def.*;
-import net.romvoid95.galactic.*;
-import net.romvoid95.galactic.feature.*;
+import micdoodle8.mods.galacticraft.api.galaxies.CelestialBody;
+import micdoodle8.mods.galacticraft.api.galaxies.GalaxyRegistry;
+import net.romvoid95.api.config.def.ValidDimIDs;
+import net.romvoid95.galactic.GalacticTweaks;
+import net.romvoid95.galactic.feature.FeatureConfigs;
 
 public class IOWriter {
 
@@ -15,6 +23,8 @@ public class IOWriter {
 	private final List<CelestialBody> moons;
 	
 	public static List<CelestialBody> allBodies = new ArrayList<>();
+	
+	public static Map<String, CelestialBody> bodies = new HashMap<>();
 
 	private PrintWriter writer;
 	
@@ -41,6 +51,10 @@ public class IOWriter {
 			allBodies.add(m);
 			all.add(m.getName().replace(" ", "_"));
 		});
+		
+		for(CelestialBody body : allBodies) {
+			bodies.put(body.getName(), body);
+		}
 
 		FeatureConfigs.validSPawnDims = new ValidDimIDs(all);
 	}

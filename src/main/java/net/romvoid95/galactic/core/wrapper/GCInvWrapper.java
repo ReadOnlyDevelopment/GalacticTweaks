@@ -1,11 +1,13 @@
 package net.romvoid95.galactic.core.wrapper;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
-import micdoodle8.mods.galacticraft.core.entities.player.*;
-import micdoodle8.mods.galacticraft.core.inventory.*;
-import net.minecraft.entity.player.*;
-import net.minecraft.item.*;
+import micdoodle8.mods.galacticraft.core.entities.player.GCCapabilities;
+import micdoodle8.mods.galacticraft.core.entities.player.GCPlayerStats;
+import micdoodle8.mods.galacticraft.core.inventory.InventoryExtended;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 
 public class GCInvWrapper {
 	

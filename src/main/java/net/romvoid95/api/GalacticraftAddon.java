@@ -1,8 +1,9 @@
 package net.romvoid95.api;
 
-import java.util.stream.*;
+import java.util.stream.Stream;
 
-import net.minecraftforge.fml.common.*;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ModContainer;
 
 public enum GalacticraftAddon {
 

@@ -1,14 +1,15 @@
-package net.romvoid95.galactic.core;
+package net.romvoid95.galactic.core.gc;
 
-import com.mjr.extraplanets.moons.*;
-import com.mjr.extraplanets.planets.*;
+import com.mjr.extraplanets.moons.ExtraPlanets_Moons;
+import com.mjr.extraplanets.planets.ExtraPlanets_Planets;
 
-import galaxyspace.systems.SolarSystem.*;
-import micdoodle8.mods.galacticraft.api.galaxies.*;
-import net.romvoid95.galactic.*;
-import net.romvoid95.galactic.core.gc.*;
-import stevekung.mods.moreplanets.init.*;
-import zollerngalaxy.celestial.*;
+import galaxyspace.systems.SolarSystem.SolarSystemBodies;
+import micdoodle8.mods.galacticraft.api.galaxies.Moon;
+import micdoodle8.mods.galacticraft.api.galaxies.Planet;
+import micdoodle8.mods.galacticraft.api.galaxies.Star;
+import net.romvoid95.galactic.GalacticTweaks;
+import stevekung.mods.moreplanets.init.MPPlanets;
+import zollerngalaxy.celestial.ZGPlanets;
 
 public class PlanetGroups {
 

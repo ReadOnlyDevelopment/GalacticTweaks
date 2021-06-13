@@ -1,7 +1,9 @@
 package net.romvoid95.galactic.core.utils;
 
-import net.minecraft.client.resources.*;
-import net.minecraft.util.text.*;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextComponentTranslation;
 
 //TODO Do this shit better
 public class StringUtil {

@@ -1,14 +1,18 @@
 package net.romvoid95.galactic.core.client.gui.element;
 
-import java.util.function.*;
+import java.util.function.Predicate;
 
-import net.minecraft.client.*;
-import net.minecraft.client.gui.*;
-import net.minecraft.client.gui.GuiPageButtonList.*;
-import net.minecraft.client.renderer.*;
-import net.minecraft.client.renderer.vertex.*;
-import net.minecraft.util.*;
-import net.minecraft.util.math.*;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiPageButtonList;
+import net.minecraft.client.gui.GuiPageButtonList.GuiResponder;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.util.ChatAllowedCharacters;
+import net.minecraft.util.math.MathHelper;
 
 public class TextFieldElement extends GuiElement {
 	final char					colorCodePlaceholder	= '\u0378';
@@ -511,7 +515,6 @@ public class TextFieldElement extends GuiElement {
 	/**
 	 * Call this method from your GuiScreen to process the keys into the textbox
 	 */
-	@SuppressWarnings("UnusedReturnValue")
 	public final boolean textboxKeyTyped(char typedChar, int keyCode) {
 		if (!this.isFocused || !this.enabled) {
 			return false;

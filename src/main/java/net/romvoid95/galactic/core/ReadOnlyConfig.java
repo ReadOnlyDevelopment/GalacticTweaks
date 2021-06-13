@@ -1,22 +1,32 @@
-package net.romvoid95.api;
+package net.romvoid95.galactic.core;
 
-import java.io.*;
-import java.lang.reflect.*;
-import java.util.*;
-import java.util.stream.*;
+import java.io.File;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
-import net.minecraftforge.common.*;
-import net.minecraftforge.common.config.*;
-import net.minecraftforge.fml.client.config.*;
-import net.minecraftforge.fml.client.event.*;
-import net.minecraftforge.fml.common.eventhandler.*;
-import net.romvoid95.api.config.annotation.*;
-import net.romvoid95.api.config.def.*;
-import net.romvoid95.api.config.values.*;
-import net.romvoid95.api.versioning.*;
-import net.romvoid95.galactic.*;
-import net.romvoid95.galactic.feature.*;
-import net.romvoid95.galactic.feature.Values.*;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.ConfigCategory;
+import net.minecraftforge.common.config.ConfigElement;
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.client.config.IConfigElement;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.romvoid95.api.config.annotation.GTFeature;
+import net.romvoid95.api.config.def.Category;
+import net.romvoid95.api.config.values.OptArrayDouble;
+import net.romvoid95.api.config.values.OptArrayInteger;
+import net.romvoid95.api.config.values.OptArrayString;
+import net.romvoid95.api.config.values.OptBoolean;
+import net.romvoid95.api.config.values.OptDouble;
+import net.romvoid95.api.config.values.OptInteger;
+import net.romvoid95.api.config.values.OptString;
+import net.romvoid95.api.config.values.OptValue;
+import net.romvoid95.api.versioning.Version;
+import net.romvoid95.galactic.GalacticTweaks;
+import net.romvoid95.galactic.Info;
+import net.romvoid95.galactic.feature.Values;
+import net.romvoid95.galactic.feature.Values.Categories;
 
 public abstract class ReadOnlyConfig {
 
@@ -38,15 +48,15 @@ public abstract class ReadOnlyConfig {
 		subClazzFields.forEach(f -> addFeatOpt(f));
 	}
 
-	protected File getConfigFile() {
+	public File getConfigFile() {
 		return configFile;
 	}
 
-	protected ConfigVersion getConfigversion() {
+	public ConfigVersion getConfigversion() {
 		return Configversion;
 	}
 
-	protected void setConfigFile(File configFile) {
+	public void setConfigFile(File configFile) {
 		this.configFile = configFile;
 	}
 
@@ -58,7 +68,7 @@ public abstract class ReadOnlyConfig {
 		this.configCats.add(configCat);
 	}
 
-	protected boolean hasProperty(OptValue prop) {
+	public boolean hasProperty(OptValue prop) {
 		return this.properties.stream().anyMatch(property -> property.category().contentEquals(prop.category())
 				&& property.key().contentEquals(prop.key()));
 	}
@@ -110,8 +120,9 @@ public abstract class ReadOnlyConfig {
 				GTFeature currFeature = field.getAnnotation(GTFeature.class);
 				String key = currFeature.featureClass().getSimpleName().toLowerCase();
 				try {
+					currFeature.featureClass().newInstance();
 					field.setBoolean(this.clazz,
-							config.get(Categories.FEATURES.get(), key, false, "Set 'true' to enable").getBoolean());
+							config.get(Categories.FEATURES.get(), key, true).getBoolean());
 				} catch (IllegalAccessException ex) {
 					GalacticTweaks.LOG.error("Field \"{}\" is not accessible?", field.getName());
 					GalacticTweaks.LOG.catching(ex);
@@ -294,7 +305,7 @@ public abstract class ReadOnlyConfig {
 		}
 	}
 
-	protected Configuration getConfig() {
+	public Configuration getConfig() {
 		return config;
 	}
 
@@ -348,10 +359,13 @@ public abstract class ReadOnlyConfig {
 	// PRIVATE UTILTITY METHODS //
 
 	private List<Field> setFeatureFields(Field[] fields)  {
-		return Arrays.stream(fields)
-				.filter((f) -> f.isAnnotationPresent(GTFeature.class))
-				.sorted()
-				.collect(Collectors.toList());
+		List<Field> flds = new ArrayList<>();
+		for(Field f : fields) {
+			if(f.isAnnotationPresent(GTFeature.class)) {
+				flds.add(f);
+			}
+		}
+		return flds;
 	}
 
 	private void addPropToList(String propName) {

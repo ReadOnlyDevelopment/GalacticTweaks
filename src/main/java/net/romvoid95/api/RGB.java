@@ -1,9 +1,11 @@
 package net.romvoid95.api;
 
-import java.util.*;
-import java.util.regex.*;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.regex.Pattern;
 
-import com.google.common.primitives.*;
+import com.google.common.primitives.UnsignedInts;
 
 public class RGB {
 

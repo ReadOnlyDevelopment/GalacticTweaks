@@ -1,8 +1,9 @@
 package net.romvoid95.galactic.core.utils;
 
-import lombok.experimental.*;
-import net.minecraft.block.*;
-import net.minecraft.item.*;
+import lombok.experimental.UtilityClass;
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 /**
  * Instantiates a new item stack util.

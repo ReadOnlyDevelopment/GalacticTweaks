@@ -1,37 +1,19 @@
 package net.romvoid95.galactic.feature.common;
 
-import static net.romvoid95.api.docs.Stability.*;
+import micdoodle8.mods.galacticraft.api.recipe.SchematicRegistry;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
+import net.romvoid95.api.feature.Feature;
+import net.romvoid95.galactic.GalacticTweaks;
+import net.romvoid95.galactic.feature.FeatureConfigs;
 
-import micdoodle8.mods.galacticraft.api.recipe.*;
-import net.minecraft.entity.player.*;
-import net.minecraft.item.*;
-import net.minecraftforge.fml.common.eventhandler.*;
-import net.minecraftforge.fml.common.gameevent.*;
-import net.romvoid95.api.*;
-import net.romvoid95.api.docs.*;
-import net.romvoid95.galactic.*;
-import net.romvoid95.galactic.feature.*;
-
-@Doc(
-		value = "Schematic Unlocker",
-		comment = "Feature that allows you to have certain Schematics unlocked from the very start.\n"
-				+ "Note: This feature is still in it's beta version and will be built upon as newer versions are released",
-				stability = UNSTABLE
-		)
 public class UnlockSchematics extends Feature {
 
 	public UnlockSchematics() {
-		super(UnlockSchematics::new, EnumSide.COMMON);
-	}
-
-	@Override
-	public String category() {
-		return  "UnlockSchematics";
-	}
-
-	@Override
-	public String comment() {
-		return "Unlock all schematics specified when the player joins the world.";
+		this.category = "UnlockSchematics";
+		this.categoryComment = "Unlock all schematics specified when the player joins the world.";
 	}
 
 	@Override

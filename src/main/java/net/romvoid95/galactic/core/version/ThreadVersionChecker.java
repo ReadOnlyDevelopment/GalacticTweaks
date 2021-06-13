@@ -1,14 +1,18 @@
 package net.romvoid95.galactic.core.version;
 
-import static net.romvoid95.galactic.Info.*;
+import static net.romvoid95.galactic.Info.NAME;
 
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
-import com.google.gson.*;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
-import net.romvoid95.api.versioning.*;
-import net.romvoid95.galactic.*;
+import net.romvoid95.api.versioning.Version;
+import net.romvoid95.galactic.GalacticTweaks;
 
 public class ThreadVersionChecker extends Thread {
 

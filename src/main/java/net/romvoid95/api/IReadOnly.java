@@ -1,6 +1,6 @@
 package net.romvoid95.api;
 
-import net.minecraft.launchwrapper.*;
+import net.minecraft.launchwrapper.Launch;
 
 public interface IReadOnly {
     String getModId();

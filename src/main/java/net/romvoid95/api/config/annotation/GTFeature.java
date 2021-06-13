@@ -1,15 +1,15 @@
 package net.romvoid95.api.config.annotation;
 
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import static java.lang.annotation.ElementType.*;
+import static java.lang.annotation.RetentionPolicy.*;
 
 import java.lang.annotation.*;
 
-import net.romvoid95.galactic.feature.*;
+import net.romvoid95.api.feature.*;
 
 @Retention(RUNTIME)
 @Target(FIELD)
 public @interface GTFeature {
-	
+
 	Class<? extends Feature> featureClass();
 }

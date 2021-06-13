@@ -1,21 +1,30 @@
 package net.romvoid95.galactic.core.version;
 
-import java.awt.*;
-import java.io.*;
-import java.net.*;
-import java.nio.file.*;
+import java.awt.Desktop;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.file.Path;
 
-import javax.annotation.*;
+import javax.annotation.Nullable;
 
-import org.apache.commons.io.*;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 
-import com.google.gson.*;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
-import net.minecraft.client.*;
-import net.minecraft.entity.player.*;
-import net.minecraft.util.text.*;
-import net.romvoid95.galactic.*;
-import net.romvoid95.galactic.core.utils.*;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
+import net.romvoid95.galactic.GalacticTweaks;
+import net.romvoid95.galactic.core.utils.StringUtil;
 
 public class Update {
 

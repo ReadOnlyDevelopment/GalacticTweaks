@@ -1,8 +1,9 @@
 package net.romvoid95.galactic.core.utils;
 
-import lombok.experimental.*;
-import net.minecraft.entity.player.*;
-import net.minecraft.util.text.*;
+import lombok.experimental.UtilityClass;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 
 @UtilityClass
 public class ChatUtil {

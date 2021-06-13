@@ -1,9 +1,9 @@
 package net.romvoid95.galactic;
 
-import net.romvoid95.api.ReadOnlyConfig.*;
+import net.romvoid95.galactic.core.ReadOnlyConfig.ConfigVersion;
 
 public final class Info {
-	public static final String ID = "gctweaks";
+	public static final String ID = "galactictweaks";
 	public static final String NAME = "GalacticTweaks";
 	public static final String VERSION = "@VERSION@";
 	public static final String FINGERPRINT = "@FINGERPRINT@";

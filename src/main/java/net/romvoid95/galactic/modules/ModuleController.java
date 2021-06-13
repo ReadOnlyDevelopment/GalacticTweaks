@@ -1,8 +1,9 @@
 package net.romvoid95.galactic.modules;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import net.romvoid95.galactic.modules.gc.*;
+import net.romvoid95.galactic.modules.gc.GalacticraftModule;
 
 public class ModuleController {
 

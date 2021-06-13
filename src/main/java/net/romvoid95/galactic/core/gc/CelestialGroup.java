@@ -1,8 +1,8 @@
 package net.romvoid95.galactic.core.gc;
 
-import java.util.*;
+import java.util.ArrayList;
 
-import com.google.common.base.*;
+import com.google.common.base.Supplier;
 
 public class CelestialGroup<B> extends ArrayList<B> implements Supplier<CelestialGroup<B>> {
 

@@ -63,12 +63,15 @@ dependencies {
 	compile "GC-1.12-dev:Galacticraft-API:${GCVersion}"
 	compile "GC-1.12-dev:Galacticraft-Planets-Dev:${GCVersion}"
 	compile "GC-1.12-dev:MicdoodleCore-Dev:${GCVersion}"
+	
+	compile 'com.fasterxml.jackson.core:jackson-core:2.12.3'
+	compile 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
 
-    compileOnly 'org.projectlombok:lombok:1.18.18'
-    annotationProcessor 'org.projectlombok:lombok:1.18.18'
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
     
-    testCompileOnly 'org.projectlombok:lombok:1.18.18'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.18'
+    testCompileOnly 'org.projectlombok:lombok:1.18.20'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
 
 	compile("com.mjr.extraplanets:ExtraPlanets:1.12.2-0.7.2:dev") {
 		exclude module: 'jei_1.12.2'
@@ -78,7 +81,7 @@ dependencies {
 	runtime "mezz.jei:jei_${mc_version}:4.16.1.302"
 	
 	runtime "com.mjr.mjrlegendslib:MJRLegendsLib:1.12.2-1.2.0"
-	runtime "industrial-craft:industrialcraft-2-2.8.99:ex112:api"
+	runtime "net.industrial-craft:industrialcraft-2:2.8.99-ex112:api"
 	
 	compile "curse.maven:asmodeuscore-0.0.25-303101:3231302"
 	compile "curse.maven:galaxyspace-2.0.16-238770:3235468"

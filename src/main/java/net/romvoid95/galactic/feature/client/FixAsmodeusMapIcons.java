@@ -1,41 +1,25 @@
 package net.romvoid95.galactic.feature.client;
 
-import static net.romvoid95.api.docs.Stability.*;
+import asmodeuscore.core.configs.AsmodeusConfig;
+import net.romvoid95.api.GalacticraftAddon;
+import net.romvoid95.api.feature.Feature;
+import net.romvoid95.galactic.core.gc.PlanetGroups;
+import net.romvoid95.galactic.feature.FeatureConfigs;
 
-import asmodeuscore.core.configs.*;
-import net.romvoid95.api.*;
-import net.romvoid95.api.docs.*;
-import net.romvoid95.galactic.core.*;
-import net.romvoid95.galactic.feature.*;
-
-@Doc(
-		value = "AsmodeusCore Celstial Map Tweak",
-		comment = "A Client-Side Only feature that will fix certain celstial objects from addons that have larger than intended icons due to how AsmodeusCore render's its icons.",
-		stability = UNSTABLE
-		)
 public class FixAsmodeusMapIcons extends Feature {
 
 	public FixAsmodeusMapIcons() {
-		super(FixAsmodeusMapIcons::new, EnumSide.CLIENT);
+		this.category = "AsmodeusMapIcons";
+		this.categoryComment = "Fixes the Planet/Star icon sizes from More Planets & ZollernGalaxy";
 	}
 
 	@Override
-	public String comment () {
-		return "Fixes the Planet/Star icon sizes from More Planets & ZollernGalaxy";
-	}
-
-	@Override
-	public String category () {
-		return  "AsmodeusMapIcons";
-	}
-
-	@Override
-	public void postInit () {
+	public void proxyPostInit () {
 		// If the feature is enabled and we are using AsmodeusCore's Map
 		if (AsmodeusConfig.enableNewGalaxyMap) {
 
 			// Only try and fix Zollern Icons if loaded
-			if (CompatMods.ZOLLERN.isLoaded()) {
+			if (GalacticraftAddon.ZOLLERNGALAXY.isLoaded()) {
 
 				// Zollern Stars are way too big on asmodeus map, bring em down to size
 				PlanetGroups.zollernStarGroup().forEach(star -> star.setRelativeSize(1.0F));
@@ -45,7 +29,7 @@ public class FixAsmodeusMapIcons extends Feature {
 			}
 
 			// Only try and fix MorePlanets Icons if loaded
-			if(CompatMods.MOREPLANETS.isLoaded()) {
+			if(GalacticraftAddon.MOREPLANETS.isLoaded()) {
 				PlanetGroups.morePlanetsGroup().forEach(planet -> {
 
 					// We only want Chalos

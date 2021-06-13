@@ -1,13 +1,16 @@
 package net.romvoid95.galactic.core.gc;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.annotation.*;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-import micdoodle8.mods.galacticraft.api.recipe.*;
-import net.minecraft.item.*;
-import net.minecraftforge.fml.common.registry.*;
-import net.romvoid95.galactic.*;
+import micdoodle8.mods.galacticraft.api.recipe.SchematicRegistry;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.romvoid95.galactic.GalacticTweaks;
 
 public class Schematics {
 

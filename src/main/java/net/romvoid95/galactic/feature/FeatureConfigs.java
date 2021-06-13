@@ -1,12 +1,28 @@
 package net.romvoid95.galactic.feature;
 
-import net.romvoid95.api.*;
-import net.romvoid95.api.config.annotation.*;
-import net.romvoid95.api.config.def.*;
-import net.romvoid95.api.config.values.*;
-import net.romvoid95.galactic.feature.Values.*;
-import net.romvoid95.galactic.feature.client.*;
-import net.romvoid95.galactic.feature.common.*;
+import net.romvoid95.api.config.annotation.GTFeature;
+import net.romvoid95.api.config.def.ValidDimIDs;
+import net.romvoid95.api.config.values.OptArrayInteger;
+import net.romvoid95.api.config.values.OptArrayString;
+import net.romvoid95.api.config.values.OptBoolean;
+import net.romvoid95.api.config.values.OptString;
+import net.romvoid95.galactic.core.ReadOnlyConfig;
+import net.romvoid95.galactic.feature.Values.Categories;
+import net.romvoid95.galactic.feature.Values.Comments;
+import net.romvoid95.galactic.feature.Values.Keys;
+import net.romvoid95.galactic.feature.Values.Validators;
+import net.romvoid95.galactic.feature.client.FixAsmodeusMapIcons;
+import net.romvoid95.galactic.feature.client.NoSpaceMusic;
+import net.romvoid95.galactic.feature.common.BreatheableDimensions;
+import net.romvoid95.galactic.feature.common.CompressorFixes;
+import net.romvoid95.galactic.feature.common.DimensionalComets;
+import net.romvoid95.galactic.feature.common.MobsBreatheInSpace;
+import net.romvoid95.galactic.feature.common.OxygenSpawnGear;
+import net.romvoid95.galactic.feature.common.SeperateAddonPlanets;
+import net.romvoid95.galactic.feature.common.SpaceRaceFeature;
+import net.romvoid95.galactic.feature.common.SpawnDimension;
+import net.romvoid95.galactic.feature.common.UnlockSchematics;
+import net.romvoid95.galactic.feature.common.admintools.DirectTeleporter;
 
 public class FeatureConfigs extends ReadOnlyConfig {
 
@@ -21,8 +37,8 @@ public class FeatureConfigs extends ReadOnlyConfig {
 	public static boolean	SPACE_RACE_FEATURE;
 	@GTFeature(featureClass = SeperateAddonPlanets.class)
 	public static boolean	SEPERATE_ADDONPLANETS;
-	@GTFeature(featureClass = OxygenToggle.class)
-	public static boolean	OXYGEN_TOGGLE;
+	@GTFeature(featureClass = BreatheableDimensions.class)
+	public static boolean	BREATHEABLE_DIMENSIONS;
 	@GTFeature(featureClass = MobsBreatheInSpace.class)
 	public static boolean	MOBS_BREATHE_IN_SPACE;
 	@GTFeature(featureClass = DimensionalComets.class)
@@ -33,6 +49,8 @@ public class FeatureConfigs extends ReadOnlyConfig {
 	public static boolean	NO_SPACE_MUSIC;
 	@GTFeature(featureClass = FixAsmodeusMapIcons.class)
 	public static boolean	FIX_MAP_ICONS;
+	@GTFeature(featureClass = DirectTeleporter.class)
+	public static boolean	DIRECT_TELEPORTER;
 
 	// UNLOCK SCHEMATICS
 	public static OptArrayInteger schematicIDs;

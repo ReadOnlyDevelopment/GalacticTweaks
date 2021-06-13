@@ -1,46 +1,30 @@
 package net.romvoid95.galactic.feature.common;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import static net.romvoid95.api.docs.Stability.*;
+import micdoodle8.mods.galacticraft.api.world.IGalacticraftWorldProvider;
+import micdoodle8.mods.galacticraft.core.entities.EntityMeteor;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldProvider;
+import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.romvoid95.api.feature.Feature;
+import net.romvoid95.galactic.GalacticTweaks;
+import net.romvoid95.galactic.feature.FeatureConfigs;
 
-import micdoodle8.mods.galacticraft.api.world.*;
-import micdoodle8.mods.galacticraft.core.entities.*;
-import net.minecraft.entity.*;
-import net.minecraft.entity.player.*;
-import net.minecraft.util.math.*;
-import net.minecraft.world.*;
-import net.minecraftforge.event.entity.living.*;
-import net.minecraftforge.fml.common.eventhandler.*;
-import net.romvoid95.api.*;
-import net.romvoid95.api.docs.*;
-import net.romvoid95.galactic.*;
-import net.romvoid95.galactic.feature.*;
-
-@Doc(
-		value = "Dimensional Comets",
-		comment = "Feature that allows you to have Galacticraft comets spawn and fall in other "
-				+ "dimensions as well as adjusting their spawnrate\n"
-				+ "Note: Comets will not be allowed to spawn in the Nether\n"
-				+ "Tip: see file under `config/GalacticTweaks/ValidDimensions.txt` for valid dimension ID's",
-				stability = STABLE
-		)
 public class DimensionalComets extends Feature {
 
 	public DimensionalComets() {
-		super(DimensionalComets::new, EnumSide.COMMON);
-	}
-
-	@Override
-	public String category() {
-		return "dimensionComets";
-	}
-
-	@Override
-	public String comment() {
-		return ">> INFO: Comets will not be allowed to spawn in the Nether <<\n"
+		this.category = "DimensionalComets";
+		this.categoryComment = ">> INFO: Comets will not be allowed to spawn in the Nether <<\n"
 				+ "specify where and how often asteroids will drop in set dimensions\n"
 				+ "see file under `config\\GalacticTweaks\\ValidDimensions.txt` for valid dimension ID's\n";
+
 	}
 
 	@Override

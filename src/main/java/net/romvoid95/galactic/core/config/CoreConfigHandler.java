@@ -1,9 +1,9 @@
 package net.romvoid95.galactic.core.config;
 
-import java.io.*;
+import java.io.File;
 
-import net.minecraftforge.common.config.*;
-import net.romvoid95.api.ReadOnlyConfig.*;
+import net.minecraftforge.common.config.Configuration;
+import net.romvoid95.galactic.core.ReadOnlyConfig.ConfigVersion;
 
 public class CoreConfigHandler {
 

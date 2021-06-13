@@ -18,10 +18,11 @@ package net.romvoid95.galactic.core;
 
 import static net.romvoid95.galactic.Info.ID;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
-import micdoodle8.mods.galacticraft.core.*;
-import net.minecraft.util.*;
+import micdoodle8.mods.galacticraft.core.Constants;
+import net.minecraft.util.ResourceLocation;
 
 public class Asset {
 

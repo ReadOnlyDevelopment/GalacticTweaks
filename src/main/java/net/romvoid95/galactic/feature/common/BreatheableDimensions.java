@@ -1,38 +1,22 @@
 package net.romvoid95.galactic.feature.common;
 
-import static net.romvoid95.api.docs.Stability.*;
+import micdoodle8.mods.galacticraft.api.event.oxygen.GCCoreOxygenSuffocationEvent;
+import micdoodle8.mods.galacticraft.core.util.ConfigManagerCore;
+import micdoodle8.mods.galacticraft.core.util.DamageSourceGC;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.romvoid95.api.config.IOrdered;
+import net.romvoid95.api.feature.Feature;
+import net.romvoid95.galactic.feature.FeatureConfigs;
 
-import micdoodle8.mods.galacticraft.api.event.oxygen.*;
-import micdoodle8.mods.galacticraft.core.util.*;
-import net.minecraft.entity.*;
-import net.minecraft.entity.player.*;
-import net.minecraftforge.common.*;
-import net.minecraftforge.event.entity.living.*;
-import net.minecraftforge.fml.common.eventhandler.*;
-import net.romvoid95.api.*;
-import net.romvoid95.api.config.*;
-import net.romvoid95.api.docs.*;
-import net.romvoid95.galactic.feature.*;
+public class BreatheableDimensions extends Feature implements IOrdered {
 
-@Doc(
-		value = "Dynamic Oxygen Tweak",
-		comment = "Feature that allows you to set any celestial body to have Oxygen or not have oxygen",
-		stability = UNSTABLE
-		)
-public class OxygenToggle extends Feature implements IOrdered {
-
-	public OxygenToggle() {
-		super(OxygenToggle::new, EnumSide.COMMON);
-	}
-
-	@Override
-	public String comment() {
-		return "Define which planets will be breatheable or not";
-	}
-
-	@Override
-	public String category() {
-		return "BreatheableDimensions";
+	public BreatheableDimensions() {
+		this.category = "BreatheableDimensions";
+		this.categoryComment = "Define which planets will be breatheable or not";
 	}
 
 	@Override
@@ -85,6 +69,6 @@ public class OxygenToggle extends Feature implements IOrdered {
 
 	@Override
 	public boolean isEnabled() {
-		return FeatureConfigs.OXYGEN_TOGGLE;
+		return FeatureConfigs.BREATHEABLE_DIMENSIONS;
 	}
 }

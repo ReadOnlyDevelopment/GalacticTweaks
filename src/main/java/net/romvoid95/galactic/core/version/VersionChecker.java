@@ -2,18 +2,22 @@ package net.romvoid95.galactic.core.version;
 
 import static net.romvoid95.galactic.Info.VERSION;
 
-import net.minecraft.client.*;
-import net.minecraft.entity.player.*;
-import net.minecraft.util.text.*;
-import net.minecraftforge.common.*;
-import net.minecraftforge.fml.common.*;
-import net.minecraftforge.fml.common.eventhandler.*;
-import net.minecraftforge.fml.common.gameevent.*;
-import net.minecraftforge.fml.relauncher.*;
-import net.romvoid95.api.versioning.*;
-import net.romvoid95.galactic.*;
-import net.romvoid95.galactic.core.config.*;
-import net.romvoid95.galactic.core.utils.*;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import net.romvoid95.api.versioning.Version;
+import net.romvoid95.galactic.GalacticTweaks;
+import net.romvoid95.galactic.Info;
+import net.romvoid95.galactic.core.config.CoreBooleanValues;
+import net.romvoid95.galactic.core.utils.StringUtil;
 
 @Mod.EventBusSubscriber(value = Side.CLIENT, modid = Info.ID)
 public final class VersionChecker {

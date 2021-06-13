@@ -1,46 +1,32 @@
 package net.romvoid95.galactic.feature.common;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.annotation.*;
+import javax.annotation.Nullable;
 
-import com.google.common.collect.*;
+import com.google.common.collect.ImmutableList;
 
-import static net.romvoid95.api.docs.Stability.*;
+import micdoodle8.mods.galacticraft.core.dimension.SpaceRace;
+import micdoodle8.mods.galacticraft.core.dimension.SpaceRaceManager;
+import micdoodle8.mods.galacticraft.core.util.PlayerUtil;
+import net.minecraft.command.CommandBase;
+import net.minecraft.command.CommandException;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.romvoid95.api.feature.Feature;
+import net.romvoid95.galactic.feature.FeatureConfigs;
 
-import micdoodle8.mods.galacticraft.core.dimension.*;
-import micdoodle8.mods.galacticraft.core.util.*;
-import net.minecraft.command.*;
-import net.minecraft.entity.player.*;
-import net.minecraft.server.*;
-import net.minecraft.util.math.*;
-import net.minecraft.util.text.*;
-import net.minecraftforge.fml.common.event.*;
-import net.romvoid95.api.*;
-import net.romvoid95.api.docs.*;
-import net.romvoid95.galactic.feature.*;
-
-@Doc(
-		value = "SpaceRace Tweak",
-		comment = "Feature that adds a command that allows players that are currently in a SpaceRace team to leave that team. In the base Galacticraft\n"
-				+ " mod only the Team leader can remove players from the team. Which could be problematic for players if that owner no longer plays on\n"
-				+ " the server. Also takes the burden off admins so they don't have to remove players manually in data files.",
-				stability = STABLE
-		)
 public class SpaceRaceFeature extends Feature {
 
 	public SpaceRaceFeature() {
-		super(SpaceRaceFeature::new, EnumSide.COMMON);
-	}
-
-	@Override
-	public String category () {
-		return "SpaceRaceCommand";
-	}
-
-	@Override
-	public String comment () {
-		return "Additional Features related to Galacticraft SpaceRace Teams";
+		this.category = "SpaceRaceCommand";
+		this.categoryComment = "Additional Features related to Galacticraft SpaceRace Teams";
 	}
 
 	@Override

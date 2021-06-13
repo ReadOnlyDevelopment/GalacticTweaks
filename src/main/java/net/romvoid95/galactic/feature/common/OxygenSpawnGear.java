@@ -1,60 +1,42 @@
 package net.romvoid95.galactic.feature.common;
 
-import static net.romvoid95.galactic.Info.*;
+import static net.romvoid95.galactic.Info.ID;
 
-import java.util.*;
+import java.util.List;
 
-import com.google.common.collect.*;
+import com.google.common.collect.ImmutableList;
 
-import static net.romvoid95.api.docs.Stability.*;
+import micdoodle8.mods.galacticraft.core.GCItems;
+import micdoodle8.mods.galacticraft.core.entities.player.GCCapabilities;
+import micdoodle8.mods.galacticraft.core.entities.player.GCPlayerStats;
+import micdoodle8.mods.galacticraft.core.inventory.InventoryExtended;
+import micdoodle8.mods.galacticraft.planets.asteroids.items.AsteroidsItems;
+import micdoodle8.mods.galacticraft.planets.venus.VenusItems;
+import net.minecraft.command.CommandBase;
+import net.minecraft.command.CommandException;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import net.romvoid95.api.config.IOrdered;
+import net.romvoid95.api.feature.Feature;
+import net.romvoid95.galactic.core.permission.GCTPermissions;
+import net.romvoid95.galactic.core.utils.ItemStackUtil;
+import net.romvoid95.galactic.feature.FeatureConfigs;
 
-import micdoodle8.mods.galacticraft.core.*;
-import micdoodle8.mods.galacticraft.core.entities.player.*;
-import micdoodle8.mods.galacticraft.core.inventory.*;
-import micdoodle8.mods.galacticraft.planets.asteroids.items.*;
-import micdoodle8.mods.galacticraft.planets.venus.*;
-import net.minecraft.command.*;
-import net.minecraft.entity.player.*;
-import net.minecraft.item.*;
-import net.minecraft.nbt.*;
-import net.minecraft.server.*;
-import net.minecraft.util.math.*;
-import net.minecraft.util.text.*;
-import net.minecraftforge.fml.common.event.*;
-import net.minecraftforge.fml.common.eventhandler.*;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.*;
-import net.romvoid95.api.*;
-import net.romvoid95.api.config.*;
-import net.romvoid95.api.docs.*;
-import net.romvoid95.galactic.core.utils.*;
-import net.romvoid95.galactic.feature.*;
-
-@Doc(
-		value = "Spawn With Oxygen Gear",
-		comment = "Feature that allows modpack makers to have players spawn with the configured Oxygen gear when \n"
-				+ "they join a world for the first time. Every slot available in the Galacticraft tab can be \n"
-				+ "configured.  This feature also adds an Admin/OP-Only command that allows you to reset their \n"
-				+ "playerdata if needed. So the player can receive the gear again on next login \n"
-				+ "Note: This fearure registers a \"true/false\" value in the players data file. When they receive \n"
-				+ "the gear the value is set to true so the mod knows to not give that player gear again the next \n"
-				+ "time they login. If for any reason the player needs to have gear again on next login. \n"
-				+ "Use the command this feature adds to reset their data value to \"false\"",
-				stability = STABLE
-		)
 public class OxygenSpawnGear extends Feature implements IOrdered {
 
 	public OxygenSpawnGear() {
-		super(OxygenSpawnGear::new, EnumSide.COMMON);
-	}
-
-	@Override
-	public String category() {
-		return "SpawnItems";
-	}
-
-	@Override
-	public String comment() {
-		return "Allows Players to Spawn With Oxygen Items Equipped";
+		this.category = "OxygenSpawnGear";
+		this.categoryComment = "Allows Players to Spawn With Oxygen Items Equipped";
 	}
 
 	@Override
@@ -169,7 +151,7 @@ public class OxygenSpawnGear extends Feature implements IOrdered {
 
 		@Override
 		public List<String> getAliases() {
-			return ImmutableList.of("oxyreset", "oxyr", "oreset");
+			return ImmutableList.of("oxyreset");
 		}
 
 		@Override
@@ -182,13 +164,9 @@ public class OxygenSpawnGear extends Feature implements IOrdered {
 		}
 
 		@Override
-		public int getRequiredPermissionLevel() {
-			return 3;
-		}
-
-		@Override
 		public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
-			return true;
+			EntityPlayerMP player = (EntityPlayerMP) sender;
+			return GCTPermissions.hasPerm(player, GCTPermissions.ADMIN_OXYGEN);
 		}
 
 		@Override

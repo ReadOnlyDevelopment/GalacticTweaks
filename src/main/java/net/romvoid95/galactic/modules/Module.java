@@ -1,13 +1,16 @@
 package net.romvoid95.galactic.modules;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
-import net.minecraftforge.common.*;
-import net.minecraftforge.fml.common.event.*;
-import net.romvoid95.api.ReadOnlyConfig.*;
-import net.romvoid95.galactic.*;
-import net.romvoid95.galactic.feature.*;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.romvoid95.api.feature.Feature;
+import net.romvoid95.galactic.GalacticTweaks;
+import net.romvoid95.galactic.Info;
+import net.romvoid95.galactic.core.ReadOnlyConfig.ConfigVersion;
+import net.romvoid95.galactic.feature.FeatureConfigs;
 
 public abstract class Module {
 	private List<Feature> features = new ArrayList<>();
@@ -30,7 +33,7 @@ public abstract class Module {
 		config.setConfigFile(file);
 		config.loadConfig();
 		features.forEach(feat -> {
-			config.getConfig().getCategory(feat.category()).setComment(feat.comment());
+			config.getConfig().getCategory(feat.getCategory()).setComment(feat.getCategoryComment());
 		});	
 	}
 	

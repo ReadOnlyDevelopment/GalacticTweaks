@@ -1,4 +1,4 @@
-package net.romvoid95.galactic.feature;
+package net.romvoid95.api.feature;
 
 public interface IFeature {
 

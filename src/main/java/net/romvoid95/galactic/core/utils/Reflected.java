@@ -1,15 +1,17 @@
 package net.romvoid95.galactic.core.utils;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Field;
 
-import javax.annotation.*;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-import org.apache.commons.lang3.*;
+import org.apache.commons.lang3.StringUtils;
 
-import com.google.common.base.*;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Preconditions;
 
-import lombok.experimental.*;
-import net.minecraftforge.fml.relauncher.*;
+import lombok.experimental.UtilityClass;
+import net.minecraftforge.fml.relauncher.FMLLaunchHandler;
 
 @UtilityClass
 public class Reflected {

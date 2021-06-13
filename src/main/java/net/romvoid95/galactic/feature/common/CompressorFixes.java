@@ -17,38 +17,19 @@
  */
 package net.romvoid95.galactic.feature.common;
 
-import static net.romvoid95.api.docs.Stability.*;
+import micdoodle8.mods.galacticraft.api.recipe.CompressorRecipes;
+import micdoodle8.mods.galacticraft.core.GCItems;
+import micdoodle8.mods.galacticraft.planets.asteroids.items.AsteroidsItems;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
+import net.romvoid95.api.feature.Feature;
+import net.romvoid95.galactic.feature.FeatureConfigs;
 
-import micdoodle8.mods.galacticraft.api.recipe.*;
-import micdoodle8.mods.galacticraft.core.*;
-import micdoodle8.mods.galacticraft.planets.asteroids.items.*;
-import net.minecraft.item.*;
-import net.minecraftforge.oredict.*;
-import net.romvoid95.api.*;
-import net.romvoid95.api.docs.*;
-import net.romvoid95.galactic.feature.*;
-
-@Doc(
-		value = "Compressor Tweaks",
-		comment = "Feature that adds support for metal ingots that have registered OreDictionary entries "
-				+ "that match the Compressed Plate of that metal (if that plate exists) and registeres "
-				+ "them to Galacticraft Compressor's accepted recipes",
-				stability = STABLE
-		)
 public class CompressorFixes extends Feature {
 
 	public CompressorFixes() {
-		super(CompressorFixes::new, EnumSide.COMMON);
-	}
-
-	@Override
-	public String category() {
-		return "CompressorFixes";
-	}
-
-	@Override
-	public String comment() {
-		return "Adds Oredict ingots to compressor recipe table";
+		this.category = "CompressorFixes";
+		this.categoryComment = "Adds Oredict ingots to compressor recipe table";
 	}
 
 	@Override

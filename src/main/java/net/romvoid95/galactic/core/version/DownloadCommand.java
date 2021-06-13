@@ -1,8 +1,12 @@
 package net.romvoid95.galactic.core.version;
 
-import net.minecraft.command.*;
-import net.minecraft.server.*;
-import net.minecraft.util.text.*;
+import net.minecraft.command.CommandBase;
+import net.minecraft.command.CommandException;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
 
 public class DownloadCommand extends CommandBase {
 

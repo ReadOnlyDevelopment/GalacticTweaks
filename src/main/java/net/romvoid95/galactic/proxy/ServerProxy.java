@@ -1,10 +1,13 @@
 package net.romvoid95.galactic.proxy;
 
-import net.minecraft.entity.player.*;
-import net.minecraft.network.*;
-import net.minecraftforge.common.*;
-import net.minecraftforge.fml.common.event.*;
-import net.minecraftforge.fml.common.event.FMLInterModComms.*;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.INetHandler;
+import net.minecraft.network.NetHandlerPlayServer;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLInterModComms.IMCEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public class ServerProxy implements IProxy {
 
