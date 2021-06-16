@@ -1,7 +1,6 @@
 package net.romvoid95.galactic.core.permission;
 
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
-import net.minecraftforge.server.permission.PermissionAPI;
 import net.romvoid95.galactic.Info;
 
 public class GCTNode {

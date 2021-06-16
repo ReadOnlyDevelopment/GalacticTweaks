@@ -15,7 +15,7 @@ import micdoodle8.mods.galacticraft.api.galaxies.CelestialBody;
 import micdoodle8.mods.galacticraft.api.galaxies.GalaxyRegistry;
 import net.romvoid95.api.config.def.ValidDimIDs;
 import net.romvoid95.galactic.GalacticTweaks;
-import net.romvoid95.galactic.feature.FeatureConfigs;
+import net.romvoid95.galactic.modules.galacticraft.GalacticraftModuleConfig;
 
 public class IOWriter {
 
@@ -56,7 +56,7 @@ public class IOWriter {
 			bodies.put(body.getName(), body);
 		}
 
-		FeatureConfigs.validSPawnDims = new ValidDimIDs(all);
+		GalacticraftModuleConfig.validSPawnDims = new ValidDimIDs(all);
 	}
 
 	public void handleFile(String name) {

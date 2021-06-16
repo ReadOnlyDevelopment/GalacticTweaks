@@ -14,9 +14,9 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.romvoid95.api.versioning.Version;
-import net.romvoid95.galactic.GalacticTweaks;
 import net.romvoid95.galactic.Info;
-import net.romvoid95.galactic.core.config.CoreBooleanValues;
+import net.romvoid95.galactic.core.GCTLog;
+import net.romvoid95.galactic.core.config.CoreConfig;
 import net.romvoid95.galactic.core.utils.StringUtil;
 
 @Mod.EventBusSubscriber(value = Side.CLIENT, modid = Info.ID)
@@ -30,8 +30,8 @@ public final class VersionChecker {
 	private EntityPlayer player;
 	
 	public VersionChecker() {
-		if (CoreBooleanValues.DO_UPDATE_CHECK.isEnabled()) {
-			GalacticTweaks.LOG.info("Initializing Update Checker...");
+		if (CoreConfig.runUpdateCheck.get()) {
+			GCTLog.info("Initializing Update Checker...");
 			new ThreadVersionChecker();
 			MinecraftForge.EVENT_BUS.register(this);
 		}

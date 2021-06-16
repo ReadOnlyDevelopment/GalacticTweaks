@@ -50,6 +50,7 @@ repositories {
 	}
 	mavenCentral()
     removeIf { it.url.host == 'files.minecraftforge.net' }
+    maven { url 'https://jitpack.io' }
     maven { url "https://maven.minecraftforge.net/" }
 	maven { url "https://www.cursemaven.com" }
 	maven { url "https://maven.mjrlegends.com/" }
@@ -59,6 +60,8 @@ repositories {
 }
 
 dependencies {
+	compile 'com.github.ReadOnlyDevelopment:ZenScript:1.0.0'
+
 	compile "GC-1.12-dev:GalacticraftCore-Dev:${GCVersion}"
 	compile "GC-1.12-dev:Galacticraft-API:${GCVersion}"
 	compile "GC-1.12-dev:Galacticraft-Planets-Dev:${GCVersion}"

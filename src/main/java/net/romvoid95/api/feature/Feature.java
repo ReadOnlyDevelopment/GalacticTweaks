@@ -5,14 +5,15 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.romvoid95.api.config.def.Category;
 
 public abstract class Feature implements IFeature {
 
 	protected String category;
 	protected String categoryComment;
 
-	public String getCategory() {
-		return category;
+	public Category getCategory() {
+		return Category.of(category);
 	}
 
 	public String getCategoryComment() {

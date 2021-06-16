@@ -7,7 +7,7 @@ import galaxyspace.systems.SolarSystem.SolarSystemBodies;
 import micdoodle8.mods.galacticraft.api.galaxies.Moon;
 import micdoodle8.mods.galacticraft.api.galaxies.Planet;
 import micdoodle8.mods.galacticraft.api.galaxies.Star;
-import net.romvoid95.galactic.GalacticTweaks;
+import net.romvoid95.galactic.core.GCTLog;
 import stevekung.mods.moreplanets.init.MPPlanets;
 import zollerngalaxy.celestial.ZGPlanets;
 
@@ -24,7 +24,7 @@ public class PlanetGroups {
 
 	public static CelestialGroup<Planet> zollernPlanets() {
 		if (zollernGroup == null) {
-			GalacticTweaks.LOG.info("Building ZollernGalaxy Planet List");
+			GCTLog.info("Building ZollernGalaxy Planet List");
 			CelestialGroup<Planet> p = new CelestialGroup<>();
 			p.addAll(
 					ZGPlanets.planetEden,
@@ -48,7 +48,7 @@ public class PlanetGroups {
 
 	public static CelestialGroup<Star> zollernStarGroup() {
 		if (zollernStarGroup == null) {
-			GalacticTweaks.LOG.info("Building ZollernGalaxy Star List");
+			GCTLog.info("Building ZollernGalaxy Star List");
 			CelestialGroup<Star> p = new CelestialGroup<>();
 			p.addAll(
 					ZGPlanets.starPraedyth,
@@ -62,7 +62,7 @@ public class PlanetGroups {
 
 	public static CelestialGroup<Planet> morePlanetsGroup() {
 		if (morePlanetsGroup == null) {
-			GalacticTweaks.LOG.info("Building MorePlanets Planet List");
+			GCTLog.info("Building MorePlanets Planet List");
 			CelestialGroup<Planet> p = new CelestialGroup<>();
 			p.addAll(
 					MPPlanets.CHALOS,
@@ -77,7 +77,7 @@ public class PlanetGroups {
 
 	public static CelestialGroup<Planet> extraPlanetsGroup() {
 		if (extraPlanetsGroup == null) {
-			GalacticTweaks.LOG.info("Building ExtraPlanets Planet List");
+			GCTLog.info("Building ExtraPlanets Planet List");
 			CelestialGroup<Planet> p = new CelestialGroup<>();
 			p.addAll(
 					ExtraPlanets_Planets.MERCURY,
@@ -96,7 +96,7 @@ public class PlanetGroups {
 
 	public static CelestialGroup<Planet> galaxySpaceGroup() {
 		if (galaxySpaceGroup == null) {
-			GalacticTweaks.LOG.info("Building GalaxySpace Planet List");
+			GCTLog.info("Building GalaxySpace Planet List");
 			CelestialGroup<Planet> p = new CelestialGroup<>();
 			p.addAll(
 					SolarSystemBodies.planetMercury,
@@ -119,7 +119,7 @@ public class PlanetGroups {
 
 	public static CelestialGroup<Moon> galaxySpaceMoonGroup() {
 		if (galaxySpaceMoonGroup == null) {
-			GalacticTweaks.LOG.info("Building GalaxySpace Moon List");
+			GCTLog.info("Building GalaxySpace Moon List");
 			CelestialGroup<Moon> m = new CelestialGroup<>();
 			m.addAll(
 					SolarSystemBodies.phobosMars,
@@ -151,7 +151,7 @@ public class PlanetGroups {
 
 	public static CelestialGroup<Moon> extraPlanetsMoonGroup() {
 		if (extraPlanetsMoonGroup == null) {
-			GalacticTweaks.LOG.info("Building ExtraPlanets Moon List");
+			GCTLog.info("Building ExtraPlanets Moon List");
 			CelestialGroup<Moon> m = new CelestialGroup<>();
 			m.addAll(
 					ExtraPlanets_Moons.TRITON,

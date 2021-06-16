@@ -6,8 +6,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.romvoid95.galactic.modules.Module;
-import net.romvoid95.galactic.modules.ModuleController;
+import net.romvoid95.api.module.Module;
+import net.romvoid95.galactic.ModuleController;
+import net.romvoid95.galactic.core.version.VersionChecker;
 
 public class ClientProxy extends ServerProxy {
 
@@ -15,7 +16,7 @@ public class ClientProxy extends ServerProxy {
 	public void preInit(FMLPreInitializationEvent event) {
 		super.preInit(event);
 		register_event(this);
-
+		new VersionChecker();
 		ModuleController.modules.forEach(Module::proxyPreInit);
 	}
 

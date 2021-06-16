@@ -12,7 +12,7 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.config.IConfigElement;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.romvoid95.api.config.annotation.GTFeature;
+import net.romvoid95.api.config.annotation.GCTFeature;
 import net.romvoid95.api.config.def.Category;
 import net.romvoid95.api.config.values.OptArrayDouble;
 import net.romvoid95.api.config.values.OptArrayInteger;
@@ -23,20 +23,19 @@ import net.romvoid95.api.config.values.OptInteger;
 import net.romvoid95.api.config.values.OptString;
 import net.romvoid95.api.config.values.OptValue;
 import net.romvoid95.api.versioning.Version;
-import net.romvoid95.galactic.GalacticTweaks;
 import net.romvoid95.galactic.Info;
-import net.romvoid95.galactic.feature.Values;
-import net.romvoid95.galactic.feature.Values.Categories;
 
 public abstract class ReadOnlyConfig {
 
-	private File configFile;
-	private ConfigVersion Configversion;
-	private final Class<?> clazz;
-	protected List<OptValue> properties = new ArrayList<>();
-	protected List<Field> features = new ArrayList<>();
-	protected List<String> propOrder = new ArrayList<>();
-	protected List<Category> configCats = new ArrayList<>();
+	private File					configFile;
+	private ConfigVersion			Configversion;
+	private final Class<?>			clazz;
+	protected List<OptValue>		properties		= new ArrayList<>();
+	protected List<Field>			features		= new ArrayList<>();
+	protected List<String>			propOrder		= new ArrayList<>();
+	protected List<Category>		configCats		= new ArrayList<>();
+	public static final Category	FEATURES		= Category.of("allfeatures").setRequiredRestarts(false, true);
+	public static final Category	FEATURE_OPTS	= Category.of("featureopts");
 
 	private Configuration config;
 
@@ -69,8 +68,7 @@ public abstract class ReadOnlyConfig {
 	}
 
 	public boolean hasProperty(OptValue prop) {
-		return this.properties.stream().anyMatch(property -> property.category().contentEquals(prop.category())
-				&& property.key().contentEquals(prop.key()));
+		return this.properties.stream().anyMatch(property -> property.category().contentEquals(prop.category()) && property.key().contentEquals(prop.key()));
 	}
 
 	protected final OptBoolean addProperty(OptBoolean property) {
@@ -102,7 +100,7 @@ public abstract class ReadOnlyConfig {
 		this.addProp(property);
 		return property;
 	}
-
+	
 	protected final OptArrayString addProperty(OptArrayString property) {
 		this.addPropToList(property.key());
 		this.addProp(property);
@@ -117,15 +115,14 @@ public abstract class ReadOnlyConfig {
 			config.load();
 
 			for (Field field : this.features) {
-				GTFeature currFeature = field.getAnnotation(GTFeature.class);
+				GCTFeature currFeature = field.getAnnotation(GCTFeature.class);
 				String key = currFeature.featureClass().getSimpleName().toLowerCase();
 				try {
-					currFeature.featureClass().newInstance();
-					field.setBoolean(this.clazz,
-							config.get(Categories.FEATURES.get(), key, true).getBoolean());
+					//currFeature.featureClass().newInstance();
+					field.setBoolean(this.clazz, config.get(FEATURES.get(), key, false).getBoolean());
 				} catch (IllegalAccessException ex) {
-					GalacticTweaks.LOG.error("Field \"{}\" is not accessible?", field.getName());
-					GalacticTweaks.LOG.catching(ex);
+					GCTLog.error("Field \"{}\" is not accessible?", field.getName());
+					GCTLog.catching(ex);
 				}
 			}
 
@@ -136,23 +133,10 @@ public abstract class ReadOnlyConfig {
 						case INTEGER:
 							OptInteger propInt = (OptInteger) prop;
 							int intVal;
-							if(propInt.hasRange()) {
-								intVal = config.get(
-										propInt.category(),
-										propInt.key(),
-										propInt.get(),
-										propInt.comment(),
-										propInt.min(),
-										propInt.max()
-										).setLanguageKey(propInt.langKey()).getInt();
-							}
-							else {
-								intVal = config.get(
-										propInt.category(),
-										propInt.key(),
-										propInt.get(),
-										propInt.comment()
-										).setLanguageKey(propInt.langKey()).getInt();
+							if (propInt.hasRange()) {
+								intVal = config.get(propInt.category(), propInt.key(), propInt.get(), propInt.comment(), propInt.min(), propInt.max()).setLanguageKey(propInt.langKey()).getInt();
+							} else {
+								intVal = config.get(propInt.category(), propInt.key(), propInt.get(), propInt.comment()).setLanguageKey(propInt.langKey()).getInt();
 							}
 							propInt.set(intVal);
 							break;
@@ -160,23 +144,10 @@ public abstract class ReadOnlyConfig {
 						case INTEGER_ARRAY:
 							OptArrayInteger propIntArray = (OptArrayInteger) prop;
 							int[] intArray;
-							if(propIntArray.hasRange()) {
-								intArray = config.get(
-										propIntArray.category(),
-										propIntArray.key(),
-										propIntArray.get(),
-										propIntArray.comment(),
-										propIntArray.min(),
-										propIntArray.max()
-										).setLanguageKey(propIntArray.langKey()).getIntList();
-							}
-							else {
-								intArray = config.get(
-										propIntArray.category(),
-										propIntArray.key(),
-										propIntArray.get(),
-										propIntArray.comment()
-										).setLanguageKey(propIntArray.langKey()).getIntList();
+							if (propIntArray.hasRange()) {
+								intArray = config.get(propIntArray.category(), propIntArray.key(), propIntArray.get(), propIntArray.comment(), propIntArray.min(), propIntArray.max()).setLanguageKey(propIntArray.langKey()).getIntList();
+							} else {
+								intArray = config.get(propIntArray.category(), propIntArray.key(), propIntArray.get(), propIntArray.comment()).setLanguageKey(propIntArray.langKey()).getIntList();
 							}
 							propIntArray.set(intArray);
 							break;
@@ -184,23 +155,10 @@ public abstract class ReadOnlyConfig {
 						case DOUBLE:
 							OptDouble propDouble = (OptDouble) prop;
 							double doubleVal;
-							if(propDouble.hasRange()) {
-								doubleVal = config.get(
-										propDouble.category(),
-										propDouble.key(),
-										propDouble.get(),
-										propDouble.comment(),
-										propDouble.min(),
-										propDouble.max()
-										).setLanguageKey(propDouble.langKey()).getDouble();
-							}
-							else {
-								doubleVal = config.get(
-										propDouble.category(),
-										propDouble.key(),
-										propDouble.get(),
-										propDouble.comment()
-										).setLanguageKey(propDouble.langKey()).getDouble();
+							if (propDouble.hasRange()) {
+								doubleVal = config.get(propDouble.category(), propDouble.key(), propDouble.get(), propDouble.comment(), propDouble.min(), propDouble.max()).setLanguageKey(propDouble.langKey()).getDouble();
+							} else {
+								doubleVal = config.get(propDouble.category(), propDouble.key(), propDouble.get(), propDouble.comment()).setLanguageKey(propDouble.langKey()).getDouble();
 							}
 							propDouble.set(doubleVal);
 							break;
@@ -208,80 +166,37 @@ public abstract class ReadOnlyConfig {
 						case DOUBLE_ARRAY:
 							OptArrayDouble propDoubleArray = (OptArrayDouble) prop;
 							double[] doubleArrayVal;
-							if(propDoubleArray.hasRange()) {
-								doubleArrayVal = config.get(
-										propDoubleArray.category(),
-										propDoubleArray.key(),
-										propDoubleArray.get(),
-										propDoubleArray.comment(),
-										propDoubleArray.min(),
-										propDoubleArray.max()
-										).setLanguageKey(propDoubleArray.langKey()).getDoubleList();
-							}
-							else {
-								doubleArrayVal = config.get(
-										propDoubleArray.category(),
-										propDoubleArray.key(),
-										propDoubleArray.get(),
-										propDoubleArray.comment()
-										).setLanguageKey(propDoubleArray.langKey()).getDoubleList();
+							if (propDoubleArray.hasRange()) {
+								doubleArrayVal = config.get(propDoubleArray.category(), propDoubleArray.key(), propDoubleArray.get(), propDoubleArray.comment(), propDoubleArray.min(), propDoubleArray.max()).setLanguageKey(propDoubleArray.langKey()).getDoubleList();
+							} else {
+								doubleArrayVal = config.get(propDoubleArray.category(), propDoubleArray.key(), propDoubleArray.get(), propDoubleArray.comment()).setLanguageKey(propDoubleArray.langKey()).getDoubleList();
 							}
 							propDoubleArray.set(doubleArrayVal);
 							break;
 
 						case BOOLEAN:
 							OptBoolean propBool = (OptBoolean) prop;
-							propBool.set(
-									config.getBoolean(
-											propBool.key(),
-											propBool.category(),
-											propBool.get(),
-											propBool.comment(),
-											propBool.langKey()
-											));
+							propBool.set(config.getBoolean(propBool.key(), propBool.category(), propBool.get(), propBool.comment(), propBool.langKey()));
 							break;
 
 						case STRING:
 							OptString propString = (OptString) prop;
 							String Stringvalue;
 							if (propString.needsValidation()) {
-								Stringvalue =
-										config.getString(
-												propString.key(),
-												propString.category(),
-												propString.get(),
-												propString.comment(),
-												propString.getValidValues(),
-												propString.getValidValuesDisplay(),
-												propString.langKey()
-												);
-							}
-							else {
-								Stringvalue =
-										config.getString(
-												propString.key(),
-												propString.category(),
-												propString.get(),
-												propString.comment(),
-												propString.langKey()
-												);
+								Stringvalue = config.getString(propString.key(), propString.category(), propString.get(), propString.comment(), propString.getValidValues(), propString.getValidValuesDisplay(), propString.langKey());
+							} else {
+								Stringvalue = config.getString(propString.key(), propString.category(), propString.get(), propString.comment(), propString.langKey());
 							}
 							propString.set(Stringvalue);
 							break;
 						case STRING_ARRAY:
 							OptArrayString propStringArray = (OptArrayString) prop;
-							propStringArray.set(
-									config.get(
-											propStringArray.category(),
-											propStringArray.key(),
-											propStringArray.get(),
-											propStringArray.comment()
-											).setLanguageKey(propStringArray.langKey()).getStringList());
+							propStringArray.set(config.get(propStringArray.category(), propStringArray.key(), propStringArray.get(), propStringArray.comment()).setLanguageKey(propStringArray.langKey()).getStringList());
 							break;
 					}
 				} catch (Exception e) {
-					GalacticTweaks.LOG.error("Issue with Prop: {} of type {}", prop.key(), prop.getType().name());
-					GalacticTweaks.LOG.catching(e);
+					GCTLog.error("Issue with Prop: {} of type {}", prop.key(), prop.getType().name());
+					GCTLog.catching(e);
 				} finally {
 					config.setCategoryPropertyOrder(prop.category(), this.propOrder);
 					config.setCategoryLanguageKey(prop.category(), prop.getConfigCat().getLangKey());
@@ -290,7 +205,7 @@ public abstract class ReadOnlyConfig {
 				}
 			}
 		} catch (Exception ignored) {
-			GalacticTweaks.LOG.error("Uh, we had a problem loading config: {}", config.getConfigFile());
+			GCTLog.error("Uh, we had a problem loading config: {}", config.getConfigFile());
 		}
 		saveConfig();
 	}
@@ -305,18 +220,18 @@ public abstract class ReadOnlyConfig {
 		}
 	}
 
-	public Configuration getConfig() {
+	public Configuration get() {
 		return config;
 	}
 
-	protected ConfigCategory getCategory(Category category) {
+	public ConfigCategory getCategory(Category category) {
 		return config.getCategory(category.get());
 	}
 
 	protected List<IConfigElement> getElements() {
 		List<IConfigElement> list = new ArrayList<>();
-		ConfigCategory allFeatures = getCategory(Values.Categories.FEATURES).setLanguageKey("galactictweaks.config.gui.cat.allfeatures");
-		ConfigCategory featureOpts = getCategory(Values.Categories.FEATURE_OPTS).setLanguageKey("galactictweaks.config.gui.cat.featureopts");
+		ConfigCategory allFeatures = getCategory(FEATURES).setLanguageKey("galactictweaks.config.gui.cat.allfeatures");
+		ConfigCategory featureOpts = getCategory(FEATURE_OPTS).setLanguageKey("galactictweaks.config.gui.cat.featureopts");
 		list.add(new ConfigElement(allFeatures));
 		list.add(new ConfigElement(featureOpts));
 		return list;
@@ -358,10 +273,10 @@ public abstract class ReadOnlyConfig {
 
 	// PRIVATE UTILTITY METHODS //
 
-	private List<Field> setFeatureFields(Field[] fields)  {
+	private List<Field> setFeatureFields(Field[] fields) {
 		List<Field> flds = new ArrayList<>();
-		for(Field f : fields) {
-			if(f.isAnnotationPresent(GTFeature.class)) {
+		for (Field f : fields) {
+			if (f.isAnnotationPresent(GCTFeature.class)) {
 				flds.add(f);
 			}
 		}

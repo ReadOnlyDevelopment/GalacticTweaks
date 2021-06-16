@@ -23,7 +23,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
-import net.romvoid95.galactic.GalacticTweaks;
+import net.romvoid95.galactic.core.GCTLog;
 import net.romvoid95.galactic.core.utils.StringUtil;
 
 public class Update {
@@ -101,7 +101,7 @@ public class Update {
 				return version;
 			}
 		} catch (Exception e) {
-			GalacticTweaks.LOG.error("There was an issue communicating with the CurseAPI");
+			GCTLog.error("There was an issue communicating with the CurseAPI");
 		}
 		return null;
 	}
