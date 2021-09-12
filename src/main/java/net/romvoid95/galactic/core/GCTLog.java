@@ -12,7 +12,6 @@ import org.apache.logging.log4j.Logger;
 import lombok.experimental.UtilityClass;
 import net.romvoid95.galactic.Info;
 import net.romvoid95.galactic.core.config.CoreConfig;
-import net.romvoid95.galactic.handler.CoreConfigHandler;
 
 @UtilityClass
 public class GCTLog {

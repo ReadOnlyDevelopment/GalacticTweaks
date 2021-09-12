@@ -52,7 +52,7 @@ public class IOWriter {
 			all.add(m.getName().replace(" ", "_"));
 		});
 		
-		for(CelestialBody body : allBodies) {
+		for(CelestialBody body : allBodies) {;
 			bodies.put(body.getName(), body);
 		}
 

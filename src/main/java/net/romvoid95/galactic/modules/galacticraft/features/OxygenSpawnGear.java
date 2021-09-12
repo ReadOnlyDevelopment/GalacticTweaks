@@ -16,7 +16,6 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
@@ -28,7 +27,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.romvoid95.api.config.IOrdered;
 import net.romvoid95.api.feature.Feature;
-import net.romvoid95.galactic.core.permission.GCTPermissions;
 import net.romvoid95.galactic.core.utils.ItemStackUtil;
 import net.romvoid95.galactic.modules.galacticraft.GalacticraftModuleConfig;
 
@@ -164,11 +162,10 @@ public class OxygenSpawnGear extends Feature implements IOrdered {
 		}
 
 		@Override
-		public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
-			EntityPlayerMP player = (EntityPlayerMP) sender;
-			return GCTPermissions.hasPerm(player, GCTPermissions.ADMIN_OXYGEN);
+		public int getRequiredPermissionLevel() {
+			return 4;
 		}
-
+		
 		@Override
 		public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args,
 				BlockPos pos) {

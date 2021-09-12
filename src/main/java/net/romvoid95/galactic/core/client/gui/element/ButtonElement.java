@@ -179,7 +179,7 @@ public class ButtonElement extends GuiElement {
 	@Override
 	public String[] getTooltips() {
 		if (BUTTON_ICON == null && BUTTON_ICON_IMAGE == null && !errorTooltip.isEmpty()) {
-			return ArrayUtils.addAll(super.getTooltips(), "", "§cError loading image:", "§c" + errorTooltip);
+			return ArrayUtils.addAll(super.getTooltips(), "", "Â§cError loading image:", "Â§c" + errorTooltip);
 		}
 		return super.getTooltips();
 	}

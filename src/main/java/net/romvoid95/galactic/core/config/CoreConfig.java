@@ -4,7 +4,6 @@ import net.romvoid95.api.config.def.Category;
 import net.romvoid95.api.config.def.Comment;
 import net.romvoid95.api.config.def.Key;
 import net.romvoid95.api.config.values.OptBoolean;
-import net.romvoid95.galactic.Info;
 import net.romvoid95.galactic.core.ReadOnlyConfig;
 
 public class CoreConfig extends ReadOnlyConfig {

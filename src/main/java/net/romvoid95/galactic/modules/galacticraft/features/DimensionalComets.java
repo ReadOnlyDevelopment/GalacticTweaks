@@ -63,7 +63,7 @@ public class DimensionalComets extends Feature {
 		WorldProvider provider = world.provider;
 		int dimId = provider.getDimensionType().getId();
 		int f;
-		if (world.provider.getDimensionType().getId() == -1) {
+		if (dimId == -1 || dimId == 1) {
 			return;
 		}
 		if (dimId == dimensionid) {

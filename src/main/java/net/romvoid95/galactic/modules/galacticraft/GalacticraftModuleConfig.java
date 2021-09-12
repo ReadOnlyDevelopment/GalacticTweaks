@@ -1,7 +1,5 @@
 package net.romvoid95.galactic.modules.galacticraft;
 
-import java.io.File;
-
 import net.romvoid95.api.GalacticraftAddon;
 import net.romvoid95.api.config.annotation.GCTFeature;
 import net.romvoid95.api.config.def.Category;
@@ -13,8 +11,6 @@ import net.romvoid95.api.config.values.OptArrayInteger;
 import net.romvoid95.api.config.values.OptArrayString;
 import net.romvoid95.api.config.values.OptBoolean;
 import net.romvoid95.api.config.values.OptString;
-import net.romvoid95.galactic.GalacticTweaks;
-import net.romvoid95.galactic.Info;
 import net.romvoid95.galactic.core.ReadOnlyConfig;
 import net.romvoid95.galactic.modules.galacticraft.features.BreatheableDimensions;
 import net.romvoid95.galactic.modules.galacticraft.features.CompressorFixes;

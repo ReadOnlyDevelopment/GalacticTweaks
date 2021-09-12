@@ -1,24 +1,29 @@
 package net.romvoid95.galactic.modules.galacticraft.features.admintools;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
+import galaxyspace.systems.SolarSystem.SolarSystemBodies;
 import micdoodle8.mods.galacticraft.api.galaxies.CelestialBody;
 import micdoodle8.mods.galacticraft.api.vector.Vector3;
 import micdoodle8.mods.galacticraft.core.util.WorldUtil;
+import micdoodle8.mods.galacticraft.planets.asteroids.AsteroidsModule;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.server.permission.PermissionAPI;
+import net.romvoid95.galactic.GalacticTweaks;
 import net.romvoid95.galactic.core.GCTLog;
 import net.romvoid95.galactic.core.gc.IOWriter;
-import net.romvoid95.galactic.core.permission.GCTPermissions;
-import net.romvoid95.galactic.modules.galacticraft.GalacticraftModuleConfig;
 
 public class CommandAdminTeleport extends CommandBase {
 
@@ -26,63 +31,66 @@ public class CommandAdminTeleport extends CommandBase {
 	public String getName() {
 		return "admintp";
 	}
-	
-	@Override
-	public int getRequiredPermissionLevel () {
-		return GCTPermissions.ADMIN_TELEPORT.permissionLevel();
+
+	@Override	
+	public int getRequiredPermissionLevel() {
+		return 4;
 	}
 
 	@Override
 	public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
-		EntityPlayerMP player = (EntityPlayerMP) sender;
-		return GCTPermissions.hasPerm(player, GCTPermissions.ADMIN_TELEPORT);
+		return PermissionAPI.hasPermission((EntityPlayer) sender.getCommandSenderEntity(), GalacticTweaks.NODE_ADMINTP);
 	}
-	
+
 	@Override
 	public String getUsage(ICommandSender sender) {
-		return String.format("%sUsage: %s/%s <planet>", TextFormatting.RED,
-				TextFormatting.AQUA, getName(), TextFormatting.RED, TextFormatting.GREEN);
+		return String.format("%sUsage: %s/%s <planet>", TextFormatting.RED, TextFormatting.AQUA, getName(),
+				TextFormatting.RED, TextFormatting.GREEN);
 	}
-	
+
 	@Override
-	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args,
-			BlockPos pos) {
-		List<String> bodyNames = new ArrayList<>();
-		for(String entry : IOWriter.bodies.keySet()) {
-			bodyNames.add(entry);
-		}
+	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
 		if (args.length == 1) {
-			return bodyNames;
+			return getListOfStringsMatchingLastWord(args, Lists.newArrayList(IOWriter.bodies.keySet()));
+		} else {
+			return args.length > 1 && args.length <= 4 ? getTabCompletionCoordinate(args, 1, pos) : Collections.emptyList();
 		}
-		return null;
 	}
 
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-		if (args.length > 0) {
-			EntityPlayerMP player = (EntityPlayerMP) sender.getCommandSenderEntity();
-			final CelestialBody body = IOWriter.bodies.get(args[0]);
-			if(player != null) {
-				GCTLog.info(body.getLocalizedName());
-				teleport(player, body.getDimensionID());
-			}
-		} else {
+		if (args.length < 1) {
 			sender.sendMessage(new TextComponentString(getUsage(sender)));
-		}
-	}
-	
-	private void teleport(EntityPlayerMP player, int dimId) {
-		BlockPos pos;
-		MinecraftServer mcServer = player.getServer();
-		final WorldServer world = mcServer.getWorld(dimId);
-		String[] spawnString = GalacticraftModuleConfig.spawnPos.get().split(",");
-		if (GalacticraftModuleConfig.useCoord.get()) {
-			pos = new BlockPos(Integer.valueOf(spawnString[0]), Integer.valueOf(spawnString[1]),
-					Integer.valueOf(spawnString[2]));
 		} else {
-			int y = world.getChunkFromBlockCoords(world.getSpawnPoint()).getHeight(world.getSpawnPoint());
-			pos = new BlockPos(world.getSpawnPoint().getX(), y, world.getSpawnPoint().getZ());
+			final CelestialBody body = IOWriter.bodies.get(args[0]);
+			EntityPlayerMP entity = getCommandSenderAsPlayer(sender);
+			MinecraftServer mcServer = entity.getServer();
+			final WorldServer world = mcServer.getWorld(body.getDimensionID());
+			BlockPos pos;
+			if(args.length > 1) {
+                CommandBase.CoordinateArg x = parseCoordinate(entity.posX, args[1], true);
+                CommandBase.CoordinateArg y = parseCoordinate(entity.posY, args[2], -4096, 4096, false);
+                CommandBase.CoordinateArg z = parseCoordinate(entity.posZ, args[3], true);
+                
+                GCTLog.info("Position: {}, {}, {}", x.getAmount(), y.getAmount(), z.getAmount());
+                
+                pos = new BlockPos(x.getAmount(), y.getAmount(), z.getAmount());
+			} else {
+				int y = world.getChunkFromBlockCoords(entity.getPosition()).getHeight(entity.getPosition());
+				pos = new BlockPos(entity.posX, y, entity.posZ);
+			}
+			if(!entity.isCreative()) {
+				sender.sendMessage(new TextComponentString(TextFormatting.RED + "You must be in Creative Mode to use Admin Teleport"));
+			}
+			
+			WorldUtil.teleportEntitySimple(world, body.getDimensionID(), entity, new Vector3(pos));
+			int asteroidId = AsteroidsModule.planetAsteroids.getDimensionID();
+			int kBeltId = SolarSystemBodies.planetKuiperBelt.getDimensionID();
+			
+			if(body.getDimensionID() == asteroidId || body.getDimensionID() == kBeltId) {
+				entity.capabilities.isFlying = true;
+				entity.sendPlayerAbilities();
+			}
 		}
-		WorldUtil.teleportEntitySimple(world, dimId, player, new Vector3(pos));
 	}
 }

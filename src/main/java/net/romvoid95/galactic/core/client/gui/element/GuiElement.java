@@ -123,7 +123,7 @@ public abstract class GuiElement extends Gui {
 	}
 
 	/**
-	 * Sets the element´s X position
+	 * Sets the elements X position
 	 * 
 	 * @param x X position
 	 */
@@ -139,7 +139,7 @@ public abstract class GuiElement extends Gui {
 	}
 
 	/**
-	 * Sets the element´s Y position
+	 * Sets the elements Y position
 	 * 
 	 * @param y Y position
 	 */

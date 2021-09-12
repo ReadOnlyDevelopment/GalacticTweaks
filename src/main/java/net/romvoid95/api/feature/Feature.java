@@ -2,7 +2,6 @@ package net.romvoid95.api.feature;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.romvoid95.api.config.def.Category;

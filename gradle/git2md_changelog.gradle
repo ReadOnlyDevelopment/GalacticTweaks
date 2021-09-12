@@ -1,8 +1,8 @@
 def getGitChangelog() {
     try {
         def stdout = new ByteArrayOutputStream()
-        def gitHash = System.getenv('GIT_COMMIT')
-        def gitPrevHash = System.getenv('GIT_PREVIOUS_COMMIT')
+        def gitHash = grgit.head().abbreviatedId
+        def gitPrevHash = grgit.tag.list().reverse()[0].commit.id
         if(gitHash && gitPrevHash) {
             exec {
                 commandLine 'git', 'log', '--pretty=tformat:- %s - %aN', '' + gitPrevHash + '...' + gitHash

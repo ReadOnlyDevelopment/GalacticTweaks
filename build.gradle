@@ -13,6 +13,7 @@ buildscript {
 plugins {
 	id 'java'
 	id 'eclipse'
+	id 'org.ajoberstar.grgit' version '3.1.1'
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
@@ -49,11 +50,10 @@ repositories {
 		}
 	}
 	mavenCentral()
-    removeIf { it.url.host == 'files.minecraftforge.net' }
+	mavenLocal()
     maven { url 'https://jitpack.io' }
     maven { url "https://maven.minecraftforge.net/" }
 	maven { url "https://www.cursemaven.com" }
-	maven { url "https://maven.mjrlegends.com/" }
 	maven { url "http://dvs1.progwml6.com/files/maven" }
 	maven { url "http://maven.ic2.player.to" }
 	maven { url "https://blamejared.com/maven" }
@@ -76,14 +76,12 @@ dependencies {
     testCompileOnly 'org.projectlombok:lombok:1.18.20'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
 
-	compile("com.mjr.extraplanets:ExtraPlanets:1.12.2-0.7.2:dev") {
-		exclude module: 'jei_1.12.2'
-	}
+	compile "com.mjr.extraplanets:ExtraPlanets:1.12.2-0.7.3:dev"
 	
 	compile "mezz.jei:jei_${mc_version}:4.16.1.302:api"
 	runtime "mezz.jei:jei_${mc_version}:4.16.1.302"
 	
-	runtime "com.mjr.mjrlegendslib:MJRLegendsLib:1.12.2-1.2.0"
+	runtime "com.mjr.mjrlegendslib:MJRLegendsLib:1.12.2-1.2.1"
 	runtime "net.industrial-craft:industrialcraft-2:2.8.99-ex112:api"
 	
 	compile "curse.maven:asmodeuscore-0.0.25-303101:3231302"
@@ -91,8 +89,6 @@ dependencies {
 	compile "curse.maven:zollerngalaxy-2.0.23-241940:3187752"
 	compile "curse.maven:moreplanets-2.2.1_280-261990:3165054"
 	runtime "curse.maven:stevekunglib-1.1.9-296019:3051420"
-	
-	deobfCompile "vazkii.patchouli:Patchouli:${patchouli_version}"
 }
 
 minecraft {
@@ -160,6 +156,14 @@ if (JavaVersion.current().isJava8Compatible()) {
 		tasks.withType(Javadoc) {
 			options.addStringOption('Xdoclint:none', '-quiet')
 		}
+	}
+}
+
+import org.ajoberstar.grgit.Tag
+
+tasks.register('getChangelog') {
+	doLast {
+		println getGitChangelog()
 	}
 }
 

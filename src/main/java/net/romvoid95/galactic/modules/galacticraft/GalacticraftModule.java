@@ -10,7 +10,6 @@ import net.romvoid95.api.GalacticraftAddon;
 import net.romvoid95.api.module.Module;
 import net.romvoid95.galactic.GalacticTweaks;
 import net.romvoid95.galactic.Info;
-import net.romvoid95.galactic.core.ReadOnlyConfig.ConfigVersion;
 import net.romvoid95.galactic.core.gc.IOWriter;
 import net.romvoid95.galactic.modules.galacticraft.features.BreatheableDimensions;
 import net.romvoid95.galactic.modules.galacticraft.features.CompressorFixes;

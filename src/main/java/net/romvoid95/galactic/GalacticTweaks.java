@@ -7,6 +7,7 @@ import java.io.File;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
@@ -22,7 +23,6 @@ import net.romvoid95.api.IReadOnly;
 import net.romvoid95.galactic.core.GCTLog;
 import net.romvoid95.galactic.core.PackCrashEnhancement;
 import net.romvoid95.galactic.core.config.CoreConfig;
-import net.romvoid95.galactic.core.permission.GCTPermissions;
 import net.romvoid95.galactic.core.version.DownloadCommand;
 import net.romvoid95.galactic.handler.CoreConfigHandler;
 import net.romvoid95.galactic.proxy.ServerProxy;
@@ -41,7 +41,8 @@ import net.romvoid95.galactic.proxy.ServerProxy;
 public class GalacticTweaks implements IReadOnly {
 
 	public static File modFolder = null;
-	private ModuleController controller = new ModuleController();;
+	private ModuleController controller = new ModuleController();
+	public static String NODE_ADMINTP = "galactictweaks.admin.teleport";
 	
 	@Instance(ID)
 	public static GalacticTweaks instance;
@@ -67,7 +68,6 @@ public class GalacticTweaks implements IReadOnly {
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		GCTPermissions.registerNodes();
 		controller.postInit(event);
 		proxy.postInit(event);
 	}
@@ -82,11 +82,10 @@ public class GalacticTweaks implements IReadOnly {
 
 	@EventHandler
 	public void onFingerprintViolation(FMLFingerprintViolationEvent event) {
-		if(isDevBuild() == false) {
-			GCTLog.warn("Invalid fingerprint detected! The file " + event.getSource().getName() + " may have been tampered with. This version will NOT be supported by the developer!");
-		}
-		if(isDevBuild()) {
+		if((Boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment")) {
 			GCTLog.info("Ignoring fingerprint signing since we are in a Development Environment");
+		} else {
+			GCTLog.warn("Invalid fingerprint detected! The file " + event.getSource().getName() + " may have been tampered with. This version will NOT be supported by the developer!");
 		}
 	}
 

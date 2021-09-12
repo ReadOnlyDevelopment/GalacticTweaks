@@ -98,7 +98,7 @@ public class ImageElement extends GuiElement {
 	@Override
 	public String[] getTooltips() {
 		if (image == null && resLoc == null) {
-			return ArrayUtils.addAll(super.getTooltips(), "", "§cError loading image:", "§c" + errorTooltip);
+			return ArrayUtils.addAll(super.getTooltips(), "", "Â§cError loading image:", "Â§c" + errorTooltip);
 		}
 		return super.getTooltips();
 	}
