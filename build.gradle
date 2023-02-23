@@ -1,118 +1,76 @@
-buildscript {
-	repositories {
-		maven {
-			name = "forge"
-			url = "https://files.minecraftforge.net/maven"
-		}
-	}
-	dependencies {
-		classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-	}
-}
-
 plugins {
-	id 'java'
-	id 'eclipse'
-	id 'org.ajoberstar.grgit' version '3.1.1'
+    id 'signing'
+    id 'eclipse'
+	id "net.galacticraft.addon"
+    id "io.freefair.lombok" version "6.3.0"
 }
-
-apply plugin: 'net.minecraftforge.gradle.forge'
 
 apply from: 'gradle/artifact.gradle'
-apply from: 'gradle/git2md_changelog.gradle'
-apply from: 'gradle/private.gradle'
-
-loadSecrets()
-// ==========================================
 
 version = "${mod_version}"
-System.out.println(version)
+group = mod_base_package
+archivesBaseName = 'GalacticTweaks'
 
-group = "${group}"
-archivesBaseName = "${name}"
-
-sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
-compileJava {
-	sourceCompatibility = targetCompatibility = '1.8'
-}
-
-String GCBuild = "261"
-String GCVersion = "1.12.2-4.0.2.${GCBuild}"
-
-repositories {
-	ivy {
-		url "https://micdoodle8.com/new-builds/"
-		layout 'pattern', {
-			artifact "[organization]/${GCBuild}/[module]-[revision].jar"
-		}
-		metadataSources {
-			artifact()
-		}
-	}
-	mavenCentral()
-	mavenLocal()
-    maven { url 'https://jitpack.io' }
-    maven { url "https://maven.minecraftforge.net/" }
-	maven { url "https://www.cursemaven.com" }
-	maven { url "http://dvs1.progwml6.com/files/maven" }
-	maven { url "http://maven.ic2.player.to" }
-	maven { url "https://blamejared.com/maven" }
-}
-
-dependencies {
-	compile 'com.github.ReadOnlyDevelopment:ZenScript:1.0.0'
-
-	compile "GC-1.12-dev:GalacticraftCore-Dev:${GCVersion}"
-	compile "GC-1.12-dev:Galacticraft-API:${GCVersion}"
-	compile "GC-1.12-dev:Galacticraft-Planets-Dev:${GCVersion}"
-	compile "GC-1.12-dev:MicdoodleCore-Dev:${GCVersion}"
-	
-	compile 'com.fasterxml.jackson.core:jackson-core:2.12.3'
-	compile 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
-
-    compileOnly 'org.projectlombok:lombok:1.18.20'
-    annotationProcessor 'org.projectlombok:lombok:1.18.20'
-    
-    testCompileOnly 'org.projectlombok:lombok:1.18.20'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
-
-	compile "com.mjr.extraplanets:ExtraPlanets:1.12.2-0.7.3:dev"
-	
-	compile "mezz.jei:jei_${mc_version}:4.16.1.302:api"
-	runtime "mezz.jei:jei_${mc_version}:4.16.1.302"
-	
-	runtime "com.mjr.mjrlegendslib:MJRLegendsLib:1.12.2-1.2.1"
-	runtime "net.industrial-craft:industrialcraft-2:2.8.99-ex112:api"
-	
-	compile "curse.maven:asmodeuscore-0.0.25-303101:3231302"
-	compile "curse.maven:galaxyspace-2.0.16-238770:3235468"
-	compile "curse.maven:zollerngalaxy-2.0.23-241940:3187752"
-	compile "curse.maven:moreplanets-2.2.1_280-261990:3165054"
-	runtime "curse.maven:stevekunglib-1.1.9-296019:3051420"
+galacticraft {
+	latestRelease()
+	//latestSnapshot()
 }
 
 minecraft {
-	version = "${mc_version}-${forge_version}"
-	runDir = "run"
-	mappings = "${mcp}"
-	useDepAts = true
-	replace '@VERSION@', project.version
-	replace '@MCVERSION@', project.minecraft.version
-	replace '@FINGERPRINT@', project.findProperty('signSHA1')
-	replaceIn "Info.java"
+
+    mappings channel: mapping_channel, version: mapping_version
+
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+
+    runs {
+        client {
+            workingDirectory project.file('run/client')
+
+            //property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'info'
+        }
+
+        server {
+            workingDirectory project.file('run/server')
+
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+        }
+    }
+}
+
+repositories {
+	maven { url "https://www.cursemaven.com" }
+	maven { url "https://dvs1.progwml6.com/files/maven" }
+}
+
+dependencies {
+	minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+
+	compileOnly "mezz.jei:jei_${minecraft_version}:4.16.1.302:api"
+	runtimeOnly "mezz.jei:jei_${minecraft_version}:4.16.1.302"
+	
+	compileOnly fg.deobf("curse.maven:asmodeuscore-0.0.31-303101:3873588")
+	compileOnly fg.deobf("curse.maven:galaxyspace-2.0.19-238770:3873609")
+	compileOnly fg.deobf("curse.maven:extraplanets-0.7.5-241291:4366814")
+	compileOnly fg.deobf("curse.maven:mjrlegendslib-1.2.1-284331:3344068")
+}
+
+tasks.withType(Copy).all {
+	duplicatesStrategy 'EXCLUDE'
 }
 
 processResources {
     inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
+    inputs.property "mcversion", "${minecraft_version}"
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-        include 'assets/gctweaks/patchouli_books/guide/book.json'
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+        include 'assets/galactictweaks/patchouli_books/guide/book.json'
+        expand 'version':project.version, 'mcversion':"${minecraft_version}"
     }
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
-        exclude 'assets/gctweaks/patchouli_books/guide/book.json'
+        exclude 'assets/galactictweaks/patchouli_books/guide/book.json'
     }
     rename '(.+_at.cfg)', '$1'
 }
@@ -123,48 +81,14 @@ compileJava {
 
 jar {
 	manifest {
-		mainAttributes(
-				'Maven-Artifact': "${project.group}:${project.archivesBaseName}:${project.version}",
-				'Timestamp': System.currentTimeMillis(),
-				'Implementation-Title': project.archivesBaseName,
-				'Implementation-Version': version,
-				'Built-On-Java': "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
-				'Built-On': "${project.mc_version}-${project.forge_version}"
-		)
-		attributes( 
-				"FMLAT": "galactictweaks_at.cfg"
+		attributes(
+			'Maven-Artifact': "${project.group}:${project.archivesBaseName}:${project.version}",
+			'Timestamp': System.currentTimeMillis(),
+			'Implementation-Title': project.archivesBaseName,
+			'Implementation-Version': version,
+			'Built-On-Java': "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
+			'Built-On': "${project.minecraft_version}-${project.forge_version}",
+			'FMLAT': "accesstransformer.cfg"
 		)
 	}
 }
-
-task signJar(type: SignJar, dependsOn: reobfJar) {
-	onlyIf {
-		project.hasProperty('keyStore')
-	}
-
-	inputFile = jar.archivePath
-	outputFile = jar.archivePath
-
-	keyStore = findProperty('keyStore')
-	alias = findProperty('keyStoreAlias')
-	storePass = findProperty('keyStorePass')
-	keyPass = findProperty('keyStoreKeyPass')
-}
-
-if (JavaVersion.current().isJava8Compatible()) {
-	allprojects {
-		tasks.withType(Javadoc) {
-			options.addStringOption('Xdoclint:none', '-quiet')
-		}
-	}
-}
-
-import org.ajoberstar.grgit.Tag
-
-tasks.register('getChangelog') {
-	doLast {
-		println getGitChangelog()
-	}
-}
-
-build.dependsOn signJar

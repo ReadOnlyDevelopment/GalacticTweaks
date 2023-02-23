@@ -1,0 +1,9 @@
+pluginManagement {
+    repositories {
+    	gradlePluginPortal()
+    }
+}
+
+plugins {
+	id "net.galacticraft.addon" version "1.0.8"
+}

@@ -5,13 +5,6 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 	classifier = 'sources'
 }
 
-task javadocJar(type: Jar, dependsOn: javadoc) {
-
-	description = 'Creates a JAR containing the JavaDocs.'
-	from javadoc.destinationDir
-	classifier = 'javadoc'
-}
-
 task devJar(type: Jar) {
 
 	description = 'Creates a JAR containing the non-obfuscated compiled code.'
@@ -24,6 +17,5 @@ task devJar(type: Jar) {
 artifacts {
 
 	archives sourcesJar
-	archives javadocJar
 	archives devJar
 }

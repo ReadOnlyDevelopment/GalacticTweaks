@@ -1,0 +1,49 @@
+galaxy.wormhole=   Alt Sol
+solarsystem.secondSystem=Alternate Sol
+star.epsystem=Sun
+planet.fake_overworld=Earth
+planet.fake_asteroids=Asteroids
+planet.fake_mars=Mars
+
+galactictweaks.leaverace.playerleave=You have sucsessfully left %s
+galactictweaks.leaverace.leader=Team Leaders cannot use this command!
+galactictweaks.leaverace.noarg=Command has no arguments!
+galactictweaks.leaverace.useage=%s
+galactictweaks.leaverace.noteam=You must be in a team to use this command!
+
+galactictweaks.versions.notify=Hey player! Hey player hey! GalacticTweaks update!
+galactictweaks.versions.outdated0=§6****************************************
+galactictweaks.versions.outdated1=§6* §aRunning......v§c%s
+galactictweaks.versions.outdated2=§6* §aLatest.........v§9%s
+
+galactictweaks.config.gui.cat.allfeatures=Features
+galactictweaks.config.gui.cat.featureopts=Feature Options
+
+galactictweaks.config.gui.cat.featureopts.unlockschematics=Unlock Schematics
+galactictweaks.config.gui.cat.featureopts.oxygenspawngear=Spawn Gear
+galactictweaks.config.gui.cat.featureopts.spawndimension=Spawn Dimension
+galactictweaks.config.gui.cat.featureopts.spaceracefeature=Space Race Command
+galactictweaks.config.gui.cat.featureopts.seperateaddonplanets=Separate Planets
+galactictweaks.config.gui.cat.featureopts.oxygentoggle=Toggle Oxygen
+galactictweaks.config.gui.cat.featureopts.mobsbreatheinspace=Mobs Breathe In Space
+galactictweaks.config.gui.cat.featureopts.dimensionalcomets=Dimensional Comets
+galactictweaks.config.gui.cat.featureopts.compressorfixes=Compressor Fixes
+galactictweaks.config.gui.cat.featureopts.nospacemusic=No Space Music
+galactictweaks.config.gui.cat.featureopts.fixasmodeusmapicons=Fix Map Icons
+
+galactictweaks.config.gui.key.schematicids=Schematic ID's
+galactictweaks.config.gui.key.usecoord=Use Coords
+galactictweaks.config.gui.key.firstjoinonly=Only First Join
+galactictweaks.config.gui.key.everydeath=On Every Death
+galactictweaks.config.gui.key.spawndimid=Spawn Dimension
+galactictweaks.config.gui.key.spawnpos=Spawn Position
+galactictweaks.config.gui.key.modid=Addon Mod ID
+galactictweaks.config.gui.key.breatheabledims=Breatheable Dimensions
+galactictweaks.config.gui.key.nonbreatheabledims=Non-Breatheable Dimensions
+galactictweaks.config.gui.key.dimid_spawnrate=Comet Data
+galactictweaks.config.gui.key.tanksvalue=Tanks
+galactictweaks.config.gui.key.thermalarmor=Thermals
+galactictweaks.config.gui.key.includethermals=Include Thermal Armor
+galactictweaks.config.gui.key.includeparachute=Include Parachute
+galactictweaks.config.gui.key.includefreqmodule=Include Freq. Module
+galactictweaks.config.gui.key.includeshieldcontroller=Include Shield Controller

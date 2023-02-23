@@ -1,0 +1,48 @@
+galaxy.wormhole=Альт Солнце
+solarsystem.secondSystem=Альтернативное Солнце
+star.epsystem=Солнце
+planet.fake_overworld=Земля
+planet.fake_asteroids=Астероиды
+
+galactictweaks.leaverace.playerleave=Вы успешно покинули %s
+galactictweaks.leaverace.leader=Лидер группы не может использовать эту команду!
+galactictweaks.leaverace.noarg=У команды нету аргументов!
+galactictweaks.leaverace.useage=%s
+galactictweaks.leaverace.noteam=Вы должны быть в группе чтобы использовать эту команду!
+
+galactictweaks.versions.notify=Игрок! Новое обновление GalacticTweaks вышло!
+galactictweaks.versions.outdated0=§6****************************************
+galactictweaks.versions.outdated1=§6* §aТекущая......v§c%s
+galactictweaks.versions.outdated2=§6* §aПоследняя.........v§9%s
+
+galactictweaks.config.gui.cat.allfeatures=Функции
+galactictweaks.config.gui.cat.featureopts=Настройки Функции
+
+galactictweaks.config.gui.cat.featureopts.unlockschematics=Разблокировать Схемы
+galactictweaks.config.gui.cat.featureopts.oxygenspawngear=Оборудование на спавне
+galactictweaks.config.gui.cat.featureopts.spawndimension=Измерение спавна
+galactictweaks.config.gui.cat.featureopts.spaceracefeature=Команда космической расы
+galactictweaks.config.gui.cat.featureopts.seperateaddonplanets=Разделить Планеты
+galactictweaks.config.gui.cat.featureopts.oxygentoggle=Переключить кислород
+galactictweaks.config.gui.cat.featureopts.mobsbreatheinspace=Мобы дышат в космосе
+galactictweaks.config.gui.cat.featureopts.dimensionalcomets=Кометы вокруг измерений
+galactictweaks.config.gui.cat.featureopts.compressorfixes=Поправки в компрессоре
+galactictweaks.config.gui.cat.featureopts.nospacemusic=Убрать музыку в космосе
+galactictweaks.config.gui.cat.featureopts.fixasmodeusmapicons=Исправить значки на карте
+
+galactictweaks.config.gui.key.schematicids=ID схем
+galactictweaks.config.gui.key.usecoord=Использовать Координаты
+galactictweaks.config.gui.key.firstjoinonly=Только при первом заходе
+galactictweaks.config.gui.key.everydeath=При каждой смерти
+galactictweaks.config.gui.key.spawndimid=Измерение спавна
+galactictweaks.config.gui.key.spawnpos=Место Спавна
+galactictweaks.config.gui.key.modid=ID Аддона
+galactictweaks.config.gui.key.breatheabledims=измерение где можно дышать
+galactictweaks.config.gui.key.nonbreatheabledims=измерение где нельзя  дышать
+galactictweaks.config.gui.key.dimid_spawnrate=Дата кометы
+galactictweaks.config.gui.key.tanksvalue=Резервуар
+galactictweaks.config.gui.key.thermalarmor=Термика
+galactictweaks.config.gui.key.includethermals=Включать термальную броню
+galactictweaks.config.gui.key.includeparachute=Включать парашют
+galactictweaks.config.gui.key.includefreqmodule=Включать частотный модуль
+galactictweaks.config.gui.key.includeshieldcontroller=Включать контроллер щита
