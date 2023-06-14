@@ -26,17 +26,7 @@ public class MobsBreatheInSpace extends Feature
     }
 
     @SubscribeEvent
-    public void onLivingDamageEvent(LivingDamageEvent event)
-    {
-        if (event.getSource() instanceof DamageSourceGC) {
-            if (event.getSource().equals(DamageSourceGC.oxygenSuffocation)) {
-                event.setCanceled(true);
-            }
-        }
-    }
-    
-    @SubscribeEvent
-    public void GCCoreOxygenSuffocationEvent(GCCoreOxygenSuffocationEvent.Pre event)
+    public void GCCoreOxygenSuffocationEvent(GCCoreOxygenSuffocationEvent event)
     {
         EntityLivingBase ee = event.getEntityLiving();
         if (ee instanceof EntityMob || ee instanceof EntityAnimal || ee instanceof EntityCreature) {
